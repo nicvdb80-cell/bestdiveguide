@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #0A2342;
+  --ocean: #1B6CA8;
+  --teal: #0097A7;
+  --orange: #E8723A;
+  --sand: #F5F0E8;
+  --green: #2E7D32;
+  --gold: #B8860B;
+}
