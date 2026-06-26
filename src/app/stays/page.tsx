@@ -132,9 +132,9 @@ export default function Stays() {
   return (
     <div style={{fontFamily:"Inter,system-ui,sans-serif",minHeight:"100vh",background:"#F8F9FA"}}>
       <Nav />
-      <div style={{background:"linear-gradient(135deg,#0A2342 0%,#0D3060 100%)",padding:"4rem 2rem 3rem",textAlign:"center"}}>
+      <div style={{background:"linear-gradient(135deg,#0A2342 0%,#0D3060 100%)",padding:"clamp(2rem,5vw,4rem) clamp(1rem,3vw,2rem) clamp(1.5rem,4vw,3rem)",textAlign:"center"}}>
         <div style={{fontSize:"11px",fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",color:"#0097A7",marginBottom:"12px"}}>Best Dive Guide 2025</div>
-        <h1 style={{color:"#fff",fontSize:"42px",fontWeight:700,lineHeight:1.15,maxWidth:"700px",margin:"0 auto 1rem"}}>The 99 Best Dive <span style={{color:"#E8723A"}}>Resorts</span> in Asia</h1>
+        <h1 style={{color:"#fff",fontSize:"clamp(26px,5.5vw,42px)",fontWeight:700,lineHeight:1.15,maxWidth:"700px",margin:"0 auto 1rem"}}>The 99 Best Dive <span style={{color:"#E8723A"}}>Resorts</span> in Asia</h1>
         <p style={{color:"rgba(255,255,255,0.6)",fontSize:"16px",maxWidth:"560px",margin:"0 auto",lineHeight:1.7}}>Resorts, boutique hotels and island lodges — ranked on dive quality, stay, food, service, atmosphere and identity. No liveaboards.</p>
         <div style={{display:"flex",gap:"16px",justifyContent:"center",marginTop:"1.5rem",flexWrap:"wrap"}}>
           {[{label:"Indonesia",n:ALL.filter(e=>e.country==="Indonesia").length,color:"#0097A7"},{label:"Philippines",n:ALL.filter(e=>e.country==="Philippines").length,color:"#E8723A"},{label:"Malaysia",n:ALL.filter(e=>e.country==="Malaysia").length,color:"#F9A825"},{label:"Maldives",n:ALL.filter(e=>e.country==="Maldives").length,color:"#7E57C2"},{label:"Thailand",n:ALL.filter(e=>e.country==="Thailand").length,color:"#E53935"}].map(s=>(
@@ -157,7 +157,7 @@ export default function Stays() {
         ))}
         <span style={{marginLeft:"auto",fontSize:"12px",color:"#aaa"}}>{filtered.length} of 99 shown</span>
       </div>
-      <div style={{maxWidth:"1100px",margin:"0 auto",padding:"2rem"}}>
+      <div style={{maxWidth:"1100px",margin:"0 auto",padding:"clamp(1rem,3vw,2rem)"}}>
         <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
           {filtered.map(e=>{const [bg,tc]=countryColor(e.country);return(
             <div key={e.rank} style={{background:"#fff",border:e.winner?"2px solid #E8723A":e.bestStay?"2px solid #0A2342":"1px solid #E8E8E8",borderRadius:"14px",padding:"1.25rem 1.5rem",display:"flex",alignItems:"flex-start",gap:"1.25rem",boxShadow:(e.winner||e.bestStay)?"0 4px 16px rgba(0,0,0,0.08)":"0 1px 4px rgba(0,0,0,0.04)"}}>
