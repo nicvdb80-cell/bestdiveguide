@@ -102,3 +102,5 @@ Or connect the GitHub repo to Vercel dashboard and set env vars there.
 - Sustainability: calculated separately, does not affect ranking position
 - Green Diver Approved: sustainability average ≥ 8.0 across relevant questions
 - Minimum 6 verified votes for any badge eligibility
+
+<!-- deploy trigger: new pages /stays /food /sites /sustainable -->
