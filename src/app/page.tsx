@@ -14,10 +14,7 @@ export default function Home() {
 
       {/* Hero */}
       <div style={{background:'#0A2342',padding:'5rem 2rem 4rem',textAlign:'center'}}>
-        <div style={{display:'inline-block',background:'rgba(232,114,58,0.15)',border:'1px solid rgba(232,114,58,0.4)',color:'#E8723A',fontSize:'11px',fontWeight:700,letterSpacing:'2px',textTransform:'uppercase',padding:'6px 16px',borderRadius:'20px',marginBottom:'1.5rem'}}>
-          bestdiveguide.com
-        </div>
-        <h1 style={{color:'#fff',fontSize:'46px',fontWeight:700,lineHeight:1.15,marginBottom:'1rem',maxWidth:'680px',margin:'0 auto 1rem'}}>
+               <h1 style={{color:'#fff',fontSize:'46px',fontWeight:700,lineHeight:1.15,marginBottom:'1rem',maxWidth:'680px',margin:'0 auto 1rem'}}>
           Find the world&apos;s best places to <span style={{color:'#0097A7'}}>dive</span>, eat, and sleep.
         </h1>
         <p style={{color:'rgba(255,255,255,0.6)',fontSize:'18px',maxWidth:'500px',margin:'0 auto 2.5rem',lineHeight:1.6}}>
