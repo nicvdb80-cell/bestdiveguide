@@ -12,7 +12,7 @@ const CATEGORIES = [
     color: "#E8723A",
     bg: "#FEF0E8",
     href: "/top100",
-    desc: "The definitive ranking of Asia\'s best dive experiences. Resorts, liveaboards and dive operators ranked by a professional panel, verified votes and expert review."
+    desc: "The definitive ranking of Asia's best dive experiences. Resorts, liveaboards and dive operators ranked by a professional panel, verified votes and expert review."
   },
   {
     title: "Top 99 World",
@@ -44,7 +44,7 @@ const CATEGORIES = [
     color: "#1B6CA8",
     bg: "#E8EFF8",
     href: "/sites",
-    desc: "The world\'s best walls, wrecks, muck dives, seamounts and shark encounters. Ranked by visibility, marine life, access and wow factor."
+    desc: "The world's best walls, wrecks, muck dives, seamounts and shark encounters. Ranked by visibility, marine life, access and wow factor."
   },
   {
     title: "Liveaboards",
@@ -136,7 +136,7 @@ function FlipCard({ cat }: { cat: typeof CATEGORIES[0] }) {
               marginTop: "12px",
             }}
           >
-            View full list \u2192
+            View full list →
           </Link>
         </div>
       </div>
@@ -152,7 +152,7 @@ export default function Home() {
       {/* Hero */}
       <div style={{ background: "#0A2342", padding: "5rem 2rem 4rem", textAlign: "center" }}>
         <h1 style={{ color: "#fff", fontSize: "46px", fontWeight: 700, lineHeight: 1.15, maxWidth: "680px", margin: "0 auto 1rem" }}>
-          Discover where to go for the world\u2019s best <span style={{ color: "#0097A7" }}>dives</span>, dining & sleep.
+          Discover where to go for the world’s best <span style={{ color: "#0097A7" }}>dives</span>, dining & sleep.
         </h1>
         <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "18px", maxWidth: "500px", margin: "0 auto 2.5rem", lineHeight: 1.6 }}>
           Ranked by experienced divers, food lovers, and real guests who have actually been there.
@@ -194,12 +194,12 @@ export default function Home() {
           Built on trust. Three layers deep.
         </h2>
         <p style={{ color: "rgba(255,255,255,0.5)", textAlign: "center", fontSize: "14px", marginBottom: "2rem" }}>
-          Every ranking verified by three independent sources \u2014 not just user reviews.
+          Every ranking verified by three independent sources — not just user reviews.
         </p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "16px", maxWidth: "900px", margin: "0 auto" }}>
           {[
-            { num: "01", title: "Professional Panel", desc: "A curated group of dive professionals, photographers, culinary directors, and hospitality experts.", weight: "3\u00d7 weight" },
-            { num: "02", title: "Verified Public Votes", desc: "Any guest with proof of visit can vote. Weight adjusted by dive experience and expertise.", weight: "1.0\u20131.4\u00d7 weight" },
+            { num: "01", title: "Professional Panel", desc: "A curated group of dive professionals, photographers, culinary directors, and hospitality experts.", weight: "3× weight" },
+            { num: "02", title: "Verified Public Votes", desc: "Any guest with proof of visit can vote. Weight adjusted by dive experience and expertise.", weight: "1.0–1.4× weight" },
             { num: "03", title: "Annual Review Committee", desc: "Once a year, 10 experts convene to verify consistency and confirm final rankings.", weight: "Override authority" },
           ].map(item => (
             <div key={item.num} style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "10px", padding: "1.5rem" }}>
