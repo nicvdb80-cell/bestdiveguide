@@ -72,7 +72,7 @@ function typePill(t:string) {
 export default function Sites() {
   return (
     <div style={{fontFamily:'Inter,system-ui,sans-serif',minHeight:'100vh',background:'#F8F9FA'}}>
-      <Nav active="/sites" />
+      <Nav />
 
       <div style={{background:'linear-gradient(135deg,#002233 0%,#003D57 100%)',padding:'4rem 2rem 3rem',textAlign:'center'}}>
         <div style={{fontSize:'11px',fontWeight:700,letterSpacing:'2px',textTransform:'uppercase',color:'#0097A7',marginBottom:'12px'}}>Best Dive Sites 2025</div>
