@@ -196,7 +196,7 @@ export default function AdminPage() {
         {/* Top picks */}
         <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:12,marginBottom:"1.5rem"}}>
           {[
-            {title:"Top Resort Picks",data:sortedPicks(topResorts)},
+            {title:"Top Places Voted",data:sortedPicks(topResorts)},
             {title:"Top Food Picks",data:sortedPicks(topFood)},
             {title:"Top Liveaboard Picks",data:sortedPicks(topLB)},
             {title:"Voters by Country",data:sortedPicks(countries)},
@@ -276,6 +276,7 @@ export default function AdminPage() {
             </div>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,fontSize:13}}>
               {[
+                ["Place Voted", selected.place_name || selected.best_dive_resort],
                 ["Email", selected.email],
                 ["Country", selected.country],
                 ["Role", selected.voter_role?.replace(/_/g, " ")],
@@ -283,7 +284,9 @@ export default function AdminPage() {
                 ["Cert", (selected.cert_agency || "") + " " + (selected.cert_level || "")],
                 ["Logged Dives", selected.logged_dives],
                 ["Panel Member", selected.is_panel_member ? "Yes" : "No"],
+                ["Visit Date", selected.visit_date],
                 ["Voted", fmt(selected.created_at)],
+                ["Proof", selected.visit_proof],
               ].map(([label, val]) => (
                 <div key={String(label)}>
                   <div style={{fontSize:10,fontWeight:700,letterSpacing:0.5,textTransform:"uppercase",color:"#aaa",marginBottom:2}}>{label}</div>
