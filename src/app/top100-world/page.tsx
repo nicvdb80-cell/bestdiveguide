@@ -12,7 +12,7 @@ export default function Top100World() {
           Coming Soon
         </div>
         <h1 style={{color:"#fff",fontSize:"46px",fontWeight:700,lineHeight:1.15,maxWidth:"680px",margin:"0 auto 1rem"}}>
-          Top 100 World
+          Top 99 World
         </h1>
         <p style={{color:"rgba(255,255,255,0.6)",fontSize:"18px",maxWidth:"500px",margin:"0 auto 2.5rem",lineHeight:1.6}}>
           The global ranking is currently in progress. We are expanding beyond Asia to rank the best dive experiences worldwide.
@@ -24,7 +24,7 @@ export default function Top100World() {
         </div>
         <div>
           <Link href="/top100" style={{background:"#E8723A",color:"#fff",padding:"14px 28px",borderRadius:"9px",textDecoration:"none",fontWeight:700,fontSize:"15px"}}>
-            View Top 100 Asia →
+            View Top 99 Asia →
           </Link>
         </div>
       </div>
