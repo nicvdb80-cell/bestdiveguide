@@ -16,7 +16,7 @@ type FoodEntry = {
 
 const ALL: FoodEntry[] = [
   { rank:1, name:"Coral Eye", area:"Bangka Island, North Sulawesi", country:"Indonesia", type:"Dive resort", desc:"Food feels like part of the trip: Indonesian flavour, Italian roots, communal table, relaxed boutique service.", winner:true },
-  { rank:2, name:"Siladen Resort & Spa", area:"Bunaken, North Sulawesi", country:"Philippines", type:"Dive resort", desc:"One of Asia strongest true dive-resort food reputations, polished full-board dining." },
+  { rank:2, name:"Siladen Resort & Spa", area:"Bunaken, North Sulawesi", country:"Indonesia", type:"Dive resort", desc:"One of Asia strongest true dive-resort food reputations, polished full-board dining." },
   { rank:3, name:"Minang Cove Resort", area:"Tioman", country:"Malaysia", type:"Dive resort", desc:"Small peaceful island resort where food supports a slow stay." },
   { rank:4, name:"Six Senses Laamu", area:"Laamu Atoll", country:"Maldives", type:"Dive resort", desc:"Luxury food program with sustainability, wellness and strong house-reef diving." },
   { rank:5, name:"Wakatobi Dive Resort", area:"Southeast Sulawesi", country:"Indonesia", type:"Dive resort", desc:"Remote luxury diving with chef-led full-board meals and strong buffet praise." },
