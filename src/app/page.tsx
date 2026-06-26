@@ -1,26 +1,17 @@
 import React from 'react'
 import Link from 'next/link'
+import Nav from '@/components/Nav'
+import Footer from '@/components/Footer'
 
 export default function Home() {
   return (
     <div style={{fontFamily:'Inter,system-ui,sans-serif',minHeight:'100vh',background:'#fff'}}>
 
-      <nav style={{background:'#0A2342',height:'60px',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 2rem',position:'sticky',top:0,zIndex:100}}>
-        <Link href="/" style={{color:'#fff',fontWeight:700,fontSize:'18px',textDecoration:'none'}}>Best<span style={{color:'#E8723A'}}>Dive</span>Guide</Link>
-        <div style={{display:'flex',gap:'1.5rem',alignItems:'center'}}>
-          <Link href="/top100" style={{color:'rgba(255,255,255,0.7)',textDecoration:'none',fontSize:'14px'}}>Top 100 Asia</Link>
-          <Link href="/top100-world" style={{color:'rgba(255,255,255,0.7)',textDecoration:'none',fontSize:'14px'}}>Top 100 World</Link>
-          <Link href="/stays" style={{color:'rgba(255,255,255,0.7)',textDecoration:'none',fontSize:'14px'}}>Best Dive Stays</Link>
-          <Link href="/food" style={{color:'rgba(255,255,255,0.7)',textDecoration:'none',fontSize:'14px'}}>Best Dive Food</Link>
-          <Link href="/sites" style={{color:'rgba(255,255,255,0.7)',textDecoration:'none',fontSize:'14px'}}>Best Dive Sites</Link>
-          <Link href="/sustainable" style={{color:'rgba(255,255,255,0.7)',textDecoration:'none',fontSize:'14px'}}>Most Sustainable</Link>
-          <Link href="/vote" style={{background:'#E8723A',color:'#fff',padding:'8px 18px',borderRadius:'7px',textDecoration:'none',fontSize:'13px',fontWeight:600}}>Vote</Link>
-        </div>
-      </nav>
+      <Nav />
 
       <div style={{background:'#0A2342',padding:'5rem 2rem 4rem',textAlign:'center'}}>
         <h1 style={{color:'#fff',fontSize:'46px',fontWeight:700,lineHeight:1.15,maxWidth:'680px',margin:'0 auto 1rem'}}>
-          Discover where to go for Asia&apos;s best <span style={{color:'#0097A7'}}>dives</span>, dining &amp; sleep.
+          Discover where to go for the world&apos;s best <span style={{color:'#0097A7'}}>dives</span>, dining &amp; sleep.
         </h1>
         <p style={{color:'rgba(255,255,255,0.6)',fontSize:'18px',maxWidth:'500px',margin:'0 auto 2.5rem',lineHeight:1.6}}>
           Ranked by experienced divers, food lovers, and real guests who have actually been there.
@@ -29,8 +20,8 @@ export default function Home() {
           <Link href="/top100" style={{background:'#E8723A',color:'#fff',padding:'14px 28px',borderRadius:'9px',textDecoration:'none',fontWeight:700,fontSize:'15px'}}>
             Explore Top 100 Asia
           </Link>
-          <Link href="/vote" style={{background:'transparent',color:'#fff',border:'1.5px solid rgba(255,255,255,0.4)',padding:'13px 24px',borderRadius:'9px',textDecoration:'none',fontWeight:500,fontSize:'15px'}}>
-            Vote for a Place
+          <Link href="/top100-world" style={{background:'transparent',color:'#fff',border:'1.5px solid rgba(255,255,255,0.4)',padding:'13px 24px',borderRadius:'9px',textDecoration:'none',fontWeight:500,fontSize:'15px'}}>
+            Top 100 World
           </Link>
         </div>
       </div>
@@ -104,18 +95,7 @@ export default function Home() {
         </div>
       </div>
 
-      <footer style={{background:'#0A2342',padding:'2.5rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-        <div>
-          <div style={{color:'#fff',fontWeight:700,fontSize:'16px'}}>Best<span style={{color:'#E8723A'}}>Dive</span>Guide</div>
-          <div style={{color:'rgba(255,255,255,0.4)',fontSize:'12px',fontStyle:'italic',marginTop:'4px'}}>Dive. Eat. Sleep. Repeat.</div>
-        </div>
-        <div style={{display:'flex',gap:'1.5rem'}}>
-          {['Top 100 Asia','Top 100 World','Vote','About','Contact'].map(l => (
-            <a key={l} href="#" style={{color:'rgba(255,255,255,0.45)',fontSize:'12px',textDecoration:'none'}}>{l}</a>
-          ))}
-        </div>
-      </footer>
-
+      <Footer />
     </div>
   )
 }
