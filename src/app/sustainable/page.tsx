@@ -84,7 +84,7 @@ export default function Sustainable() {
         </div>
         <div style={{background:'#E8F5E9',border:'1px solid #C8E6C9',borderRadius:'10px',padding:'1.25rem 1.5rem',marginTop:'2rem',textAlign:'center'}}>
           <p style={{fontSize:'13px',color:'#2E7D32',margin:0,lineHeight:1.6}}>
-            <strong>Full 100 operators coming soon.</strong> Is your operation leading on sustainability? <a href="mailto:nic.vdb80@gmail.com" style={{color:'#2E7D32',fontWeight:600}}>Apply for assessment →</a>
+            <strong>Full 99 operators coming soon.</strong> Is your operation leading on sustainability? <a href="mailto:nic.vdb80@gmail.com" style={{color:'#2E7D32',fontWeight:600}}>Apply for assessment →</a>
           </p>
         </div>
       </div>
