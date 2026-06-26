@@ -162,14 +162,13 @@ export default function Food() {
               <div style={{minWidth:"48px",height:"48px",borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:e.rank===1?"#E8723A":e.rank<=3?"#0A2342":"#F5F5F5",color:e.rank<=3?"#fff":"#0A2342",fontSize:"17px",fontWeight:700}}>#{e.rank}</div>
               <div style={{flex:1,minWidth:0}}>
                 <div style={{display:"flex",alignItems:"center",gap:"8px",flexWrap:"wrap",marginBottom:"5px"}}>
-                  <span style={{fontWeight:700,fontSize:"15px",color:"#0A2342"}}>{e.name}</span>
+                  {e.url ? <a href={e.url} target="_blank" rel="noopener noreferrer" style={{fontWeight:700,fontSize:"15px",color:"#0A2342",textDecoration:"none",borderBottom:"1px solid transparent"}}>{e.name}</a> : <span style={{fontWeight:700,fontSize:"15px",color:"#0A2342"}}>{e.name}</span>}
                   {e.winner&&<span style={{background:"#E8723A",color:"#fff",fontSize:"10px",fontWeight:700,padding:"2px 8px",borderRadius:"4px",letterSpacing:"0.5px"}}>BEST FOOD</span>}
                   {e.liveaboard&&<span style={{background:"#EEE8F8",color:"#5A2EA0",fontSize:"10px",fontWeight:700,padding:"2px 8px",borderRadius:"4px",letterSpacing:"0.5px"}}>LIVEABOARD</span>}
                   <span style={{fontSize:"10px",fontWeight:700,letterSpacing:"0.5px",textTransform:"uppercase",padding:"2px 8px",borderRadius:"4px",background:bg,color:tc}}>{e.country}</span>
                 </div>
                 <div style={{fontSize:"12px",color:"#0097A7",fontWeight:600,marginBottom:"6px"}}>📍 {e.area}</div>
                 <p style={{fontSize:"13px",color:"#555",lineHeight:1.6,margin:0}}>{e.desc}</p>
-                  {e.url && <a href={e.url} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:"6px",fontSize:"12px",fontWeight:700,color:"#0A2342",background:"#F0F2F5",padding:"6px 14px",borderRadius:"6px",textDecoration:"none",marginTop:"8px"}}>Visit website ↗</a>}
               </div>
             </div>
           )})}
