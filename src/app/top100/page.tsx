@@ -79,7 +79,7 @@ export default function Top100() {
 
   return (
     <div style={{minHeight:"100vh",background:"#fff",fontFamily:"Inter,system-ui,sans-serif"}}>
-      <Nav active="/top100" />
+      <Nav />
 
       <div style={{background:"#0A2342",padding:"2.5rem 2rem 2rem"}}>
         <div style={{fontSize:"10px",fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",color:"#0097A7",marginBottom:"8px"}}>Rankings</div>
