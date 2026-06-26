@@ -6,6 +6,7 @@ const navLinks = [
   { href: '/stays', label: 'Best Stays' },
   { href: '/food', label: 'Best Food' },
   { href: '/sites', label: 'Dive Sites' },
+  { href: '/liveaboards', label: 'Liveaboards' },
   { href: '/sustainable', label: 'Sustainable' },
 ]
 
@@ -15,11 +16,11 @@ export default function Nav({ active }: { active?: string }) {
       <Link href="/" style={{color:'#fff',fontWeight:700,fontSize:'18px',textDecoration:'none',flexShrink:0}}>
         Best<span style={{color:'#E8723A'}}>Dive</span>Guide
       </Link>
-      <div style={{display:'flex',gap:'1.5rem',alignItems:'center'}}>
+      <div style={{display:'flex',gap:'1.25rem',alignItems:'center'}}>
         {navLinks.map(l => (
           <Link key={l.href} href={l.href} style={{
             color: active===l.href ? '#fff' : 'rgba(255,255,255,0.65)',
-            textDecoration:'none',fontSize:'13.5px',fontWeight: active===l.href ? 700 : 400,
+            textDecoration:'none',fontSize:'13px',fontWeight: active===l.href ? 700 : 400,
             borderBottom: active===l.href ? '2px solid #E8723A' : '2px solid transparent',
             paddingBottom:'2px',transition:'color .15s'
           }}>{l.label}</Link>
