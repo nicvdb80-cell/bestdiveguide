@@ -142,7 +142,7 @@ export default function Liveaboards() {
       <div style={{background:"linear-gradient(135deg,#0A2342 0%,#0D3060 100%)",padding:"4rem 2rem 3rem",textAlign:"center"}}>
         <div style={{fontSize:"11px",fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",color:"#0097A7",marginBottom:"12px"}}>Best Dive Guide 2025</div>
         <h1 style={{color:"#fff",fontSize:"42px",fontWeight:700,lineHeight:1.15,maxWidth:"700px",margin:"0 auto 1rem"}}>
-          The 50 Best <span style={{color:"#E8723A"}}>Liveaboards</span> in Asia
+          The 49 Best <span style={{color:"#E8723A"}}>Liveaboards</span> in Asia
         </h1>
         <p style={{color:"rgba(255,255,255,0.6)",fontSize:"16px",maxWidth:"560px",margin:"0 auto",lineHeight:1.7}}>
           Ranked on dive quality, comfort, food, safety, crew, and overall guest experience across Indonesia, Maldives, Philippines, and Thailand.
@@ -183,7 +183,7 @@ export default function Liveaboards() {
             color: filterCountry===c ? "#fff" : "#555",
           }}>{c === "all" ? "All Countries" : c}</button>
         ))}
-        <span style={{marginLeft:"auto",fontSize:"12px",color:"#aaa"}}>{filtered.length} of 50 shown</span>
+        <span style={{marginLeft:"auto",fontSize:"12px",color:"#aaa"}}>{filtered.length} of 49 shown</span>
       </div>
 
       {/* List */}
