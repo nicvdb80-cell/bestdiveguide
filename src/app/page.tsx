@@ -6,13 +6,13 @@ import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
 
 const CATS = [
-  {t:"Top 99 Asia",c:"#E8723A",h:"/top100",d:"The definitive ranking of Asia’s best dive experiences. Resorts, liveaboards and dive operators ranked by professional panel, verified votes and expert review.",icon:`<img src="/icons/top99asia.png" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(201,168,76,0.3))" alt="Top 99 Asia" />`},
-  {t:"Top 99 World",c:"#1B6CA8",h:"/top100-world",d:"The global edition. Every continent, every ocean. From the Red Sea to the Caribbean, the Pacific to the Mediterranean. Coming 2026.",icon:`<img src="/icons/top99world.png" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(201,168,76,0.3))" alt="Top 99 World" />`},
-  {t:"Best Stays",c:"#0097A7",h:"/stays",d:"99 dive resorts ranked on room quality, service, location and how well the stay supports serious diving.",icon:`<img src="/icons/beststays.png" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(201,168,76,0.3))" alt="Best Stays" />`},
-  {t:"Best Food",c:"#C85A20",h:"/food",d:"99 dive food experiences ranked on freshness, flavour, dietary care and atmosphere. Where divers eat the best.",icon:`<img src="/icons/bestfood.png" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(201,168,76,0.3))" alt="Best Food" />`},
-  {t:"Dive Sites",c:"#1B6CA8",h:"/sites",d:"The best walls, wrecks, muck dives, seamounts and shark encounters. Ranked by visibility, marine life, access and wow factor.",icon:`<img src="/icons/divesites.png" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(201,168,76,0.3))" alt="Dive Sites" />`},
-  {t:"Liveaboards",c:"#5E35B1",h:"/liveaboards",d:"49 liveaboards across Indonesia, Maldives, Philippines and Thailand. Comfort, food, crew, safety and dive quality all scored.",icon:`<img src="/icons/liveaboards.png" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(201,168,76,0.3))" alt="Liveaboards" />`},
-  {t:"Sustainable",c:"#2E7D32",h:"/sustainable",d:"Operators leading on reef conservation, waste reduction, community impact and certified sustainability.",icon:`<img src="/icons/sustainable.png" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(201,168,76,0.3))" alt="Sustainable" />`},
+  {t:"Top 99 Asia",c:"#E8723A",h:"/top100",d:"The definitive ranking of Asia’s best dive experiences. Resorts, liveaboards and dive operators ranked by professional panel, verified votes and expert review.",icon:"/icons/top99asia.png"},
+  {t:"Top 99 World",c:"#1B6CA8",h:"/top100-world",d:"The global edition. Every continent, every ocean. From the Red Sea to the Caribbean, the Pacific to the Mediterranean. Coming 2026.",icon:"/icons/top99world.png"},
+  {t:"Best Stays",c:"#0097A7",h:"/stays",d:"99 dive resorts ranked on room quality, service, location and how well the stay supports serious diving.",icon:"/icons/beststays.png"},
+  {t:"Best Food",c:"#C85A20",h:"/food",d:"99 dive food experiences ranked on freshness, flavour, dietary care and atmosphere. Where divers eat the best.",icon:"/icons/bestfood.png"},
+  {t:"Dive Sites",c:"#1B6CA8",h:"/sites",d:"The best walls, wrecks, muck dives, seamounts and shark encounters. Ranked by visibility, marine life, access and wow factor.",icon:"/icons/divesites.png"},
+  {t:"Liveaboards",c:"#5E35B1",h:"/liveaboards",d:"49 liveaboards across Indonesia, Maldives, Philippines and Thailand. Comfort, food, crew, safety and dive quality all scored.",icon:"/icons/liveaboards.png"},
+  {t:"Sustainable",c:"#2E7D32",h:"/sustainable",d:"Operators leading on reef conservation, waste reduction, community impact and certified sustainability.",icon:"/icons/sustainable.png"},
 ]
 
 function FlipCard({c}:{c:typeof CATS[0]}) {
@@ -21,7 +21,7 @@ function FlipCard({c}:{c:typeof CATS[0]}) {
     <div onClick={()=>sF(!f)} style={{perspective:800,cursor:"pointer"}}>
       <div style={{position:"relative",width:"100%",height:240,transformStyle:"preserve-3d",transition:"transform .5s",transform:f?"rotateY(180deg)":"none"}}>
         <div style={{position:"absolute",inset:0,backfaceVisibility:"hidden",background:"linear-gradient(145deg,#0A2342 0%,#132F4C 100%)",borderRadius:14,border:"1px solid rgba(201,168,76,0.25)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"2rem 1.5rem",textAlign:"center",boxShadow:"0 4px 20px rgba(0,0,0,0.2)"}}>
-          <div style={{width:110,height:110,marginBottom:14,display:"flex",alignItems:"center",justifyContent:"center"}} dangerouslySetInnerHTML={{__html:c.icon}} />
+          <img src={c.icon} alt={c.t} style={{width:130,height:130,objectFit:"contain",marginBottom:14,filter:"drop-shadow(0 0 8px rgba(201,168,76,0.55)) drop-shadow(0 2px 6px rgba(0,0,0,0.5))"}} />
           <h3 style={{fontSize:15,fontWeight:700,color:"#C9A84C",marginBottom:6,letterSpacing:1,textTransform:"uppercase"}}>{c.t}</h3>
           <span style={{fontSize:10,color:"rgba(255,255,255,0.35)",fontWeight:500}}>Tap to learn more</span>
         </div>
