@@ -24,6 +24,13 @@ type Vote = {
   food_rating: number
   stay_rating: number
   comments: string
+  place_name: string
+  place_country: string
+  visit_date: string
+  visit_proof: string
+  raw_scores: Record<string, any> | null
+  raw_feedback: Record<string, any> | null
+  raw_sustainability: Record<string, any> | null
 }
 
 const API = "https://flhsqerpikhihtirfutu.supabase.co/functions/v1/export-votes?key=BDG2025admin"
@@ -87,7 +94,7 @@ export default function AdminPage() {
     v.email?.toLowerCase().includes(search.toLowerCase()) ||
     v.country?.toLowerCase().includes(search.toLowerCase()) ||
     v.best_dive_resort?.toLowerCase().includes(search.toLowerCase()) ||
-    v.best_dive_food?.toLowerCase().includes(search.toLowerCase())
+    v.place_name?.toLowerCase().includes(search.toLowerCase())
   )
 
   // Stats
@@ -97,11 +104,11 @@ export default function AdminPage() {
     return acc
   }, {} as Record<string, number>)
   const topResorts = votes.reduce((acc, v) => {
-    if (v.best_dive_resort) acc[v.best_dive_resort] = (acc[v.best_dive_resort] || 0) + 1
+    const rn = v.place_name || v.best_dive_resort; if (rn) acc[rn] = (acc[v.best_dive_resort] || 0) + 1
     return acc
   }, {} as Record<string, number>)
   const topFood = votes.reduce((acc, v) => {
-    if (v.best_dive_food) acc[v.best_dive_food] = (acc[v.best_dive_food] || 0) + 1
+    const fn = v.place_name || v.best_dive_food; if (fn) acc[fn] = (acc[v.best_dive_food] || 0) + 1
     return acc
   }, {} as Record<string, number>)
   const topLB = votes.reduce((acc, v) => {
@@ -229,8 +236,8 @@ export default function AdminPage() {
                   <th style={{padding:"10px 14px",fontWeight:700,color:"#666",fontSize:11}}>Country</th>
                   <th style={{padding:"10px 14px",fontWeight:700,color:"#666",fontSize:11}}>Role</th>
                   <th style={{padding:"10px 14px",fontWeight:700,color:"#666",fontSize:11}}>Dives</th>
-                  <th style={{padding:"10px 14px",fontWeight:700,color:"#666",fontSize:11}}>Resort Pick</th>
-                  <th style={{padding:"10px 14px",fontWeight:700,color:"#666",fontSize:11}}>Food Pick</th>
+                  <th style={{padding:"10px 14px",fontWeight:700,color:"#666",fontSize:11}}>Place Voted For</th>
+                  <th style={{padding:"10px 14px",fontWeight:700,color:"#666",fontSize:11}}>Ratings</th>
                   <th style={{padding:"10px 14px",fontWeight:700,color:"#666",fontSize:11}}></th>
                 </tr>
               </thead>
@@ -243,8 +250,8 @@ export default function AdminPage() {
                     <td style={{padding:"10px 14px"}}><span style={{background:"#E1F5F8",color:"#006D78",fontSize:11,fontWeight:600,padding:"2px 8px",borderRadius:4}}>{v.country || "-"}</span></td>
                     <td style={{padding:"10px 14px",color:"#555",fontSize:12}}>{v.voter_role?.replace(/_/g," ") || "-"}</td>
                     <td style={{padding:"10px 14px",color:"#555"}}>{v.logged_dives || "-"}</td>
-                    <td style={{padding:"10px 14px",color:"#333",fontSize:12}}>{v.best_dive_resort || "-"}</td>
-                    <td style={{padding:"10px 14px",color:"#333",fontSize:12}}>{v.best_dive_food || "-"}</td>
+                    <td style={{padding:"10px 14px",color:"#333",fontSize:12,fontWeight:600}}>{v.place_name || v.best_dive_resort || "-"}</td>
+                    <td style={{padding:"10px 14px",fontSize:12}}>{v.dive_rating || v.food_rating || v.stay_rating ? <span style={{color:"#0097A7",fontWeight:600}}>D:{v.dive_rating||"-"} F:{v.food_rating||"-"} S:{v.stay_rating||"-"}</span> : <span style={{color:"#ccc"}}>-</span>}</td>
                     <td style={{padding:"10px 14px"}}>
                       <button onClick={() => setSelected(v)} style={{background:"#0A2342",color:"#fff",border:"none",padding:"4px 10px",borderRadius:5,cursor:"pointer",fontSize:11,fontWeight:600}}>View</button>
                     </td>
@@ -288,11 +295,10 @@ export default function AdminPage() {
               <div style={{fontSize:10,fontWeight:700,letterSpacing:0.5,textTransform:"uppercase",color:"#aaa",marginBottom:8}}>Picks</div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,fontSize:13}}>
                 {[
-                  ["Best Resort", selected.best_dive_resort],
-                  ["Best Food", selected.best_dive_food],
-                  ["Best Liveaboard", selected.best_liveaboard],
-                  ["Best Dive Site", selected.best_dive_site],
-                  ["Best Sustainable", selected.best_sustainable],
+                  ["Place Voted For", selected.place_name || selected.best_dive_resort],
+                  ["Place Country", selected.place_country],
+                  ["Visit Date", selected.visit_date],
+                  ["Proof", selected.visit_proof],
                 ].map(([label, val]) => (
                   <div key={String(label)}>
                     <div style={{fontSize:10,fontWeight:700,color:"#aaa",marginBottom:2}}>{label}</div>
@@ -312,6 +318,30 @@ export default function AdminPage() {
                 ))}
               </div>
             </div>
+            {selected.raw_scores && Object.keys(selected.raw_scores).length > 0 && (
+              <div style={{marginTop:16,paddingTop:16,borderTop:"1px solid #eee"}}>
+                <div style={{fontSize:10,fontWeight:700,letterSpacing:0.5,textTransform:"uppercase",color:"#aaa",marginBottom:8}}>Detailed Scores</div>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6}}>
+                  {Object.entries(selected.raw_scores).filter(([,v])=>v).map(([k,v])=>(
+                    <div key={k} style={{display:"flex",justifyContent:"space-between",fontSize:12}}>
+                      <span style={{color:"#666"}}>{k.replace(/_/g," ")}</span>
+                      <span style={{fontWeight:700,color:Number(v)>=8?"#2E7D32":Number(v)>=5?"#F57F17":"#C62828"}}>{String(v)}/10</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {selected.raw_feedback && (
+              <div style={{marginTop:16,paddingTop:16,borderTop:"1px solid #eee"}}>
+                <div style={{fontSize:10,fontWeight:700,letterSpacing:0.5,textTransform:"uppercase",color:"#aaa",marginBottom:6}}>Feedback</div>
+                {Object.entries(selected.raw_feedback).filter(([,v])=>v).map(([k,v])=>(
+                  <div key={k} style={{marginBottom:8}}>
+                    <div style={{fontSize:11,fontWeight:600,color:"#888",textTransform:"capitalize"}}>{k.replace(/_/g," ")}</div>
+                    <p style={{fontSize:13,color:"#333",margin:"2px 0 0",lineHeight:1.5}}>{String(v)}</p>
+                  </div>
+                ))}
+              </div>
+            )}
             {selected.comments && (
               <div style={{marginTop:16,paddingTop:16,borderTop:"1px solid #eee"}}>
                 <div style={{fontSize:10,fontWeight:700,letterSpacing:0.5,textTransform:"uppercase",color:"#aaa",marginBottom:6}}>Comments</div>
