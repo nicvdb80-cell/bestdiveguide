@@ -77,7 +77,7 @@ export default function Sites() {
       <div style={{background:'linear-gradient(135deg,#002233 0%,#003D57 100%)',padding:'4rem 2rem 3rem',textAlign:'center'}}>
         <div style={{fontSize:'11px',fontWeight:700,letterSpacing:'2px',textTransform:'uppercase',color:'#0097A7',marginBottom:'12px'}}>Best Dive Sites 2025</div>
         <h1 style={{color:'#fff',fontSize:'42px',fontWeight:700,lineHeight:1.15,maxWidth:'680px',margin:'0 auto 1rem'}}>
-          Top 100 <span style={{color:'#0097A7'}}>Dive Sites</span> in the World
+          Top 99 <span style={{color:'#0097A7'}}>Dive Sites</span> in the World
         </h1>
         <p style={{color:'rgba(255,255,255,0.6)',fontSize:'16px',maxWidth:'520px',margin:'0 auto',lineHeight:1.7}}>
           Walls, wrecks, muck, seamounts, and passes — ranked by experienced divers on marine life density, visibility, and accessibility.
@@ -124,7 +124,7 @@ export default function Sites() {
         </div>
         <div style={{background:'#E1F5F8',border:'1px solid #B2EBF2',borderRadius:'10px',padding:'1.25rem 1.5rem',marginTop:'2rem',textAlign:'center'}}>
           <p style={{fontSize:'13px',color:'#006D78',margin:0,lineHeight:1.6}}>
-            <strong>Sites 16–100 coming soon.</strong>{' '}
+            <strong>Sites 16–99 coming soon.</strong>{' '}
             <a href="mailto:nic.vdb80@gmail.com" style={{color:'#0097A7',fontWeight:600}}>Nominate a dive site →</a>
           </p>
         </div>
