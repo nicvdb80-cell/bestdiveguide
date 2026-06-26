@@ -14,7 +14,7 @@ export default function Home() {
 
       {/* Hero */}
       <div style={{background:'#0A2342',padding:'5rem 2rem 4rem',textAlign:'center'}}>
-               <h1 style={{color:'#fff',fontSize:'46px',fontWeight:700,lineHeight:1.15,marginBottom:'1rem',maxWidth:'680px',margin:'0 auto 1rem'}}>
+        <h1 style={{color:'#fff',fontSize:'46px',fontWeight:700,lineHeight:1.15,marginBottom:'1rem',maxWidth:'680px',margin:'0 auto 1rem'}}>
           Find the world&apos;s best places to <span style={{color:'#0097A7'}}>dive</span>, eat, and sleep.
         </h1>
         <p style={{color:'rgba(255,255,255,0.6)',fontSize:'18px',maxWidth:'500px',margin:'0 auto 2.5rem',lineHeight:1.6}}>
