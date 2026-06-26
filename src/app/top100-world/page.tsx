@@ -5,7 +5,7 @@ import Link from "next/link"
 export default function Top100World() {
   return (
     <div style={{fontFamily:"Inter,system-ui,sans-serif",minHeight:"100vh",background:"#fff"}}>
-      <Nav active="/top100-world" />
+      <Nav />
 
       <div style={{background:"#0A2342",padding:"6rem 2rem",textAlign:"center"}}>
         <div style={{display:"inline-block",background:"rgba(232,114,58,0.15)",border:"1px solid rgba(232,114,58,0.4)",color:"#E8723A",fontSize:"11px",fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",padding:"6px 16px",borderRadius:"20px",marginBottom:"1.5rem"}}>
