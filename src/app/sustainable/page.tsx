@@ -68,6 +68,7 @@ export default function Sustainable() {
                 </div>
                 <div style={{fontSize:'12px',color:'#0097A7',fontWeight:600,marginBottom:'6px'}}>📍 {e.loc}</div>
                 <p style={{fontSize:'13px',color:'#666',lineHeight:1.6,margin:'0 0 8px'}}>{e.desc}</p>
+                  {e.url && <a href={e.url} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:"6px",fontSize:"12px",fontWeight:700,color:"#0A2342",background:"#F0F2F5",padding:"6px 14px",borderRadius:"6px",textDecoration:"none",marginTop:"8px"}}>Visit website ↗</a>}
                 <div style={{display:'flex',flexWrap:'wrap'}}>
                   {e.pillars.map(p=><PillarTag key={p} p={p}/>)}
                 </div>
