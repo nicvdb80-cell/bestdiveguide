@@ -25,7 +25,7 @@ export default function Home() {
         </p>
         <div style={{display:'flex',gap:'12px',justifyContent:'center',flexWrap:'wrap'}}>
           <Link href="/top100" style={{background:'#E8723A',color:'#fff',padding:'14px 28px',borderRadius:'9px',textDecoration:'none',fontWeight:700,fontSize:'15px'}}>
-            Explore the Top 100
+            Explore Top 100 Asia
           </Link>
           <Link href="/vote" style={{background:'transparent',color:'#fff',border:'1.5px solid rgba(255,255,255,0.4)',padding:'13px 24px',borderRadius:'9px',textDecoration:'none',fontWeight:500,fontSize:'15px'}}>
             Vote for a Place
