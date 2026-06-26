@@ -61,7 +61,7 @@ export default function Sustainable() {
               </div>
               <div style={{flex:1}}>
                 <div style={{display:'flex',alignItems:'center',gap:'8px',flexWrap:'wrap',marginBottom:'5px'}}>
-                  <span style={{fontWeight:700,fontSize:'15px',color:'#0A2342'}}>{e.name}</span>
+                  {e.url ? <a href={e.url} target="_blank" rel="noopener noreferrer" style={{fontWeight:700,fontSize:'15px',color:'#0A2342',textDecoration:'none'}}>{e.name}</a> : <span style={{fontWeight:700,fontSize:'15px',color:'#0A2342'}}>{e.name}</span>}
                   {e.badge && <span style={{background:'#2E7D32',color:'#fff',fontSize:'10px',fontWeight:700,padding:'2px 7px',borderRadius:'4px'}}>R</span>}
                   <span style={{...TAG('#E8F5E9','#2E7D32')}}>{e.type}</span>
                   <span style={{...TAG('#C8E6C9','#1B5E20')}}>{e.cert}</span>
