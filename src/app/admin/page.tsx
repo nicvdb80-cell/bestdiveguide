@@ -28,18 +28,59 @@ type Vote = {
 
 const API = "https://flhsqerpikhihtirfutu.supabase.co/functions/v1/export-votes"
 
+const ADMIN_PIN = "BDG2025admin"
+
 export default function AdminPage() {
+  const [authed, setAuthed] = useState(false)
+  const [pin, setPin] = useState("")
+  const [pinError, setPinError] = useState(false)
   const [votes, setVotes] = useState<Vote[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState("")
   const [selected, setSelected] = useState<Vote | null>(null)
 
   useEffect(() => {
+    const saved = sessionStorage.getItem("bdg_admin")
+    if (saved === ADMIN_PIN) setAuthed(true)
+  }, [])
+
+  useEffect(() => {
+    if (!authed) return
     fetch(API)
       .then(r => r.json())
       .then(d => { setVotes(d.votes || []); setLoading(false) })
       .catch(() => setLoading(false))
-  }, [])
+  }, [authed])
+
+  const handleLogin = () => {
+    if (pin === ADMIN_PIN) {
+      sessionStorage.setItem("bdg_admin", pin)
+      setAuthed(true)
+      setPinError(false)
+    } else {
+      setPinError(true)
+    }
+  }
+
+  if (!authed) return (
+    <div style={{fontFamily:"Inter,system-ui,sans-serif",minHeight:"100vh",background:"#0A2342",display:"flex",alignItems:"center",justifyContent:"center",padding:"2rem"}}>
+      <div style={{background:"#fff",borderRadius:16,padding:"3rem",maxWidth:380,width:"100%",textAlign:"center",boxShadow:"0 20px 60px rgba(0,0,0,0.3)"}}>
+        <div style={{fontSize:40,marginBottom:16}}>🔒</div>
+        <h1 style={{fontSize:22,fontWeight:700,color:"#0A2342",marginBottom:6}}>Admin Access</h1>
+        <p style={{fontSize:13,color:"#888",marginBottom:24}}>Enter your admin PIN to view the vote dashboard</p>
+        <input
+          type="password"
+          value={pin}
+          onChange={e => { setPin(e.target.value); setPinError(false) }}
+          onKeyDown={e => e.key === "Enter" && handleLogin()}
+          placeholder="Enter PIN"
+          style={{width:"100%",padding:"12px 16px",borderRadius:8,border:pinError?"2px solid #E53935":"1.5px solid #ddd",fontSize:15,textAlign:"center",letterSpacing:4,outline:"none",marginBottom:12}}
+        />
+        {pinError && <p style={{fontSize:12,color:"#E53935",margin:"0 0 12px"}}>Wrong PIN. Try again.</p>}
+        <button onClick={handleLogin} style={{width:"100%",background:"#0A2342",color:"#fff",border:"none",padding:"12px",borderRadius:8,fontSize:14,fontWeight:700,cursor:"pointer"}}>Unlock Dashboard</button>
+      </div>
+    </div>
+  )
 
   const filtered = votes.filter(v =>
     !search || v.full_name?.toLowerCase().includes(search.toLowerCase()) ||
