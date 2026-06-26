@@ -131,7 +131,7 @@ export default function Food() {
 
   return (
     <div style={{fontFamily:"Inter,system-ui,sans-serif",minHeight:"100vh",background:"#F8F9FA"}}>
-      <Nav active="/food" />
+      <Nav />
       <div style={{background:"linear-gradient(135deg,#1A0A05 0%,#3D1500 100%)",padding:"4rem 2rem 3rem",textAlign:"center"}}>
         <div style={{fontSize:"11px",fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",color:"#E8723A",marginBottom:"12px"}}>Best Dive Guide 2025</div>
         <h1 style={{color:"#fff",fontSize:"42px",fontWeight:700,lineHeight:1.15,maxWidth:"700px",margin:"0 auto 1rem"}}>The 99 Best Dive <span style={{color:"#E8723A"}}>Food Experiences</span> in Asia</h1>
