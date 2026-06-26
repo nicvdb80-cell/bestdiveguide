@@ -137,9 +137,9 @@ export default function Liveaboards() {
       <Nav />
 
       {/* Hero */}
-      <div style={{background:"linear-gradient(135deg,#0A2342 0%,#0D3060 100%)",padding:"4rem 2rem 3rem",textAlign:"center"}}>
+      <div style={{background:"linear-gradient(135deg,#0A2342 0%,#0D3060 100%)",padding:"clamp(2rem,5vw,4rem) clamp(1rem,3vw,2rem) clamp(1.5rem,4vw,3rem)",textAlign:"center"}}>
         <div style={{fontSize:"11px",fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",color:"#0097A7",marginBottom:"12px"}}>Best Dive Guide 2025</div>
-        <h1 style={{color:"#fff",fontSize:"42px",fontWeight:700,lineHeight:1.15,maxWidth:"700px",margin:"0 auto 1rem"}}>
+        <h1 style={{color:"#fff",fontSize:"clamp(26px,5.5vw,42px)",fontWeight:700,lineHeight:1.15,maxWidth:"700px",margin:"0 auto 1rem"}}>
           The 49 Best <span style={{color:"#E8723A"}}>Liveaboards</span> in Asia
         </h1>
         <p style={{color:"rgba(255,255,255,0.6)",fontSize:"16px",maxWidth:"560px",margin:"0 auto",lineHeight:1.7}}>
@@ -185,7 +185,7 @@ export default function Liveaboards() {
       </div>
 
       {/* List */}
-      <div style={{maxWidth:"1100px",margin:"0 auto",padding:"2rem"}}>
+      <div style={{maxWidth:"1100px",margin:"0 auto",padding:"clamp(1rem,3vw,2rem)"}}>
         <div style={{display:"flex",flexDirection:"column",gap:"12px"}}>
           {filtered.map(e => {
             const [bg, tc] = countryColor(e.country)
