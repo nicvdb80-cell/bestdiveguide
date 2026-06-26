@@ -1,373 +1,285 @@
-'use client'
+"use client"
 
-import { useEffect, useState } from 'react'
-import { supabaseAdmin } from '@/lib/supabase'
+import { useState, useEffect } from "react"
+import Nav from "@/components/Nav"
 
 type Vote = {
   id: string
-  status: string
-  visit_date: string
-  voted_dive: boolean
-  voted_food: boolean
-  voted_stay: boolean
-  submitted_at: string
-  admin_notes: string | null
-  voters: { full_name: string; email: string; voter_role: string; logged_dives: number; cert_agency: string } | null
-  listings: { name: string; country: string } | null
-}
-
-type Listing = {
-  id: string
-  name: string
+  created_at: string
+  full_name: string
+  email: string
   country: string
-  ranking_position: number | null
-  overall_score: number | null
-  total_votes: number
-  panel_votes: number
-  green_diver_approved: boolean
-  badge_type: string
+  profession: string
+  voter_role: string
+  cert_agency: string
+  cert_level: string
+  logged_dives: number
+  is_panel_member: boolean
+  best_dive_resort: string
+  best_dive_food: string
+  best_liveaboard: string
+  best_dive_site: string
+  best_sustainable: string
+  dive_rating: number
+  food_rating: number
+  stay_rating: number
+  comments: string
 }
 
-type NavItem = 'overview' | 'votes' | 'rankings' | 'panel' | 'mtv'
+const API = "https://flhsqerpikhihtirfutu.supabase.co/functions/v1/export-votes"
 
-export default function AdminDashboard() {
-  const [page, setPage] = useState<NavItem>('overview')
-  const [pendingVotes, setPendingVotes] = useState<Vote[]>([])
-  const [listings, setListings] = useState<Listing[]>([])
-  const [stats, setStats] = useState({ total: 0, pending: 0, published: 0, greenBadges: 0 })
+export default function AdminPage() {
+  const [votes, setVotes] = useState<Vote[]>([])
   const [loading, setLoading] = useState(true)
-  const [actionNote, setActionNote] = useState('')
+  const [search, setSearch] = useState("")
+  const [selected, setSelected] = useState<Vote | null>(null)
 
   useEffect(() => {
-    loadData()
+    fetch(API)
+      .then(r => r.json())
+      .then(d => { setVotes(d.votes || []); setLoading(false) })
+      .catch(() => setLoading(false))
   }, [])
 
-  async function loadData() {
+  const filtered = votes.filter(v =>
+    !search || v.full_name?.toLowerCase().includes(search.toLowerCase()) ||
+    v.email?.toLowerCase().includes(search.toLowerCase()) ||
+    v.country?.toLowerCase().includes(search.toLowerCase()) ||
+    v.best_dive_resort?.toLowerCase().includes(search.toLowerCase()) ||
+    v.best_dive_food?.toLowerCase().includes(search.toLowerCase())
+  )
+
+  // Stats
+  const totalVotes = votes.length
+  const countries = votes.reduce((acc, v) => {
+    if (v.country) acc[v.country] = (acc[v.country] || 0) + 1
+    return acc
+  }, {} as Record<string, number>)
+  const topResorts = votes.reduce((acc, v) => {
+    if (v.best_dive_resort) acc[v.best_dive_resort] = (acc[v.best_dive_resort] || 0) + 1
+    return acc
+  }, {} as Record<string, number>)
+  const topFood = votes.reduce((acc, v) => {
+    if (v.best_dive_food) acc[v.best_dive_food] = (acc[v.best_dive_food] || 0) + 1
+    return acc
+  }, {} as Record<string, number>)
+  const topLB = votes.reduce((acc, v) => {
+    if (v.best_liveaboard) acc[v.best_liveaboard] = (acc[v.best_liveaboard] || 0) + 1
+    return acc
+  }, {} as Record<string, number>)
+
+  const sortedPicks = (obj: Record<string, number>) =>
+    Object.entries(obj).sort((a, b) => b[1] - a[1]).slice(0, 5)
+
+  const downloadCSV = () => {
+    window.open(API + "?format=csv", "_blank")
+  }
+
+  const refresh = () => {
     setLoading(true)
-    const [votesRes, listingsRes] = await Promise.all([
-      supabaseAdmin
-        .from('votes')
-        .select('*, voters(full_name,email,voter_role,logged_dives,cert_agency), listings(name,country)')
-        .eq('status', 'pending')
-        .order('submitted_at', { ascending: false })
-        .limit(20),
-      supabaseAdmin
-        .from('listings')
-        .select('id, name, country, is_published, ranking_scores(ranking_position, overall_score, total_votes, panel_votes, green_diver_approved, badge_type)')
-        .eq('is_published', true)
-        .order('name')
-    ])
-
-    if (votesRes.data) setPendingVotes(votesRes.data as any)
-
-    if (listingsRes.data) {
-      const flat = listingsRes.data.map((l: any) => ({
-        ...l,
-        ...(l.ranking_scores?.[0] ?? {}),
-      }))
-      setListings(flat)
-    }
-
-    const [totalVotes, greenCount] = await Promise.all([
-      supabaseAdmin.from('votes').select('id', { count: 'exact' }).eq('status', 'approved'),
-      supabaseAdmin.from('ranking_scores').select('id', { count: 'exact' }).eq('green_diver_approved', true)
-    ])
-
-    setStats({
-      total: totalVotes.count ?? 0,
-      pending: votesRes.data?.length ?? 0,
-      published: listingsRes.data?.length ?? 0,
-      greenBadges: greenCount.count ?? 0,
-    })
-
-    setLoading(false)
+    fetch(API)
+      .then(r => r.json())
+      .then(d => { setVotes(d.votes || []); setLoading(false) })
+      .catch(() => setLoading(false))
   }
 
-  async function approveVote(id: string) {
-    await supabaseAdmin.from('votes').update({ status: 'approved', reviewed_at: new Date().toISOString(), reviewed_by: 'admin' }).eq('id', id)
-    setPendingVotes(v => v.filter(x => x.id !== id))
-    setStats(s => ({ ...s, pending: s.pending - 1, total: s.total + 1 }))
+  const fmt = (d: string) => {
+    if (!d) return ""
+    const dt = new Date(d)
+    return dt.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }) + " " + dt.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })
   }
 
-  async function rejectVote(id: string, reason: string) {
-    await supabaseAdmin.from('votes').update({ status: 'rejected', rejection_reason: reason, reviewed_at: new Date().toISOString() }).eq('id', id)
-    setPendingVotes(v => v.filter(x => x.id !== id))
-    setStats(s => ({ ...s, pending: s.pending - 1 }))
+  const s = {
+    card: {background:"#fff",borderRadius:12,border:"1px solid #E8E8E8",padding:"1.25rem",boxShadow:"0 1px 4px rgba(0,0,0,0.04)"} as React.CSSProperties,
+    label: {fontSize:10,fontWeight:700,letterSpacing:1,textTransform:"uppercase" as const,color:"#aaa",marginBottom:4},
+    big: {fontSize:28,fontWeight:700,color:"#0A2342"} as React.CSSProperties,
   }
 
-  const navItems: { key: NavItem; label: string; icon: string; badge?: number }[] = [
-    { key: 'overview', label: 'Dashboard', icon: '⊞' },
-    { key: 'votes', label: 'Pending review', icon: '⏱', badge: stats.pending },
-    { key: 'rankings', label: 'Rankings', icon: '🏆' },
-    { key: 'panel', label: 'Professional Panel', icon: '👥' },
-    { key: 'mtv', label: 'Most Travelled Voter', icon: '✈️' },
-  ]
-
-  const statusColor: Record<string, string> = {
-    pending: 'bg-yellow-50 text-yellow-800',
-    approved: 'bg-green-50 text-green-800',
-    rejected: 'bg-red-50 text-red-700',
-    flagged: 'bg-red-100 text-red-900',
-  }
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#F2F4F6] flex items-center justify-center">
-        <div className="text-gray-400 text-sm">Loading dashboard...</div>
+  if (loading) return (
+    <div style={{fontFamily:"Inter,system-ui,sans-serif",minHeight:"100vh",background:"#F3F4F6"}}>
+      <Nav />
+      <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"60vh"}}>
+        <div style={{textAlign:"center",color:"#999"}}>
+          <div style={{fontSize:36,marginBottom:12}}>Loading votes...</div>
+        </div>
       </div>
-    )
-  }
+    </div>
+  )
 
   return (
-    <div className="min-h-screen bg-[#F2F4F6]">
-      {/* Admin nav */}
-      <nav className="bg-[#0A2342] h-12 flex items-center justify-between px-6">
-        <div className="flex items-center gap-3">
-          <span className="text-white font-bold text-sm">Best<span className="text-[#E8723A]">Dive</span>Guide</span>
-          <span className="bg-[#E8723A]/20 border border-[#E8723A]/40 text-[#E8723A] text-[10px] font-bold px-2 py-0.5 rounded tracking-wide">ADMIN</span>
-        </div>
-        <div className="flex items-center gap-3">
-          {stats.pending > 0 && (
-            <span className="text-white/70 text-xs">{stats.pending} pending</span>
-          )}
-          <a href="/" className="text-white/50 text-xs">View site ↗</a>
-        </div>
-      </nav>
+    <div style={{fontFamily:"Inter,system-ui,sans-serif",minHeight:"100vh",background:"#F3F4F6"}}>
+      <Nav />
 
-      <div className="flex min-h-[calc(100vh-48px)]">
-        {/* Sidebar */}
-        <aside className="w-48 bg-white border-r border-gray-200 py-4">
-          {navItems.map(item => (
-            <button
-              key={item.key}
-              onClick={() => setPage(item.key)}
-              className={`w-full flex items-center gap-2.5 px-4 py-2 text-left text-[12px] border-l-2 transition-all ${
-                page === item.key
-                  ? 'border-[#1B6CA8] bg-blue-50 text-[#1B6CA8] font-semibold'
-                  : 'border-transparent text-gray-500 hover:bg-[#F5F0E8] hover:text-[#0A2342]'
-              }`}
-            >
-              <span>{item.icon}</span>
-              <span className="flex-1">{item.label}</span>
-              {item.badge ? (
-                <span className="bg-[#E8723A] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">{item.badge}</span>
-              ) : null}
-            </button>
+      <div style={{background:"#0A2342",padding:"2rem clamp(1rem,3vw,2rem)"}}>
+        <div style={{maxWidth:1200,margin:"0 auto",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:12}}>
+          <div>
+            <h1 style={{color:"#fff",fontSize:24,fontWeight:700,margin:0}}>Vote Dashboard</h1>
+            <p style={{color:"rgba(255,255,255,0.5)",fontSize:13,margin:"4px 0 0"}}>BestDiveGuide admin panel</p>
+          </div>
+          <div style={{display:"flex",gap:8}}>
+            <button onClick={refresh} style={{background:"rgba(255,255,255,0.1)",color:"#fff",border:"1px solid rgba(255,255,255,0.2)",padding:"8px 16px",borderRadius:7,cursor:"pointer",fontSize:13,fontWeight:600}}>Refresh</button>
+            <button onClick={downloadCSV} style={{background:"#E8723A",color:"#fff",border:"none",padding:"8px 16px",borderRadius:7,cursor:"pointer",fontSize:13,fontWeight:600}}>Download CSV</button>
+          </div>
+        </div>
+      </div>
+
+      <div style={{maxWidth:1200,margin:"0 auto",padding:"clamp(1rem,3vw,2rem)"}}>
+
+        {/* Stats row */}
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(160px, 1fr))",gap:12,marginBottom:"1.5rem"}}>
+          <div style={s.card}>
+            <div style={s.label}>Total Votes</div>
+            <div style={s.big}>{totalVotes}</div>
+          </div>
+          <div style={s.card}>
+            <div style={s.label}>Countries</div>
+            <div style={s.big}>{Object.keys(countries).length}</div>
+          </div>
+          <div style={s.card}>
+            <div style={s.label}>Panel Members</div>
+            <div style={s.big}>{votes.filter(v => v.is_panel_member).length}</div>
+          </div>
+          <div style={s.card}>
+            <div style={s.label}>Avg Dives Logged</div>
+            <div style={s.big}>{votes.length ? Math.round(votes.reduce((a, v) => a + (v.logged_dives || 0), 0) / votes.length) : 0}</div>
+          </div>
+        </div>
+
+        {/* Top picks */}
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:12,marginBottom:"1.5rem"}}>
+          {[
+            {title:"Top Resort Picks",data:sortedPicks(topResorts)},
+            {title:"Top Food Picks",data:sortedPicks(topFood)},
+            {title:"Top Liveaboard Picks",data:sortedPicks(topLB)},
+            {title:"Voters by Country",data:sortedPicks(countries)},
+          ].map(sec => (
+            <div key={sec.title} style={s.card}>
+              <div style={{...s.label,marginBottom:10}}>{sec.title}</div>
+              {sec.data.length === 0 ? <div style={{fontSize:12,color:"#ccc"}}>No data yet</div> :
+                sec.data.map(([name, count], i) => (
+                  <div key={name} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"4px 0",borderBottom:i < sec.data.length - 1 ? "1px solid #f0f0f0" : "none"}}>
+                    <span style={{fontSize:13,color:"#333",fontWeight:i === 0 ? 700 : 400}}>{name}</span>
+                    <span style={{fontSize:12,fontWeight:700,color:"#0097A7",background:"#E1F5F8",padding:"2px 8px",borderRadius:10}}>{count}</span>
+                  </div>
+                ))
+              }
+            </div>
           ))}
-        </aside>
+        </div>
 
-        {/* Content */}
-        <main className="flex-1 p-6">
-          {/* Overview */}
-          {page === 'overview' && (
-            <div>
-              <div className="grid grid-cols-4 gap-3 mb-6">
+        {/* Search + table */}
+        <div style={{...s.card,padding:0,overflow:"hidden"}}>
+          <div style={{padding:"1rem 1.25rem",borderBottom:"1px solid #E8E8E8",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:8}}>
+            <div style={{fontSize:15,fontWeight:700,color:"#0A2342"}}>All Votes ({filtered.length})</div>
+            <input
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search name, email, country, pick..."
+              style={{padding:"8px 14px",borderRadius:8,border:"1.5px solid #ddd",fontSize:13,width:280,outline:"none"}}
+            />
+          </div>
+          <div style={{overflowX:"auto"}}>
+            <table style={{width:"100%",borderCollapse:"collapse",fontSize:13}}>
+              <thead>
+                <tr style={{background:"#F8F9FA",textAlign:"left"}}>
+                  <th style={{padding:"10px 14px",fontWeight:700,color:"#666",fontSize:11,letterSpacing:0.5}}>Date</th>
+                  <th style={{padding:"10px 14px",fontWeight:700,color:"#666",fontSize:11}}>Name</th>
+                  <th style={{padding:"10px 14px",fontWeight:700,color:"#666",fontSize:11}}>Email</th>
+                  <th style={{padding:"10px 14px",fontWeight:700,color:"#666",fontSize:11}}>Country</th>
+                  <th style={{padding:"10px 14px",fontWeight:700,color:"#666",fontSize:11}}>Role</th>
+                  <th style={{padding:"10px 14px",fontWeight:700,color:"#666",fontSize:11}}>Dives</th>
+                  <th style={{padding:"10px 14px",fontWeight:700,color:"#666",fontSize:11}}>Resort Pick</th>
+                  <th style={{padding:"10px 14px",fontWeight:700,color:"#666",fontSize:11}}>Food Pick</th>
+                  <th style={{padding:"10px 14px",fontWeight:700,color:"#666",fontSize:11}}></th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map(v => (
+                  <tr key={v.id} style={{borderBottom:"1px solid #f0f0f0"}}>
+                    <td style={{padding:"10px 14px",color:"#888",whiteSpace:"nowrap"}}>{fmt(v.created_at)}</td>
+                    <td style={{padding:"10px 14px",fontWeight:600,color:"#0A2342"}}>{v.full_name}</td>
+                    <td style={{padding:"10px 14px",color:"#555"}}>{v.email}</td>
+                    <td style={{padding:"10px 14px"}}><span style={{background:"#E1F5F8",color:"#006D78",fontSize:11,fontWeight:600,padding:"2px 8px",borderRadius:4}}>{v.country || "-"}</span></td>
+                    <td style={{padding:"10px 14px",color:"#555",fontSize:12}}>{v.voter_role?.replace(/_/g," ") || "-"}</td>
+                    <td style={{padding:"10px 14px",color:"#555"}}>{v.logged_dives || "-"}</td>
+                    <td style={{padding:"10px 14px",color:"#333",fontSize:12}}>{v.best_dive_resort || "-"}</td>
+                    <td style={{padding:"10px 14px",color:"#333",fontSize:12}}>{v.best_dive_food || "-"}</td>
+                    <td style={{padding:"10px 14px"}}>
+                      <button onClick={() => setSelected(v)} style={{background:"#0A2342",color:"#fff",border:"none",padding:"4px 10px",borderRadius:5,cursor:"pointer",fontSize:11,fontWeight:600}}>View</button>
+                    </td>
+                  </tr>
+                ))}
+                {filtered.length === 0 && (
+                  <tr><td colSpan={9} style={{padding:40,textAlign:"center",color:"#ccc"}}>No votes yet</td></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {/* Detail modal */}
+      {selected && (
+        <div onClick={() => setSelected(null)} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.5)",zIndex:300,display:"flex",alignItems:"center",justifyContent:"center",padding:"1rem"}}>
+          <div onClick={e => e.stopPropagation()} style={{background:"#fff",borderRadius:16,padding:"2rem",maxWidth:520,width:"100%",maxHeight:"80vh",overflow:"auto",boxShadow:"0 20px 60px rgba(0,0,0,0.3)"}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"1.5rem"}}>
+              <h2 style={{fontSize:20,fontWeight:700,color:"#0A2342",margin:0}}>{selected.full_name}</h2>
+              <button onClick={() => setSelected(null)} style={{background:"none",border:"none",fontSize:22,cursor:"pointer",color:"#999"}}>x</button>
+            </div>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,fontSize:13}}>
+              {[
+                ["Email", selected.email],
+                ["Country", selected.country],
+                ["Role", selected.voter_role?.replace(/_/g, " ")],
+                ["Profession", selected.profession],
+                ["Cert", (selected.cert_agency || "") + " " + (selected.cert_level || "")],
+                ["Logged Dives", selected.logged_dives],
+                ["Panel Member", selected.is_panel_member ? "Yes" : "No"],
+                ["Voted", fmt(selected.created_at)],
+              ].map(([label, val]) => (
+                <div key={String(label)}>
+                  <div style={{fontSize:10,fontWeight:700,letterSpacing:0.5,textTransform:"uppercase",color:"#aaa",marginBottom:2}}>{label}</div>
+                  <div style={{color:"#333",fontWeight:500}}>{String(val || "-")}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{marginTop:16,paddingTop:16,borderTop:"1px solid #eee"}}>
+              <div style={{fontSize:10,fontWeight:700,letterSpacing:0.5,textTransform:"uppercase",color:"#aaa",marginBottom:8}}>Picks</div>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,fontSize:13}}>
                 {[
-                  { num: stats.total, label: 'Verified votes', sub: '' },
-                  { num: stats.pending, label: 'Pending review', sub: 'Needs attention', warn: true },
-                  { num: stats.published, label: 'Published listings', sub: '' },
-                  { num: stats.greenBadges, label: 'Green Diver badges', sub: '', green: true },
-                ].map((s, i) => (
-                  <div key={i} className="bg-white border border-gray-200 rounded-lg p-4 text-center">
-                    <div className={`text-2xl font-bold ${s.warn ? 'text-yellow-700' : s.green ? 'text-green-700' : 'text-[#0A2342]'}`}>{s.num}</div>
-                    <div className="text-[11px] text-gray-400 mt-1">{s.label}</div>
-                    {s.sub && <div className={`text-[10px] mt-0.5 ${s.warn ? 'text-[#E8723A]' : 'text-green-600'}`}>{s.sub}</div>}
+                  ["Best Resort", selected.best_dive_resort],
+                  ["Best Food", selected.best_dive_food],
+                  ["Best Liveaboard", selected.best_liveaboard],
+                  ["Best Dive Site", selected.best_dive_site],
+                  ["Best Sustainable", selected.best_sustainable],
+                ].map(([label, val]) => (
+                  <div key={String(label)}>
+                    <div style={{fontSize:10,fontWeight:700,color:"#aaa",marginBottom:2}}>{label}</div>
+                    <div style={{color:"#0A2342",fontWeight:600}}>{String(val || "-")}</div>
                   </div>
                 ))}
               </div>
-
-              <h2 className="text-[14px] font-bold text-[#0A2342] mb-3">Top published listings</h2>
-              <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                <table className="w-full text-[12px]">
-                  <thead>
-                    <tr className="border-b border-gray-100">
-                      <th className="text-left px-4 py-2.5 text-[10px] font-bold tracking-widest uppercase text-gray-300">Rank</th>
-                      <th className="text-left px-4 py-2.5 text-[10px] font-bold tracking-widest uppercase text-gray-300">Listing</th>
-                      <th className="text-left px-4 py-2.5 text-[10px] font-bold tracking-widest uppercase text-gray-300">Score</th>
-                      <th className="text-left px-4 py-2.5 text-[10px] font-bold tracking-widest uppercase text-gray-300">Votes</th>
-                      <th className="text-left px-4 py-2.5 text-[10px] font-bold tracking-widest uppercase text-gray-300">Green</th>
-                      <th className="px-4 py-2.5"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {listings.slice(0, 8).map(l => (
-                      <tr key={l.id} className="border-b border-gray-50 hover:bg-gray-50">
-                        <td className="px-4 py-2.5 font-bold text-[#0A2342]">
-                          {l.ranking_position ? `#${l.ranking_position}` : <span className="text-[#E8723A]">R</span>}
-                        </td>
-                        <td className="px-4 py-2.5">
-                          <div className="font-semibold text-[#0A2342]">{l.name}</div>
-                          <div className="text-[10px] text-gray-400">{l.country}</div>
-                        </td>
-                        <td className="px-4 py-2.5">
-                          <span className="bg-blue-50 text-blue-800 font-bold px-2 py-0.5 rounded text-[11px]">
-                            {l.overall_score?.toFixed(1) ?? '—'}
-                          </span>
-                        </td>
-                        <td className="px-4 py-2.5 text-gray-500">{l.total_votes ?? 0}</td>
-                        <td className="px-4 py-2.5">
-                          {l.green_diver_approved
-                            ? <span className="w-2 h-2 rounded-full bg-green-500 inline-block" />
-                            : <span className="w-2 h-2 rounded-full bg-gray-200 inline-block" />}
-                        </td>
-                        <td className="px-4 py-2.5 text-right">
-                          <a href={`/listing/${l.id}`} className="text-[#1B6CA8] font-semibold text-[11px]">Edit</a>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            </div>
+            <div style={{marginTop:16,paddingTop:16,borderTop:"1px solid #eee"}}>
+              <div style={{fontSize:10,fontWeight:700,letterSpacing:0.5,textTransform:"uppercase",color:"#aaa",marginBottom:8}}>Ratings</div>
+              <div style={{display:"flex",gap:16}}>
+                {[["Dive", selected.dive_rating],["Food", selected.food_rating],["Stay", selected.stay_rating]].map(([l,v]) => (
+                  <div key={String(l)} style={{textAlign:"center"}}>
+                    <div style={{fontSize:24,fontWeight:700,color:Number(v) >= 8 ? "#2E7D32" : Number(v) >= 5 ? "#F57F17" : "#C62828"}}>{String(v || "-")}</div>
+                    <div style={{fontSize:10,color:"#aaa",fontWeight:600}}>{l}</div>
+                  </div>
+                ))}
               </div>
             </div>
-          )}
-
-          {/* Votes */}
-          {page === 'votes' && (
-            <div>
-              <h2 className="text-[14px] font-bold text-[#0A2342] mb-4">
-                Pending vote review
-                <span className="ml-2 text-[11px] font-normal text-gray-400">{stats.pending} votes awaiting verification</span>
-              </h2>
-
-              {pendingVotes.length === 0 ? (
-                <div className="bg-white border border-gray-200 rounded-xl p-8 text-center text-gray-400 text-sm">
-                  All caught up — no pending votes.
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {pendingVotes.map(vote => (
-                    <div key={vote.id} className="bg-white border border-gray-200 rounded-xl p-4">
-                      <div className="flex items-start justify-between mb-2">
-                        <div>
-                          <span className="font-semibold text-[13px] text-[#0A2342]">{vote.voters?.full_name ?? 'Unknown'}</span>
-                          <span className="text-[11px] text-gray-400 ml-2">
-                            {vote.voters?.voter_role?.replace(/_/g, ' ')} · {vote.voters?.logged_dives} dives · {vote.voters?.cert_agency}
-                          </span>
-                        </div>
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${statusColor[vote.status] ?? ''}`}>
-                          {vote.status}
-                        </span>
-                      </div>
-                      <div className="text-[12px] text-gray-500 mb-2">
-                        Voting for: <strong className="text-[#0A2342]">{vote.listings?.name}</strong> · {vote.listings?.country} · Visit: {vote.visit_date}
-                      </div>
-                      <div className="flex gap-1.5 mb-3">
-                        {vote.voted_dive && <span className="text-[9px] font-bold bg-[#E1F5F8] text-[#006D78] px-1.5 py-0.5 rounded">Dive</span>}
-                        {vote.voted_food && <span className="text-[9px] font-bold bg-[#FEF0E8] text-[#A84B1A] px-1.5 py-0.5 rounded">Food</span>}
-                        {vote.voted_stay && <span className="text-[9px] font-bold bg-[#E8EFF8] text-[#144F8C] px-1.5 py-0.5 rounded">Stay</span>}
-                      </div>
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => approveVote(vote.id)}
-                          className="text-[11px] font-bold bg-green-50 text-green-800 px-3 py-1.5 rounded-md border-none cursor-pointer"
-                        >
-                          ✓ Approve
-                        </button>
-                        <button
-                          onClick={() => rejectVote(vote.id, 'Insufficient proof')}
-                          className="text-[11px] font-bold bg-red-50 text-red-700 px-3 py-1.5 rounded-md border-none cursor-pointer"
-                        >
-                          ✕ Reject
-                        </button>
-                        <button className="text-[11px] text-gray-500 bg-gray-100 px-3 py-1.5 rounded-md border-none cursor-pointer">
-                          📎 View proof
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Rankings override */}
-          {page === 'rankings' && (
-            <div>
-              <h2 className="text-[14px] font-bold text-[#0A2342] mb-4">Ranking management</h2>
-              <div className="bg-[#F5F0E8] border border-[#E0D8CC] rounded-lg px-4 py-3 text-[12px] text-gray-600 mb-4">
-                <strong className="text-[#0A2342]">Committee override mode.</strong> Set manual positions below. All overrides are logged. Calculated scores are preserved.
+            {selected.comments && (
+              <div style={{marginTop:16,paddingTop:16,borderTop:"1px solid #eee"}}>
+                <div style={{fontSize:10,fontWeight:700,letterSpacing:0.5,textTransform:"uppercase",color:"#aaa",marginBottom:6}}>Comments</div>
+                <p style={{fontSize:13,color:"#555",lineHeight:1.6,margin:0}}>{selected.comments}</p>
               </div>
-              <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                <table className="w-full text-[12px]">
-                  <thead>
-                    <tr className="border-b border-gray-100">
-                      <th className="text-left px-4 py-2.5 text-[10px] font-bold uppercase text-gray-300 tracking-wide">Calc.</th>
-                      <th className="text-left px-4 py-2.5 text-[10px] font-bold uppercase text-gray-300 tracking-wide">Override</th>
-                      <th className="text-left px-4 py-2.5 text-[10px] font-bold uppercase text-gray-300 tracking-wide">Listing</th>
-                      <th className="text-left px-4 py-2.5 text-[10px] font-bold uppercase text-gray-300 tracking-wide">Score</th>
-                      <th className="text-left px-4 py-2.5 text-[10px] font-bold uppercase text-gray-300 tracking-wide">Green badge</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {listings.filter(l => l.ranking_position).slice(0, 8).map(l => (
-                      <tr key={l.id} className="border-b border-gray-50 hover:bg-gray-50">
-                        <td className="px-4 py-2.5 text-gray-400 font-semibold">#{l.ranking_position}</td>
-                        <td className="px-4 py-2.5">
-                          <input
-                            type="number"
-                            defaultValue={l.ranking_position ?? undefined}
-                            className="w-14 border border-gray-200 rounded px-2 py-1 text-[11px] focus:border-[#E8723A] outline-none"
-                          />
-                        </td>
-                        <td className="px-4 py-2.5">
-                          <div className="font-semibold text-[#0A2342]">{l.name}</div>
-                          <div className="text-[10px] text-gray-400">{l.country}</div>
-                        </td>
-                        <td className="px-4 py-2.5">
-                          <span className="bg-blue-50 text-blue-800 font-bold text-[11px] px-2 py-0.5 rounded">
-                            {l.overall_score?.toFixed(1)}
-                          </span>
-                        </td>
-                        <td className="px-4 py-2.5">
-                          <label className="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" defaultChecked={l.green_diver_approved} className="accent-green-600" />
-                            <span className={`text-[11px] ${l.green_diver_approved ? 'text-green-600' : 'text-gray-300'}`}>
-                              {l.green_diver_approved ? 'Approved' : 'Not eligible'}
-                            </span>
-                          </label>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <div className="mt-4 flex gap-2">
-                <button className="bg-[#0A2342] text-white text-[12px] font-bold px-4 py-2 rounded-lg border-none cursor-pointer">
-                  Save overrides
-                </button>
-                <button className="bg-white border border-gray-200 text-gray-500 text-[12px] px-4 py-2 rounded-lg cursor-pointer">
-                  Export to CSV
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Panel */}
-          {page === 'panel' && (
-            <div>
-              <h2 className="text-[14px] font-bold text-[#0A2342] mb-4">Professional Panel — Layer 1</h2>
-              <div className="bg-white border border-gray-200 rounded-xl p-4 text-[12px] text-gray-500 text-center py-8">
-                Panel members will appear here once loaded from the database.
-                <div className="mt-3">
-                  <button className="bg-[#0A2342] text-white text-[12px] font-bold px-4 py-2 rounded-lg border-none cursor-pointer">
-                    + Invite panel member
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Most Travelled Voter */}
-          {page === 'mtv' && (
-            <div>
-              <h2 className="text-[14px] font-bold text-[#0A2342] mb-4">Most Travelled Voter — 2026</h2>
-              <div className="bg-white border border-gray-200 rounded-xl p-4 text-[12px] text-gray-500 text-center py-8">
-                The leaderboard populates automatically as votes are approved. Requires minimum 5 verified votes across 3+ destinations to appear.
-              </div>
-            </div>
-          )}
-        </main>
-      </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
