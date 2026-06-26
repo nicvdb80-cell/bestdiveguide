@@ -7,7 +7,10 @@ export default function Home() {
       <nav style={{background:'#0A2342',height:'60px',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 2rem',position:'sticky',top:0,zIndex:100}}>
         <span style={{color:'#fff',fontWeight:700,fontSize:'18px'}}>Best<span style={{color:'#E8723A'}}>Dive</span>Guide</span>
         <div style={{display:'flex',gap:'1.5rem',alignItems:'center'}}>
-          <Link href="/top100" style={{color:'rgba(255,255,255,0.7)',textDecoration:'none',fontSize:'14px'}}>Top 100</Link>
+          <Link href="/stays" style={{color:'rgba(255,255,255,0.7)',textDecoration:'none',fontSize:'14px'}}>Best Dive Stays</Link>
+          <Link href="/food" style={{color:'rgba(255,255,255,0.7)',textDecoration:'none',fontSize:'14px'}}>Best Dive Food</Link>
+          <Link href="/sites" style={{color:'rgba(255,255,255,0.7)',textDecoration:'none',fontSize:'14px'}}>Best Dive Sites</Link>
+          <Link href="/sustainable" style={{color:'rgba(255,255,255,0.7)',textDecoration:'none',fontSize:'14px'}}>Most Sustainable</Link>
           <Link href="/vote" style={{background:'#E8723A',color:'#fff',padding:'8px 18px',borderRadius:'7px',textDecoration:'none',fontSize:'13px',fontWeight:600}}>Vote</Link>
         </div>
       </nav>
@@ -31,17 +34,19 @@ export default function Home() {
       </div>
 
       {/* Category cards */}
-      <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'1px',background:'#e8e8e8',borderTop:'1px solid #e8e8e8'}}>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'1px',background:'#e8e8e8',borderTop:'1px solid #e8e8e8'}}>
         {[
-          {icon:'dive',title:'Best Dive Stays',desc:'Where divers sleep the best. Resorts, liveaboards, boutique stays, island lodges.',color:'#E1F5F8',tc:'#0097A7'},
-          {icon:'food',title:'Best Dive Food',desc:'Where divers eat the best. Resort restaurants, liveaboard galleys, chef-led experiences.',color:'#FEF0E8',tc:'#E8723A'},
-          {icon:'site',title:'Best Dive Sites',desc:'Where divers dive the best. Reefs, walls, shark dives, manta encounters, wrecks.',color:'#E8EFF8',tc:'#1B6CA8'},
+          {href:'/stays',svg:'<svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z'/><polyline points='9 22 9 12 15 12 15 22'/></svg>',title:'Best Dive Stays',desc:'Where divers sleep the best. Resorts, liveaboards, boutique stays.',color:'#E1F5F8',tc:'#0097A7'},
+          {href:'/food',svg:'<svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M18 8h1a4 4 0 010 8h-1'/><path d='M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z'/><line x1='6' y1='1' x2='6' y2='4'/><line x1='10' y1='1' x2='10' y2='4'/><line x1='14' y1='1' x2='14' y2='4'/></svg>',title:'Best Dive Food',desc:'Where divers eat the best. Resort restaurants and liveaboard galleys.',color:'#FEF0E8',tc:'#E8723A'},
+          {href:'/sites',svg:'<svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><line x1='2' y1='12' x2='22' y2='12'/><path d='M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z'/></svg>',title:'Best Dive Sites',desc:'Where divers dive the best. Reefs, walls, shark dives, wrecks.',color:'#E8EFF8',tc:'#1B6CA8'},
+          {href:'/sustainable',svg:'<svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/></svg>',title:'Most Sustainable',desc:'Operators and resorts doing the right thing for the ocean and reef.',color:'#E8F5E9',tc:'#2E7D32'},
         ].map(c => (
-          <div key={c.title} style={{background:'#fff',padding:'2rem',textAlign:'center'}}>
-            <div style={{width:'48px',height:'48px',borderRadius:'50%',background:c.color,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 1rem',fontSize:'20px'}}>{c.icon}</div>
-            <h3 style={{fontSize:'16px',fontWeight:700,color:'#0A2342',marginBottom:'8px'}}>{c.title}</h3>
+          <Link key={c.title} href={c.href} style={{background:'#fff',padding:'2rem',textAlign:'center',textDecoration:'none',display:'block',transition:'background 0.2s'}}>
+            <div style={{width:'48px',height:'48px',borderRadius:'50%',background:c.color,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 1rem',color:c.tc}} dangerouslySetInnerHTML={{__html:c.svg}} />
+            <h3 style={{fontSize:'15px',fontWeight:700,color:'#0A2342',marginBottom:'8px'}}>{c.title}</h3>
             <p style={{fontSize:'13px',color:'#666',lineHeight:1.6}}>{c.desc}</p>
-          </div>
+            <span style={{display:'inline-block',marginTop:'12px',fontSize:'12px',fontWeight:600,color:c.tc}}>View rankings →</span>
+          </Link>
         ))}
       </div>
 
