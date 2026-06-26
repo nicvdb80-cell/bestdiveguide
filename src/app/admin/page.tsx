@@ -26,7 +26,7 @@ type Vote = {
   comments: string
 }
 
-const API = "https://flhsqerpikhihtirfutu.supabase.co/functions/v1/export-votes"
+const API = "https://flhsqerpikhihtirfutu.supabase.co/functions/v1/export-votes?key=BDG2025admin"
 
 const ADMIN_PIN = "BDG2025admin"
 
@@ -113,7 +113,7 @@ export default function AdminPage() {
     Object.entries(obj).sort((a, b) => b[1] - a[1]).slice(0, 5)
 
   const downloadCSV = () => {
-    window.open(API + "?format=csv", "_blank")
+    window.open(API + "&format=csv", "_blank")
   }
 
   const refresh = () => {
