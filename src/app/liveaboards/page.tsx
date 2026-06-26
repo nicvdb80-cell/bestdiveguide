@@ -216,7 +216,7 @@ export default function Liveaboards() {
                 {/* Body */}
                 <div style={{flex:1,minWidth:0}}>
                   <div style={{display:"flex",alignItems:"center",gap:"8px",flexWrap:"wrap",marginBottom:"6px"}}>
-                    <span style={{fontWeight:700,fontSize:"16px",color:"#0A2342"}}>{e.name}</span>
+                    {e.url ? <a href={e.url} target="_blank" rel="noopener noreferrer" style={{fontWeight:700,fontSize:"16px",color:"#0A2342",textDecoration:"none",borderBottom:"1px solid transparent"}}>{e.name}</a> : <span style={{fontWeight:700,fontSize:"16px",color:"#0A2342"}}>{e.name}</span>}
                     {e.winner && (
                       <span style={{background:"#E8723A",color:"#fff",fontSize:"10px",fontWeight:700,padding:"3px 10px",borderRadius:"4px",letterSpacing:"0.5px"}}>
                         WINNER
@@ -233,14 +233,6 @@ export default function Liveaboards() {
 
                   <p style={{fontSize:"13.5px",color:"#555",lineHeight:1.65,margin:"0 0 12px"}}>{e.desc}</p>
 
-                  <a href={e.url} target="_blank" rel="noopener noreferrer" style={{
-                    display:"inline-flex",alignItems:"center",gap:"6px",
-                    fontSize:"12px",fontWeight:700,color:"#0A2342",
-                    background:"#F0F2F5",padding:"6px 14px",borderRadius:"6px",
-                    textDecoration:"none",transition:"background 0.15s",
-                  }}>
-                    Visit website ↗
-                  </a>
                 </div>
               </div>
             )
