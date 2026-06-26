@@ -1,182 +1,185 @@
 "use client"
+
 import { useState } from "react"
 import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
 
-type Resort = {
-  rank: number
-  name: string
-  area: string
-  country: string
-  desc: string
-  url?: string
-  winner?: boolean
-  bestStay?: boolean
-}
+type E = {rank:number;name:string;loc:string;country:string;desc:string;url:string;lb:boolean}
 
-const ALL: Resort[] = [
-  { rank:1, name:"Coral Eye", area:"Bangka Island, North Sulawesi", country:"Indonesia", desc:"Best overall: boutique, intimate, design-led, excellent food, serious diving, strong house reef and warm hospitality.", url:"https://www.coraleye.com/", winner:true },
-  { rank:2, name:"Amun Ini Beach Resort", area:"Bohol", country:"Philippines", desc:"Boutique, polished, good for Bohol diving and relaxed luxury.", url:"https://www.amunini.com/" },
-  { rank:3, name:"Minang Cove Resort", area:"Tioman", country:"Malaysia", desc:"Small island resort, good dive setting, peaceful stay.", url:"https://www.minangcove.com.my/" },
-  { rank:4, name:"Six Senses Laamu", area:"Laamu Atoll", country:"Maldives", desc:"Excellent luxury stay, good house reef and sustainability.", url:"https://www.sixsenses.com/en/resorts/laamu/" },
-  { rank:5, name:"Koh Tao Cabana", area:"Koh Tao", country:"Thailand", desc:"Strong Thailand dive island base for mixed-level divers.", url:"https://www.kohtaocabana.com/" },
-  { rank:6, name:"Misool Resort", area:"Raja Ampat", country:"Indonesia", desc:"Best stay in Asia: remote private island, conservation-led, luxury but deeply connected to diving.", url:"https://www.misoolresort.com/", bestStay:true },
-  { rank:7, name:"Atmosphere Resort & Spa", area:"Dauin", country:"Philippines", desc:"One of the best luxury dive resorts in the Philippines.", url:"https://www.atmosphereresorts.com/" },
-  { rank:8, name:"Wakatobi Dive Resort", area:"Southeast Sulawesi", country:"Indonesia", desc:"One of Asia most complete luxury dive resorts, known for high service, fine dining and exceptional reef access.", url:"https://www.wakatobi.com/" },
-  { rank:9, name:"Siladen Resort & Spa", area:"Bunaken, North Sulawesi", country:"Indonesia", desc:"Excellent food, beachfront comfort, strong Bunaken diving and polished hospitality.", url:"https://www.siladenresort.com/" },
-  { rank:10, name:"Atlantis Dumaguete", area:"Dauin", country:"Philippines", desc:"Strong food reputation, macro and Apo Island access.", url:"https://www.atlantishotel.com/" },
-  { rank:11, name:"Papua Explorers", area:"Raja Ampat", country:"Indonesia", desc:"Strong diver-focused resort, great access to central Raja Ampat, excellent service.", url:"https://www.papuaexplorers.com/" },
-  { rank:12, name:"Bunga Raya Island Resort", area:"Sabah", country:"Malaysia", desc:"Luxury option with diving, more resort than dive lodge.", url:"https://www.bungarayaresort.com/" },
-  { rank:13, name:"Sorido Bay Resort", area:"Raja Ampat", country:"Indonesia", desc:"One of the original Raja Ampat dive pioneers, strong house reef and dive heritage.", url:"https://www.papuadiving.com/" },
-  { rank:14, name:"Atlantis Puerto Galera", area:"Puerto Galera", country:"Philippines", desc:"Classic dive resort with strong repeat-guest reputation.", url:"https://www.atlantishotel.com/" },
-  { rank:15, name:"Kri Eco Resort", area:"Raja Ampat", country:"Indonesia", desc:"Natural, eco-style, legendary location, excellent for real divers.", url:"https://www.papuadiving.com/" },
-  { rank:16, name:"Raja4Divers", area:"Raja Ampat", country:"Indonesia", desc:"Small, high-quality, quiet island feel, good for personal service.", url:"https://www.raja4divers.com/" },
-  { rank:17, name:"El Galleon Dive Resort", area:"Puerto Galera", country:"Philippines", desc:"Long-standing diver resort, good value and dive access.", url:"https://www.elgalleon.com/" },
-  { rank:18, name:"Cove Eco Resort", area:"Raja Ampat", country:"Indonesia", desc:"Boutique eco option, good comfort, strong house reef setting.", url:"https://www.coveecolodge.com/" },
-  { rank:19, name:"Sipadan Kapalai Dive Resort", area:"Sabah", country:"Malaysia", desc:"Iconic water-village, strong Sipadan and Mabul access.", url:"https://www.sipadankapalai.com/" },
-  { rank:20, name:"Meridian Adventure Dive", area:"Raja Ampat", country:"Indonesia", desc:"Modern resort base, good logistics, speedboat-based diving.", url:"https://www.meridianadventuredive.com/" },
-  { rank:21, name:"Magic Oceans Dive Resort", area:"Anda, Bohol", country:"Philippines", desc:"Quiet, well-reviewed, strong house reef and macro/reef mix.", url:"https://www.magicoceans.ph/" },
-  { rank:22, name:"Murex Bangka", area:"Bangka Island, North Sulawesi", country:"Indonesia", desc:"Strong diving, good for combining Bangka, Bunaken and Lembeh.", url:"https://www.murexdive.com/" },
-  { rank:23, name:"Four Seasons Landaa Giraavaru", area:"Baa Atoll", country:"Maldives", desc:"High-end with marine biology, manta access and service.", url:"https://www.fourseasons.com/maldiveslandaagiraavaru/" },
-  { rank:24, name:"Murex Manado", area:"Manado, North Sulawesi", country:"Indonesia", desc:"Reliable classic dive resort for Bunaken walls and North Sulawesi.", url:"https://www.murexdive.com/" },
-  { rank:25, name:"Magic Island Dive Resort", area:"Moalboal", country:"Philippines", desc:"Good for sardine run, reefs and relaxed atmosphere.", url:"https://www.magicisland.com.ph/" },
-  { rank:26, name:"Lembeh Resort", area:"Lembeh Strait", country:"Indonesia", desc:"One of Asia best macro photography resorts, serious critter reputation.", url:"https://www.lembehresort.com/" },
-  { rank:27, name:"Mabul Water Bungalows", area:"Sabah", country:"Malaysia", desc:"Best luxury-style base around Mabul and Sipadan.", url:"https://www.mabulwaterbungalows.com/" },
-  { rank:28, name:"The Sarojin", area:"Khao Lak", country:"Thailand", desc:"Best stay-style base for Similan and Richelieu trips.", url:"https://www.sarojin.com/" },
-  { rank:29, name:"NAD Lembeh", area:"Lembeh Strait", country:"Indonesia", desc:"Photographer-focused, strong dive guides, good value for macro divers.", url:"https://www.nad-lembeh.com/" },
-  { rank:30, name:"Evolution Dive Resort", area:"Malapascua", country:"Philippines", desc:"Strong thresher shark diving reputation.", url:"https://www.evolution.com.ph/" },
-  { rank:31, name:"Solitude Lembeh Resort", area:"Lembeh Strait", country:"Indonesia", desc:"Comfortable, photographer-friendly, strong macro diving base.", url:"https://www.solitudeliveaboards.com/" },
-  { rank:32, name:"Black Sand Dive Retreat", area:"Lembeh Strait", country:"Indonesia", desc:"Boutique macro resort for photographers and critter hunters.", url:"https://www.blacksanddive.com/" },
-  { rank:33, name:"Buena Vida Resort & Spa", area:"Malapascua", country:"Philippines", desc:"Boutique stay option for Malapascua divers.", url:"https://www.buenavida.ph/" },
-  { rank:34, name:"Bastianos Lembeh", area:"Lembeh Strait", country:"Indonesia", desc:"Good value, established operation, easy access to muck sites.", url:"https://www.bastianos.com/" },
-  { rank:35, name:"Bastianos Bangka", area:"Bangka Island", country:"Indonesia", desc:"Good diving, nice pool and dining setting with good food.", url:"https://www.bastianos.com/" },
-  { rank:36, name:"Aiyanar Beach & Dive", area:"Anilao", country:"Philippines", desc:"High-quality with strong macro access and photography appeal.", url:"https://www.aiyanar.com/" },
-  { rank:37, name:"Borneo Divers Mabul Resort", area:"Sabah", country:"Malaysia", desc:"Established Sipadan operator, strong infrastructure.", url:"https://www.borneodivers.com/" },
-  { rank:38, name:"Sea Souls Dive Resort", area:"Bangka Island", country:"Indonesia", desc:"Strong guest comments for organized dives, good food and warm staff.", url:"https://www.seasoulsdiveresort.com/" },
-  { rank:39, name:"Buceo Anilao Beach & Dive", area:"Anilao", country:"Philippines", desc:"Serious resort with strong guide reputation and macro focus.", url:"https://www.buceoanilao.com/" },
-  { rank:40, name:"Gangga Island Resort & Spa", area:"North Sulawesi", country:"Indonesia", desc:"Elegant island resort, strong access to Bangka, Bunaken and Lembeh.", url:"https://www.ganggaisland.com/" },
-  { rank:41, name:"Alam Batu", area:"East Bali", country:"Indonesia", desc:"Relaxed, remote Bali dive resort with macro, reef and shore diving.", url:"https://www.alambatu.com/" },
-  { rank:42, name:"Soneva Fushi", area:"Baa Atoll", country:"Maldives", desc:"Ultra-luxury barefoot stay, strong marine life access.", url:"https://www.soneva.com/soneva-fushi/" },
-  { rank:43, name:"Crystal Blue Resort", area:"Anilao", country:"Philippines", desc:"Photographer-friendly with excellent macro diving.", url:"https://www.crystalblueresort.com/" },
-  { rank:44, name:"Scuba Seraya Resort", area:"Tulamben, Bali", country:"Indonesia", desc:"Good for macro and Liberty wreck, simple but diver-friendly.", url:"https://www.scubaseraya.com/" },
-  { rank:45, name:"Seaventures Dive Rig", area:"Sabah", country:"Malaysia", desc:"Unique converted oil-rig for serious Sipadan divers.", url:"https://www.seaventuresdive.com/" },
-  { rank:46, name:"Mimpi Resort Tulamben", area:"Tulamben, Bali", country:"Indonesia", desc:"Best easy Bali wreck-diving resort for comfort and access.", url:"https://www.mimpi.com/" },
-  { rank:47, name:"Solitude Acacia Resort", area:"Anilao", country:"Philippines", desc:"Comfortable with calm atmosphere for photographers.", url:"https://www.solitudeliveaboards.com/" },
-  { rank:48, name:"Kalimaya Dive Resort", area:"Sumbawa", country:"Indonesia", desc:"Remote, strong Coral Triangle diving, good food and stay.", url:"https://www.kalimaya-dive-resort.com/" },
-  { rank:49, name:"Komodo Resort", area:"Sebayur Island, Komodo", country:"Indonesia", desc:"Strong Komodo access with proper resort comfort and dive focus.", url:"https://www.komodoresort.com/" },
-  { rank:50, name:"Eagle Point Beach & Dive", area:"Anilao", country:"Philippines", desc:"Long-established with direct dive access and broad appeal.", url:"https://www.eaglepoint.com.ph/" },
-  { rank:51, name:"Sudamala Resort Seraya", area:"Labuan Bajo, Komodo", country:"Indonesia", desc:"Best stay-style Komodo resort, comfort with diving.", url:"https://www.sudamalaresorts.com/" },
-  { rank:52, name:"The Datai Langkawi", area:"Langkawi", country:"Malaysia", desc:"One of Asia best nature-luxury stays with marine access.", url:"https://www.thedatai.com/" },
-  { rank:53, name:"Jamahkiri Dive Resort & Spa", area:"Koh Tao", country:"Thailand", desc:"Comfortable resort with dive access and sea views.", url:"https://www.jamahkiri.com/" },
-  { rank:54, name:"Bunaken Oasis Dive Resort", area:"Bunaken, North Sulawesi", country:"Indonesia", desc:"High-end Bunaken option, strong service, boutique comfort.", url:"https://www.bunakenoasis.com/" },
-  { rank:55, name:"Marco Vincent Dive Resort", area:"Puerto Galera", country:"Philippines", desc:"Classic resort with strong repeat-guest reputation.", url:"https://www.marcovincent.com/" },
-  { rank:56, name:"Tasik Ria Resort", area:"Manado", country:"Indonesia", desc:"Classic North Sulawesi dive base, good logistics for Bunaken.", url:"https://www.tasikria.com/" },
-  { rank:57, name:"Papua Paradise Eco Resort", area:"Raja Ampat", country:"Indonesia", desc:"Luxury eco-style base with strong reef access and overwater bungalows.", url:"https://www.papuaparadise.com/" },
-  { rank:58, name:"Dolphinbay Beachfront & Dive", area:"Puerto Galera", country:"Philippines", desc:"Quiet option with beachfront setting and reef access.", url:"https://www.dolphinbayresort.com/" },
-  { rank:59, name:"Dive Into Raja Ampat", area:"Raja Ampat", country:"Indonesia", desc:"Good-value resort with direct dive access and diver-first feel.", url:"https://www.diveintorajaampat.com/" },
-  { rank:60, name:"Mataking Reef Resort", area:"Semporna, Sabah", country:"Malaysia", desc:"Island resort with Sipadan-area access and house reef.", url:"https://www.mataking.com/" },
-  { rank:61, name:"Biodiversity Eco Resort", area:"Raja Ampat", country:"Indonesia", desc:"Small eco resort with house-reef atmosphere and conservation focus.", url:"https://www.biodiversityecoresort.com/" },
-  { rank:62, name:"Kasai Village Dive Resort", area:"Moalboal", country:"Philippines", desc:"Established for sardine run, turtles and Cebu diving.", url:"https://www.kasaivillage.com/" },
-  { rank:63, name:"Park Hyatt Maldives Hadahaa", area:"Gaafu Alifu Atoll", country:"Maldives", desc:"Beautiful house reef, luxury villas, stay-plus-dive balance.", url:"https://www.hyatt.com/park-hyatt/malph-park-hyatt-maldives-hadahaa/" },
-  { rank:64, name:"Agusta Eco Resort", area:"Raja Ampat", country:"Indonesia", desc:"Remote private-island feel, clear water and peaceful stay.", url:"https://www.agustaecoresort.com/" },
-  { rank:65, name:"Waiwo Dive Resort", area:"Raja Ampat", country:"Indonesia", desc:"Accessible option near Waisai, easier logistics and transfers.", url:"https://www.waiwodiveresort.com/" },
-  { rank:66, name:"Quo Vadis Dive Resort", area:"Moalboal", country:"Philippines", desc:"Practical diver base with convenient site access.", url:"https://www.quovadisresort.com/" },
-  { rank:67, name:"Scuba Republic Raja Ampat", area:"Raja Ampat", country:"Indonesia", desc:"Simple diver-focused base with practical site access.", url:"https://www.scubarepublic.com/" },
-  { rank:68, name:"Onong Resort", area:"Siladen, North Sulawesi", country:"Indonesia", desc:"Small island resort with Bunaken access and Italian hospitality.", url:"https://www.onongresort.com/" },
-  { rank:69, name:"Liquid Dive Resort", area:"Dauin", country:"Philippines", desc:"Modern resort with strong diving and Apo access.", url:"https://www.liquiddumaguete.com/" },
-  { rank:70, name:"Sipadan-Mabul Resort", area:"Mabul, Sabah", country:"Malaysia", desc:"Established Sipadan-area resort with strong diving.", url:"https://www.sipadan-mabul.com.my/" },
-  { rank:71, name:"Living Colours Diving", area:"Bunaken, North Sulawesi", country:"Indonesia", desc:"Established Bunaken dive base with friendly atmosphere.", url:"https://www.livingcoloursdiving.com/" },
-  { rank:72, name:"Pura Vida Beach & Dive", area:"Dauin", country:"Philippines", desc:"Long-running beach resort with strong diver community.", url:"https://www.puravidabeachanddiveresort.com/" },
-  { rank:73, name:"Cocotinos Manado", area:"Manado, North Sulawesi", country:"Indonesia", desc:"Comfortable resort with Bunaken dive logistics.", url:"https://www.cocotinos.com/" },
-  { rank:74, name:"Thalassa Dive Resort", area:"Manado, North Sulawesi", country:"Indonesia", desc:"Long-running operator with flexible Bunaken diving.", url:"https://www.thalassamanado.com/" },
-  { rank:75, name:"Ocean Vida Beach & Dive", area:"Malapascua", country:"Philippines", desc:"Beachfront base with thresher-shark diving.", url:"https://www.oceanvida.com/" },
-  { rank:76, name:"Two Fish Divers Lembeh", area:"Lembeh Strait", country:"Indonesia", desc:"Good-value macro base with practical dive packages.", url:"https://www.twofishdivers.com/" },
-  { rank:77, name:"Scuba Junkie Mabul", area:"Mabul, Sabah", country:"Malaysia", desc:"Diver-first with conservation focus and Sipadan access.", url:"https://www.scubajunkie.com/" },
-  { rank:78, name:"Haad Tien Beach Resort", area:"Koh Tao", country:"Thailand", desc:"Stay-focused resort with beach setting and dive access.", url:"https://www.haadtien.com/" },
-  { rank:79, name:"Kungkungan Bay Resort", area:"Lembeh Strait", country:"Indonesia", desc:"Historic Lembeh resort with macro-diving legacy.", url:"https://www.kungkungan.com/" },
-  { rank:80, name:"Tepanee Beach Resort", area:"Malapascua", country:"Philippines", desc:"Boutique stay with comfort and dive access.", url:"https://www.tepanee.com/" },
-  { rank:81, name:"Blue Bay Divers", area:"Bangka, North Sulawesi", country:"Indonesia", desc:"Small dive base with good reef access and quiet setting.", url:"https://www.bluebaydivers.de/" },
-  { rank:82, name:"Machchafushi Island Resort", area:"South Ari Atoll", country:"Maldives", desc:"Whale-shark area, house reef and polished comfort.", url:"https://www.machchafushi.com/" },
-  { rank:83, name:"Tauch Terminal Resort", area:"Tulamben, Bali", country:"Indonesia", desc:"Classic Tulamben dive hotel with wreck and shore access.", url:"https://www.tauchterminal.com/" },
-  { rank:84, name:"Sangat Island Dive Resort", area:"Coron", country:"Philippines", desc:"Iconic wreck-diving island resort near Coron wrecks.", url:"https://www.sangatisland.com/" },
-  { rank:85, name:"Villa Markisa", area:"Tulamben, Bali", country:"Indonesia", desc:"Boutique resort with macro reputation and refined comfort.", url:"https://www.villa-markisa.com/" },
-  { rank:86, name:"Lankayan Island Dive Resort", area:"Sabah", country:"Malaysia", desc:"Remote island with macro, wreck and reef diving.", url:"https://www.lankayan-island.com/" },
-  { rank:87, name:"Siddhartha Resort & Spa", area:"Kubu, Bali", country:"Indonesia", desc:"Comfortable oceanfront resort with diving and spa.", url:"https://www.siddharthabali.com/" },
-  { rank:88, name:"El Rio y Mar Resort", area:"Busuanga, Coron", country:"Philippines", desc:"Comfortable Palawan resort with wreck diving.", url:"https://www.elrioymar.com/" },
-  { rank:89, name:"Matahari Tulamben Resort", area:"Tulamben, Bali", country:"Indonesia", desc:"Simple, reliable resort for Liberty wreck and value stays.", url:"https://www.matahari-tulamben.com/" },
-  { rank:90, name:"Kubu Indah Dive & Spa", area:"Kubu, Bali", country:"Indonesia", desc:"Quiet northeast Bali resort with shore diving.", url:"https://www.kubuindah.com/" },
-  { rank:91, name:"Club Paradise Palawan", area:"Coron, Dimakya Island", country:"Philippines", desc:"Luxury-leaning island resort with diving access.", url:"https://www.clubparadisepalawan.com/" },
-  { rank:92, name:"Bali Dive Resort Amed", area:"Amed, Bali", country:"Indonesia", desc:"Good Amed dive resort with shore and boat diving.", url:"https://www.balidiveresort.com/" },
-  { rank:93, name:"Uncle Chang Sipadan Lodge", area:"Mabul, Sabah", country:"Malaysia", desc:"Simple diver-first base with budget Sipadan access.", url:"https://www.scuba-junkie.com/" },
-  { rank:94, name:"Lotus Bungalows", area:"Candidasa, Bali", country:"Indonesia", desc:"Reliable east Bali base for Padang Bai and Nusa Penida.", url:"https://www.lotusbungalows.com/" },
-  { rank:95, name:"Scandi Divers Resort", area:"Puerto Galera", country:"Philippines", desc:"Well-known resort with easy reef and macro access.", url:"https://www.scandidivers.com/" },
-  { rank:96, name:"Alam Anda Resort", area:"North Bali", country:"Indonesia", desc:"Peaceful oceanfront resort with diving and spa.", url:"https://www.alamanda.de/" },
-  { rank:97, name:"Mimpi Resort Menjangan", area:"Northwest Bali", country:"Indonesia", desc:"Comfortable base for Menjangan walls and relaxed stay.", url:"https://www.mimpi.com/" },
-  { rank:98, name:"Mike Dauin Beach Resort", area:"Dauin", country:"Philippines", desc:"Friendly smaller resort with macro access and value.", url:"https://www.mikedauinbeachresort.com/" },
-  { rank:99, name:"Zen Resort Bali", area:"Pemuteran, Bali", country:"Indonesia", desc:"Wellness-led resort with Menjangan dive access.", url:"https://www.zenresortbali.com/" },
+const DATA:E[] = [
+{rank:1,name:"Coral Eye",loc:"Bangka Island",country:"Indonesia",desc:"Boutique dive stay where food is part of the identity: Indonesian flavour, Italian/Mediterranean soul, communal table, fresh island rhythm and consistently strong food praise.",url:"https://www.coral-eye.com/",lb:false},
+{rank:2,name:"Siladen Resort & Spa",loc:"Bunaken",country:"Indonesia",desc:"One of Asia's most reliable food-and-dive resorts: refined Italian influence, seafood, Indonesian dishes, beach dinners and strong guest love for restaurant quality.",url:"https://www.siladen.com/",lb:false},
+{rank:3,name:"Wakatobi Dive Resort",loc:"Wakatobi",country:"Indonesia",desc:"Remote luxury full-board dining with polished service, generous buffets, chef-prepared meals and a serious dive operation on one of Asia's best reefs.",url:"https://www.wakatobi.com/",lb:false},
+{rank:4,name:"Misool Resort",loc:"Raja Ampat",country:"Indonesia",desc:"Private-island conservation resort where the dining feels cared for: fresh, elegant meals, smooth dive-day rhythm and a setting that makes every dinner memorable.",url:"https://www.misool.info/",lb:false},
+{rank:5,name:"Six Senses Laamu",loc:"Laamu Atoll",country:"Maldives",desc:"Luxury food program on the same level as the diving: organic gardens, multiple restaurants, sustainability, ice cream, reef life and manta-season diving.",url:"https://www.sixsenses.com/en/resorts/laamu/",lb:false},
+{rank:6,name:"Atmosphere Resort & Spa",loc:"Dauin",country:"Philippines",desc:"Probably the strongest luxury food reputation among Philippine dive resorts: bakery, multiple restaurants, specials, dietary care and excellent Dauin/Apo diving.",url:"https://www.atmosphereresorts.com/",lb:false},
+{rank:7,name:"Atlantis Dumaguete",loc:"Dauin",country:"Philippines",desc:"Diver-first resort with a real kitchen reputation: varied menus, strong chef praise, special-diet handling and relaxed beach dining after Dauin macro dives.",url:"https://www.atlantishotel.com/dumaguete-resort/",lb:false},
+{rank:8,name:"Park Hyatt Maldives Hadahaa",loc:"Gaafu Alifu Atoll",country:"Maldives",desc:"Luxury island with excellent restaurants, polished service, a 360-degree house reef and serious Blue Journeys diving from the resort.",url:"https://www.hyatt.com/park-hyatt/en-US/mldph-park-hyatt-maldives-hadahaa",lb:false},
+{rank:9,name:"Dive Into Lembeh",loc:"Lembeh Strait",country:"Indonesia",desc:"Macro-diver favourite with unusually strong food comments, including vegan, vegetarian and gluten-free care; meals feel personal, not generic.",url:"https://diveintolembeh.com/",lb:false},
+{rank:10,name:"Lembeh Resort",loc:"Lembeh Strait",country:"Indonesia",desc:"High-end macro resort with comfort food, Indonesian dishes, famous diver snacks and a restaurant rhythm built around long camera days.",url:"https://www.lembehresort.com/",lb:false},
+{rank:11,name:"Papua Explorers Dive Resort",loc:"Raja Ampat",country:"Indonesia",desc:"Overwater dining, fresh Indonesian and Western meals, good vegetarian handling and a remote Raja Ampat atmosphere that makes simple food feel special.",url:"https://www.papua-diving.com/papua-explorers/",lb:false},
+{rank:12,name:"Komodo Resort",loc:"Sebayur Island",country:"Indonesia",desc:"Italian-linked island resort with good dining, fresh seafood, relaxed full-board style and some of Asia's most exciting diving on the doorstep.",url:"https://www.komodoresort.com/",lb:false},
+{rank:13,name:"Amun Ini Beach Resort & Spa",loc:"Anda",country:"Philippines",desc:"Boutique, polished, quiet and food-friendly; a strong choice when you want comfort, good meals and Bohol diving without a big-resort feeling.",url:"https://www.amunini.com/",lb:false},
+{rank:14,name:"Magic Oceans Dive Resort",loc:"Anda",country:"Philippines",desc:"Small dive resort with friendly service and strong meal reputation; the food fits the relaxed, personal dive-house atmosphere.",url:"https://www.magicresorts.online/magic-oceans",lb:false},
+{rank:15,name:"Agusta Eco Resort",loc:"Raja Ampat",country:"Indonesia",desc:"Italian-influenced remote island resort where guests often remember the food, the hospitality and the feeling of dining in wild Raja Ampat.",url:"https://www.agustaresort.com/",lb:false},
+{rank:16,name:"Manta Ray Bay Resort & Yap Divers",loc:"Yap",country:"Micronesia",desc:"One of Micronesia's true dive hotels, with the Mnuw restaurant/bar culture, family operation and manta diving giving it a real destination identity.",url:"https://mantaray.com/",lb:false},
+{rank:17,name:"Baros Maldives",loc:"North Male Atoll",country:"Maldives",desc:"Small luxury island with refined restaurants, strong house reef, excellent service and a proper dive centre; food is a core reason people return.",url:"https://www.baros.com/",lb:false},
+{rank:18,name:"Milaidhoo Maldives",loc:"Baa Atoll",country:"Maldives",desc:"Luxury island known for food, Maldivian story-telling, Ba'theli dining and excellent Baa Atoll marine access.",url:"https://www.milaidhoo.com/",lb:false},
+{rank:19,name:"Soneva Fushi",loc:"Baa Atoll",country:"Maldives",desc:"Food is genuinely world-class: gardens, chocolate room, ice cream, destination dining and strong diving/snorkelling in the Baa Atoll.",url:"https://soneva.com/resorts/soneva-fushi/",lb:false},
+{rank:20,name:"Four Seasons Landaa Giraavaru",loc:"Baa Atoll",country:"Maldives",desc:"High-level resort dining with serious marine biology, manta access and polished diving; ideal when food, reef and service must all be strong.",url:"https://www.fourseasons.com/maldiveslg/",lb:false},
+{rank:21,name:"Anantara Kihavah Maldives Villas",loc:"Baa Atoll",country:"Maldives",desc:"Underwater dining, wine cellar, refined island restaurants and Baa Atoll diving make it one of the strongest luxury food-and-reef combinations.",url:"https://www.anantara.com/en/kihavah-maldives",lb:false},
+{rank:22,name:"Gili Lankanfushi",loc:"North Male Atoll",country:"Maldives",desc:"Barefoot luxury with organic garden dining, strong sustainability, overwater meals and easy dive/snorkel access.",url:"https://www.gili-lankanfushi.com/",lb:false},
+{rank:23,name:"The Junk Liveaboard",loc:"Similan / Surin / Richelieu Rock",country:"Thailand",desc:"Thailand liveaboard with strong food praise: Thai meals, warm crew, comfortable rhythm and diving that matches the hospitality.",url:"https://thejunk.com/",lb:true},
+{rank:24,name:"The Smiling Seahorse",loc:"Thailand / Myanmar Mergui Archipelago",country:"Thailand",desc:"A food-loved liveaboard: plentiful Thai and international meals, special-diet care, friendly crew and serious remote diving.",url:"https://www.thesmilingseahorse.com/",lb:true},
+{rank:25,name:"The Phinisi Liveaboard",loc:"Thailand / Myanmar",country:"Thailand",desc:"Comfortable liveaboard where the galley and service matter: Thai-style meals, relaxed dining and strong Similan/Mergui dive itineraries.",url:"https://www.thephinisi.com/",lb:true},
+{rank:26,name:"S/Y Philippine Siren",loc:"Tubbataha / Visayas",country:"Philippines",desc:"Premium liveaboard with chef-prepared meals, snacks between dives and itineraries that reach the Philippines' best reefs.",url:"https://sirenfleet.com/philippine-siren/",lb:true},
+{rank:27,name:"M/V Infiniti",loc:"Tubbataha / Visayas",country:"Philippines",desc:"Spacious liveaboard with generous meal service, Indian and international kitchen strengths and big-ticket Philippine diving.",url:"https://www.infinitiliveaboard.com/",lb:true},
+{rank:28,name:"Solitude One",loc:"Palau / Philippines / Micronesia routes",country:"Philippines",desc:"Well-run liveaboard brand with good food, careful service and routes that fit serious divers who still want comfort.",url:"https://solitude.world/liveaboard/solitude-one/",lb:true},
+{rank:29,name:"M/V Blue Manta",loc:"Indonesia / Philippines routes",country:"Philippines",desc:"Large, comfortable liveaboard with generous Asian-Western meals, good snacks and strong itineraries across remote dive regions.",url:"https://www.whitemanta.com/blue-manta/",lb:true},
+{rank:30,name:"M/V White Manta",loc:"Indonesia / Philippines routes",country:"Philippines",desc:"Reliable liveaboard operator with hearty food, attentive crew and dive routes where meal timing is part of the experience.",url:"https://www.whitemanta.com/white-manta/",lb:true},
+{rank:31,name:"Dewi Nusantara",loc:"Raja Ampat / Banda Sea / Indonesia",country:"Philippines",desc:"Elegant Indonesian liveaboard where food, space and service are consistently positioned as luxury, not just support for diving.",url:"https://www.dewi-nusantara.com/",lb:true},
+{rank:32,name:"Arenui Boutique Liveaboard",loc:"Indonesia routes",country:"Indonesia",desc:"Boutique liveaboard famous for style, hospitality and chef-driven meals; food is a major part of the premium dive journey.",url:"https://www.thearenui.com/",lb:true},
+{rank:33,name:"Damai I & II",loc:"Indonesia routes",country:"Indonesia",desc:"Luxury liveaboards with personalized service, flexible menus and dining that feels closer to a private yacht than a dive boat.",url:"https://www.dive-damai.com/",lb:true},
+{rank:34,name:"Seven Seas Liveaboard",loc:"Komodo / Raja Ampat / Banda Sea",country:"Philippines",desc:"Classic high-end Indonesian liveaboard with strong crew, proper meals and long-standing reputation among serious divers.",url:"https://www.thesevenseas.net/",lb:true},
+{rank:35,name:"Mermaid I & II",loc:"Indonesia / Thailand routes",country:"Thailand",desc:"Trusted liveaboard brand with good Asian-Western food, efficient service and reliable itineraries across Asia's best dive areas.",url:"https://www.mermaid-liveaboards.com/",lb:true},
+{rank:36,name:"Emperor Harmoni",loc:"Indonesia routes",country:"Indonesia",desc:"Large luxury Indonesian liveaboard with generous meals, spacious dining and strong comfort for Raja Ampat/Komodo/Banda diving.",url:"https://www.emperordivers.com/liveaboards/emperor-harmoni",lb:true},
+{rank:37,name:"Scubaspa Ying / Yang",loc:"Maldives",country:"Maldives",desc:"Maldives liveaboard where food, spa and dive comfort are all part of the product; more resort-like than basic dive boat.",url:"https://www.scubaspa.com/",lb:true},
+{rank:38,name:"Carpe Diem Maldives",loc:"Maldives",country:"Maldives",desc:"Well-known Maldives liveaboard with hearty meals, relaxed salon dining and classic manta/channel diving itineraries.",url:"https://www.carpediemmaldives.com/",lb:true},
+{rank:39,name:"Carpe Vita Maldives",loc:"Maldives",country:"Maldives",desc:"Higher-comfort Maldives liveaboard with strong food service and smooth dive-day rhythm for central atoll itineraries.",url:"https://www.carpediemmaldives.com/carpe-vita/",lb:true},
+{rank:40,name:"Sachika Maldives",loc:"Maldives",country:"Maldives",desc:"Italian-managed Maldives liveaboard known for good meals, warm service and relaxed post-dive dining.",url:"https://www.sachikamaldives.com/",lb:true},
+{rank:41,name:"Searex Liveaboards",loc:"Maldives",country:"Maldives",desc:"Practical Maldives liveaboards with abundant food, dive-focused schedule and good value for food-plus-diving travellers.",url:"https://searexmaldives.com/",lb:true},
+{rank:42,name:"Sipadan Kapalai Dive Resort",loc:"Sabah",country:"Malaysia",desc:"Iconic overwater dive resort; buffet food, seafood and island atmosphere make it memorable alongside Sipadan access.",url:"https://www.sipadan-kapalai.com/",lb:false},
+{rank:43,name:"Mabul Water Bungalows",loc:"Sabah",country:"Malaysia",desc:"Comfortable Sipadan-region stay with good buffet reputation, overwater setting and easy dive logistics.",url:"https://www.mabulwaterbungalows.com/",lb:false},
+{rank:44,name:"Borneo Divers Mabul Resort",loc:"Sabah",country:"Malaysia",desc:"Serious Sipadan dive base with full-board meals, diver social rhythm and reliable island hospitality.",url:"https://www.borneodivers.info/",lb:false},
+{rank:45,name:"Mataking Reef Dive Resort",loc:"Sabah",country:"Malaysia",desc:"Private-island feel, good resort food, seafood and strong reef/Sipadan-region diving make it a food-friendly Malaysian choice.",url:"https://www.mataking.com/",lb:false},
+{rank:46,name:"Lankayan Island Dive Resort",loc:"Sabah",country:"Malaysia",desc:"Remote island full-board resort where meals, turtles, reef diving and quiet atmosphere create a complete escape.",url:"https://www.lankayan-island.com/",lb:false},
+{rank:47,name:"Japamala Resort",loc:"Tioman",country:"Malaysia",desc:"Boutique jungle-beach resort with strong food/stay reputation and easy Tioman diving; less dive-first, but food is clearly above average.",url:"https://www.japamalaresorts.com/",lb:false},
+{rank:48,name:"Minang Cove Resort",loc:"Tioman",country:"Malaysia",desc:"Small island retreat where fresh simple food, peace and Tioman dive/snorkel access make the stay special.",url:"https://www.minangcove.com/",lb:false},
+{rank:49,name:"Papua Paradise Eco Resort",loc:"Raja Ampat",country:"Indonesia",desc:"Overwater rooms, good meals, smooth full-board rhythm and strong Raja Ampat diving in a more comfortable eco-resort style.",url:"https://www.papuaparadise.com/",lb:false},
+{rank:50,name:"Raja4Divers",loc:"Raja Ampat",country:"Indonesia",desc:"Small personal island resort with simple, cared-for meals, intimate hospitality and one of the best reef settings in Raja Ampat.",url:"https://www.raja4divers.com/",lb:false},
+{rank:51,name:"Sorido Bay Resort",loc:"Raja Ampat",country:"Indonesia",desc:"Long-standing serious dive resort with organized full-board dining and a location made for hardcore Raja Ampat divers.",url:"https://www.papua-diving.com/sorido-bay-resort/",lb:false},
+{rank:52,name:"Cove Eco Resort",loc:"Raja Ampat",country:"Indonesia",desc:"Boutique eco resort with good fresh meals, remote beach atmosphere and a balanced comfort/dive experience.",url:"https://www.coveecoresort.com/",lb:false},
+{rank:53,name:"Meridian Adventure Dive Resort",loc:"Raja Ampat",country:"Indonesia",desc:"Modern resort base with polished service, restaurant/bar setup and daily dive access into Raja Ampat.",url:"https://raja.meridianadventuredive.com/",lb:false},
+{rank:54,name:"Kri Eco Resort",loc:"Raja Ampat",country:"Indonesia",desc:"Rustic but iconic; communal meals, remote-diver atmosphere and legendary reefs make it important for food-and-dive culture.",url:"https://www.papua-diving.com/kri-eco-resort/",lb:false},
+{rank:55,name:"Kalimaya Dive Resort",loc:"Sumbawa",country:"Indonesia",desc:"Remote boutique resort with strong food/accommodation comments and access to rarely dived Sumbawa and Komodo-edge sites.",url:"https://www.kalimayadive.com/",lb:false},
+{rank:56,name:"Gangga Island Resort & Spa",loc:"North Sulawesi",country:"Indonesia",desc:"Elegant island resort with Indonesian/European dining, sunset meals and strong access to Bangka/Bunaken/Lembeh-style diving.",url:"https://www.ganggaisland.com/",lb:false},
+{rank:57,name:"Sea Souls Dive Resort",loc:"Bangka Island",country:"Indonesia",desc:"Relaxed Bangka dive resort where guests praise warm service, home-style food and the easy rhythm between dives and meals.",url:"https://www.seasoulsdive.com/",lb:false},
+{rank:58,name:"Murex Bangka",loc:"Bangka Island",country:"Indonesia",desc:"Reliable North Sulawesi operator with full-board meals, friendly service and the option to combine Bangka, Manado and Lembeh.",url:"https://murexdive.com/bangka-resort/",lb:false},
+{rank:59,name:"Murex Manado",loc:"Manado / Bunaken",country:"Indonesia",desc:"Classic, efficient dive resort with good meals, gardens and easy Bunaken access; strong for divers who want reliable comfort.",url:"https://murexdive.com/manado-resort/",lb:false},
+{rank:60,name:"Bastianos Bangka",loc:"Bangka Island",country:"Indonesia",desc:"Good-value Bangka base with diver-friendly food, beach setting and relaxed full-board atmosphere.",url:"https://bastianos.com/bangka/",lb:false},
+{rank:61,name:"Bunaken Oasis Dive Resort",loc:"Bunaken",country:"Indonesia",desc:"Boutique high-comfort Bunaken resort with better dining than typical dive bases and a strong service reputation.",url:"https://www.bunakenoasis.com/",lb:false},
+{rank:62,name:"Onong Resort",loc:"Siladen / Bunaken",country:"Indonesia",desc:"Small Italian-influenced island resort with simple good food, beach dining and Bunaken Marine Park diving.",url:"https://www.onong-resort.com/",lb:false},
+{rank:63,name:"NAD Lembeh Resort",loc:"Lembeh Strait",country:"Indonesia",desc:"Photographer-focused resort with good diver meals, snacks and service designed around long macro days.",url:"https://www.nad-lembeh.com/",lb:false},
+{rank:64,name:"Solitude Lembeh Resort",loc:"Lembeh Strait",country:"Indonesia",desc:"Comfortable macro resort with good restaurant feedback, relaxed service and efficient dive logistics.",url:"https://solitude.world/resort/solitude-lembeh-resort/",lb:false},
+{rank:65,name:"Black Sand Dive Retreat",loc:"Lembeh Strait",country:"Indonesia",desc:"Boutique macro base with personal food service, quiet setting and direct access to Lembeh's muck-diving highlights.",url:"https://www.blacksanddive.com/",lb:false},
+{rank:66,name:"Kungkungan Bay Resort",loc:"Lembeh Strait",country:"Indonesia",desc:"Historic Lembeh resort with full-board meals, mature gardens and old-school macro-diver hospitality.",url:"https://www.divekbr.com/",lb:false},
+{rank:67,name:"Thalassa Dive Resort Manado",loc:"Manado / Bunaken",country:"Indonesia",desc:"Long-running dive resort with relaxed food, good local flavours and strong Bunaken logistics.",url:"https://www.thalassamanado.com/",lb:false},
+{rank:68,name:"Thalassa Dive Resort Lembeh",loc:"Lembeh",country:"Indonesia",desc:"Good local food comments, warm team and practical Lembeh dive access in a personal resort style.",url:"https://www.thalassamanado.com/lembeh/",lb:false},
+{rank:69,name:"Alam Batu",loc:"Tulamben",country:"Indonesia",desc:"Peaceful Bali dive resort with full-board meals, garden setting and easy macro/wreck access.",url:"https://www.alam-batu.com/",lb:false},
+{rank:70,name:"Scuba Seraya Resort",loc:"Tulamben",country:"Indonesia",desc:"Diver-friendly resort with good local food, oceanfront dining and immediate access to macro and Liberty wreck sites.",url:"https://www.scubaseraya.com/",lb:false},
+{rank:71,name:"Villa Markisa",loc:"Tulamben",country:"Indonesia",desc:"Boutique Tulamben resort with a stronger meal reputation than many Bali dive bases; intimate, calm and food-conscious.",url:"https://www.villa-markisa.com/",lb:false},
+{rank:72,name:"Siddhartha Oceanfront Resort",loc:"Kubu / Tulamben",country:"Indonesia",desc:"Comfortable Bali resort with good restaurant standard, spa feel and excellent northeast Bali diving nearby.",url:"https://www.siddhartha-bali.com/",lb:false},
+{rank:73,name:"Mimpi Resort Tulamben",loc:"Tulamben",country:"Indonesia",desc:"Classic Bali dive stay with good restaurant, easy dive logistics and a more resort-like food experience.",url:"https://mimpi.com/mimpi-resort-tulamben/",lb:false},
+{rank:74,name:"Buceo Anilao Beach & Dive Resort",loc:"Anilao",country:"Philippines",desc:"Small dive resort with Spanish/Filipino hospitality, good food comments and superb macro diving.",url:"https://www.buceoanilao.com/",lb:false},
+{rank:75,name:"Aiyanar Beach & Dive Resort",loc:"Anilao",country:"Philippines",desc:"Comfortable Anilao resort where meals, views and dive convenience create a strong weekend-diver experience.",url:"https://aiyanar.com/",lb:false},
+{rank:76,name:"Crystal Blue Resort",loc:"Anilao",country:"Philippines",desc:"Photo-diver resort with good kitchen reputation, dive deck efficiency and macro-focused dining rhythm.",url:"https://www.crystalblueanilao.com/",lb:false},
+{rank:77,name:"El Galleon Dive Resort",loc:"Puerto Galera",country:"Philippines",desc:"Classic dive resort with lively restaurant/bar atmosphere, good social food scene and easy Puerto Galera diving.",url:"https://www.asiadivers.com/el-galleon/",lb:false},
+{rank:78,name:"Atlantis Puerto Galera",loc:"Puerto Galera",country:"Philippines",desc:"Established dive resort with good hospitality, restaurant service and easy access to Puerto Galera dive sites.",url:"https://www.atlantishotel.com/puerto-galera-resort/",lb:false},
+{rank:79,name:"Evolution Dive Resort",loc:"Malapascua",country:"Philippines",desc:"Strong diver base with a respected restaurant/bar, social atmosphere and thresher-shark diving.",url:"https://evolution.com.ph/",lb:false},
+{rank:80,name:"Ocean Vida Beach & Dive Resort",loc:"Malapascua",country:"Philippines",desc:"Beachfront dive hotel with good food/bar vibe, easy diving and a more polished Malapascua experience.",url:"https://www.ocean-vida.com/",lb:false},
+{rank:81,name:"Tepanee Beach Resort",loc:"Malapascua",country:"Philippines",desc:"Boutique beach stay with good restaurant standard and easy access to Malapascua dive operators.",url:"https://tepanee.com/",lb:false},
+{rank:82,name:"Magic Island Dive Resort",loc:"Moalboal",country:"Philippines",desc:"Social dive resort with reliable meals, sardine-run access and a warm house-style atmosphere.",url:"https://www.magicresorts.online/magic-island",lb:false},
+{rank:83,name:"Dolphin House Resort",loc:"Moalboal",country:"Philippines",desc:"Better food-and-stay level for Moalboal divers; comfortable resort feel with local dive access.",url:"https://www.dolphin-house.com/",lb:false},
+{rank:84,name:"Sangat Island Dive Resort",loc:"Coron",country:"Philippines",desc:"Remote island wreck-diving resort where seafood, tropical meals and rustic charm are part of the memory.",url:"https://sangat.com.ph/",lb:false},
+{rank:85,name:"Club Paradise Palawan",loc:"Coron",country:"Philippines",desc:"Strong resort food/stay with island diving and snorkelling; good for divers travelling with non-divers.",url:"https://www.clubparadisepalawan.com/",lb:false},
+{rank:86,name:"El Rio y Mar Resort",loc:"Coron",country:"Philippines",desc:"Quiet Coron resort with good food, bay views and access to wrecks, reefs and island diving.",url:"https://elrioymar.com/",lb:false},
+{rank:87,name:"Tubbataha Reef Liveaboard - Discovery Palawan",loc:"Tubbataha / Palawan",country:"Philippines",desc:"Classic Philippine liveaboard with hearty meals and direct access to Tubbataha, where the diving is world class.",url:"https://www.discoveryfleet.com/",lb:true},
+{rank:88,name:"Whale Island Resort",loc:"Nha Trang / Van Phong Bay",country:"Vietnam",desc:"Simple island resort where fresh seafood, barefoot hospitality and Vietnam dive access make a rare food-and-dive combination.",url:"https://www.whaleislandresort.com/",lb:false},
+{rank:89,name:"Six Senses Con Dao",loc:"Con Dao",country:"Vietnam",desc:"Vietnam's strongest luxury food-and-sea option: excellent dining, island produce, marine setting and seasonal dive/snorkel access.",url:"https://www.sixsenses.com/en/resorts/con-dao/",lb:false},
+{rank:90,name:"Mango Bay Resort",loc:"Phu Quoc",country:"Vietnam",desc:"Food is central here: rustic beach dining, seafood, sustainability and easy connection to Phu Quoc diving/snorkelling.",url:"https://mangobayphuquoc.com/",lb:false},
+{rank:91,name:"Amanoi",loc:"Ninh Thuan / Vinh Hy Bay",country:"Vietnam",desc:"Ultra-luxury food and coastal nature with marine excursions; not dive-first, but food and sea experience are exceptional.",url:"https://www.aman.com/resorts/amanoi",lb:false},
+{rank:92,name:"Club Med Kabira Ishigaki",loc:"Ishigaki",country:"Japan",desc:"Japanese island food culture, generous resort dining and strong Ishigaki manta diving access make it Japan's clearest food-and-dive fit.",url:"https://www.clubmed.com/r/kabira-ishigaki/y",lb:false},
+{rank:93,name:"Haimurubushi",loc:"Kohama Island",country:"Japan",desc:"Okinawan resort food, island produce and Yaeyama marine access; strong for travellers who want Japan-level dining with tropical diving.",url:"https://www.haimurubushi.co.jp/en/",lb:false},
+{rank:94,name:"Fusaki Beach Resort",loc:"Ishigaki",country:"Japan",desc:"Large Ishigaki resort with multiple restaurants, beach setting and easy access to manta/snorkel/dive operators.",url:"https://www.fusaki.com/en/",lb:false},
+{rank:95,name:"Song Saa Private Island",loc:"Koh Rong Archipelago",country:"Cambodia",desc:"Cambodia's strongest luxury island food experience, with sustainability, seafood, private-island dining and marine activities.",url:"https://www.songsaa-privateisland.com/",lb:false},
+{rank:96,name:"The Royal Sands Koh Rong",loc:"Koh Rong",country:"Cambodia",desc:"Higher-end Cambodian island stay with good dining, beach comfort and access to local dive/snorkel operators.",url:"https://www.theroyalsandskohrong.com/",lb:false},
+{rank:97,name:"Jungle Beach by Uga Escapes",loc:"Trincomalee",country:"Sri Lanka",desc:"Beautiful Sri Lankan coastal lodge with strong food, seafood/curry culture and seasonal Trincomalee diving nearby.",url:"https://www.ugaescapes.com/junglebeach/",lb:false},
+{rank:98,name:"Barefoot at Havelock",loc:"Havelock Island",country:"Philippines",desc:"Andaman classic with good island food, rainforest-beach setting and access to some of India's best diving.",url:"https://www.barefoot-andaman.com/",lb:false},
+{rank:99,name:"Truk Stop Hotel & Dive Center",loc:"Chuuk Lagoon",country:"Micronesia",desc:"Not luxury, but a key wreck-diver base with a proper restaurant/bar reputation and direct access to Chuuk Lagoon wreck diving.",url:"https://trukstop.com/",lb:false}
 ]
 
-function countryColor(c: string): [string, string] {
-  if (c === "Indonesia") return ["#E1F5F8", "#006D78"]
-  if (c === "Philippines") return ["#FEF0E8", "#C85A20"]
-  if (c === "Malaysia") return ["#FFF8E1", "#F57F17"]
-  if (c === "Maldives") return ["#EDE7F6", "#5E35B1"]
-  if (c === "Thailand") return ["#FCE4EC", "#C62828"]
-  return ["#F5F5F5", "#555"]
+const COUNTRIES = ["Indonesia","Maldives","Philippines","Micronesia","Thailand","Malaysia","Vietnam","Japan","Cambodia","Sri Lanka"]
+
+const CC:Record<string,[string,string]> = {
+  "Indonesia":["E1F5F8","006D78"],"Maldives":["EDE7F6","5E35B1"],"Philippines":["FEF0E8","C85A20"],
+  "Thailand":["FFF8E1","F57F17"],"Malaysia":["FFF8E1","F57F17"],"Japan":["FFEBEE","C62828"],
+  "Cambodia":["F3E5F5","7B1FA2"],"Sri Lanka":["E0F2F1","00695C"],"India":["FFF3E0","E65100"],
+  "Micronesia":["E3F2FD","1565C0"],"Vietnam":["E8F5E9","2E7D32"]
 }
 
-export default function Stays() {
-  const [filterCountry, setFilterCountry] = useState("all")
-  const filtered = filterCountry === "all" ? ALL : ALL.filter(e => e.country === filterCountry)
+export default function StaysPage() {
+  const [filter, setFilter] = useState("All")
+  const filtered = filter === "All" ? DATA : DATA.filter(e => e.country === filter)
 
   return (
     <div style={{fontFamily:"Inter,system-ui,sans-serif",minHeight:"100vh",background:"#F8F9FA"}}>
       <Nav />
-      <div style={{background:"linear-gradient(135deg,#0A2342 0%,#0D3060 100%)",padding:"clamp(2rem,5vw,4rem) clamp(1rem,3vw,2rem) clamp(1.5rem,4vw,3rem)",textAlign:"center"}}>
-        <div style={{fontSize:"11px",fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",color:"#0097A7",marginBottom:"12px"}}>Best Dive Guide 2025</div>
-        <h1 style={{color:"#fff",fontSize:"clamp(26px,5.5vw,42px)",fontWeight:700,lineHeight:1.15,maxWidth:"700px",margin:"0 auto 1rem"}}>The 99 Best Dive <span style={{color:"#E8723A"}}>Resorts</span> in Asia</h1>
-        <p style={{color:"rgba(255,255,255,0.6)",fontSize:"16px",maxWidth:"560px",margin:"0 auto",lineHeight:1.7}}>Resorts, boutique hotels and island lodges — ranked on dive quality, stay, food, service, atmosphere and identity. No liveaboards.</p>
-        <div style={{display:"flex",gap:"16px",justifyContent:"center",marginTop:"1.5rem",flexWrap:"wrap"}}>
-          {[{label:"Indonesia",n:ALL.filter(e=>e.country==="Indonesia").length,color:"#0097A7"},{label:"Philippines",n:ALL.filter(e=>e.country==="Philippines").length,color:"#E8723A"},{label:"Malaysia",n:ALL.filter(e=>e.country==="Malaysia").length,color:"#F9A825"},{label:"Maldives",n:ALL.filter(e=>e.country==="Maldives").length,color:"#7E57C2"},{label:"Thailand",n:ALL.filter(e=>e.country==="Thailand").length,color:"#E53935"}].map(s=>(
-            <div key={s.label} style={{background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:"8px",padding:"10px 20px",textAlign:"center"}}>
-              <div style={{color:s.color,fontWeight:700,fontSize:"22px"}}>{s.n}</div>
-              <div style={{color:"rgba(255,255,255,0.5)",fontSize:"11px",marginTop:"2px"}}>{s.label}</div>
-            </div>
-          ))}
+
+      <div style={{background:"linear-gradient(135deg,#0A2342 0%,#1B3A5C 100%)",padding:"clamp(2rem,5vw,4rem) clamp(1rem,3vw,2rem) clamp(1.5rem,4vw,3rem)",textAlign:"center"}}>
+        <div style={{fontSize:11,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:"#0097A7",marginBottom:12}}>Best Dive Guide 2025</div>
+        <h1 style={{color:"#fff",fontSize:"clamp(26px,5.5vw,42px)",fontWeight:700,lineHeight:1.15,maxWidth:700,margin:"0 auto 1rem"}}>The 99 Best <span style={{color:"#0097A7"}}>Stay, Dine & Dive</span> Experiences in Asia</h1>
+        <p style={{color:"rgba(255,255,255,0.6)",fontSize:"clamp(13px,2vw,16px)",maxWidth:560,margin:"0 auto",lineHeight:1.7}}>Ranked by overall experience: where to sleep, eat and dive under one roof. Resorts, island stays and liveaboards scored on comfort, food, service and dive quality.</p>
+        <div style={{display:"flex",gap:12,justifyContent:"center",marginTop:"1.5rem",flexWrap:"wrap"}}>
+          <div style={{background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:8,padding:"10px 16px",textAlign:"center"}}><div style={{color:"#0097A7",fontWeight:700,fontSize:20}}>37</div><div style={{color:"rgba(255,255,255,0.5)",fontSize:10,marginTop:2}}>Indonesia</div></div>
+            <div style={{background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:8,padding:"10px 16px",textAlign:"center"}}><div style={{color:"#7E57C2",fontWeight:700,fontSize:20}}>13</div><div style={{color:"rgba(255,255,255,0.5)",fontSize:10,marginTop:2}}>Maldives</div></div>
+            <div style={{background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:8,padding:"10px 16px",textAlign:"center"}}><div style={{color:"#E8723A",fontWeight:700,fontSize:20}}>26</div><div style={{color:"rgba(255,255,255,0.5)",fontSize:10,marginTop:2}}>Philippines</div></div>
+            <div style={{background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:8,padding:"10px 16px",textAlign:"center"}}><div style={{color:"#1B6CA8",fontWeight:700,fontSize:20}}>2</div><div style={{color:"rgba(255,255,255,0.5)",fontSize:10,marginTop:2}}>Micronesia</div></div>
+            <div style={{background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:8,padding:"10px 16px",textAlign:"center"}}><div style={{color:"#F9A825",fontWeight:700,fontSize:20}}>4</div><div style={{color:"rgba(255,255,255,0.5)",fontSize:10,marginTop:2}}>Thailand</div></div>
+            <div style={{background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:8,padding:"10px 16px",textAlign:"center"}}><div style={{color:"#F57F17",fontWeight:700,fontSize:20}}>7</div><div style={{color:"rgba(255,255,255,0.5)",fontSize:10,marginTop:2}}>Malaysia</div></div>
+            <div style={{background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:8,padding:"10px 16px",textAlign:"center"}}><div style={{color:"#43A047",fontWeight:700,fontSize:20}}>4</div><div style={{color:"rgba(255,255,255,0.5)",fontSize:10,marginTop:2}}>Vietnam</div></div>
+            <div style={{background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:8,padding:"10px 16px",textAlign:"center"}}><div style={{color:"#E53935",fontWeight:700,fontSize:20}}>3</div><div style={{color:"rgba(255,255,255,0.5)",fontSize:10,marginTop:2}}>Japan</div></div>
+            <div style={{background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:8,padding:"10px 16px",textAlign:"center"}}><div style={{color:"#7B1FA2",fontWeight:700,fontSize:20}}>2</div><div style={{color:"rgba(255,255,255,0.5)",fontSize:10,marginTop:2}}>Cambodia</div></div>
+            <div style={{background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:8,padding:"10px 16px",textAlign:"center"}}><div style={{color:"#00897B",fontWeight:700,fontSize:20}}>1</div><div style={{color:"rgba(255,255,255,0.5)",fontSize:10,marginTop:2}}>Sri Lanka</div></div>
         </div>
       </div>
-      <div style={{display:"flex",gap:"1px",background:"#E8E8E8"}}>
-        <div style={{flex:1,background:"#E8723A",padding:"12px 1.5rem",textAlign:"center"}}><div style={{color:"#fff",fontSize:"10px",fontWeight:700,letterSpacing:"1px",textTransform:"uppercase",opacity:0.8}}>Best Dive Resort</div><div style={{color:"#fff",fontSize:"14px",fontWeight:700,marginTop:"2px"}}>Coral Eye, North Sulawesi</div></div>
-        <div style={{flex:1,background:"#0A2342",padding:"12px 1.5rem",textAlign:"center"}}><div style={{color:"rgba(255,255,255,0.5)",fontSize:"10px",fontWeight:700,letterSpacing:"1px",textTransform:"uppercase"}}>Best Stay</div><div style={{color:"#fff",fontSize:"14px",fontWeight:700,marginTop:"2px"}}>Misool Resort, Raja Ampat</div></div>
-        <div style={{flex:1,background:"#0097A7",padding:"12px 1.5rem",textAlign:"center"}}><div style={{color:"rgba(255,255,255,0.7)",fontSize:"10px",fontWeight:700,letterSpacing:"1px",textTransform:"uppercase"}}>Best Food</div><div style={{color:"#fff",fontSize:"14px",fontWeight:700,marginTop:"2px"}}>Coral Eye, North Sulawesi</div></div>
+
+      <div style={{background:"#0097A7",padding:"12px clamp(1rem,3vw,2rem)",textAlign:"center"}}>
+        <span style={{color:"#fff",fontSize:14,fontWeight:700}}>🏨 Best Stay, Dine & Dive Experience — Coral Eye, Bangka Island</span>
       </div>
-      <div style={{background:"#fff",borderBottom:"1px solid #E8E8E8",padding:"12px 2rem",display:"flex",gap:"8px",alignItems:"center",flexWrap:"wrap"}}>
-        <span style={{fontSize:"10px",fontWeight:700,letterSpacing:"1px",textTransform:"uppercase",color:"#aaa",marginRight:"4px"}}>Filter</span>
-        {["all","Indonesia","Philippines","Malaysia","Maldives","Thailand"].map(c=>(
-          <button key={c} onClick={()=>setFilterCountry(c)} style={{fontSize:"12px",fontWeight:600,padding:"5px 14px",borderRadius:"20px",cursor:"pointer",border:filterCountry===c?"none":"1.5px solid #ddd",background:filterCountry===c?"#0A2342":"#fff",color:filterCountry===c?"#fff":"#555"}}>{c==="all"?"All Countries":c}</button>
-        ))}
-        <span style={{marginLeft:"auto",fontSize:"12px",color:"#aaa"}}>{filtered.length} of 99 shown</span>
+
+      <div style={{background:"#fff",borderBottom:"1px solid #E8E8E8",padding:"12px clamp(1rem,3vw,2rem)",display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
+        <span style={{fontSize:10,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:"#aaa",marginRight:4}}>Filter</span>
+        <button onClick={()=>setFilter("All")} style={{fontSize:12,fontWeight:600,padding:"5px 14px",borderRadius:20,cursor:"pointer",border:filter==="All"?"none":"1.5px solid #ddd",background:filter==="All"?"#0A2342":"#fff",color:filter==="All"?"#fff":"#555"}}>All</button>
+        {COUNTRIES.map(c=><button key={c} onClick={()=>setFilter(c)} style={{fontSize:12,fontWeight:600,padding:"5px 14px",borderRadius:20,cursor:"pointer",border:filter===c?"none":"1.5px solid #ddd",background:filter===c?"#0A2342":"#fff",color:filter===c?"#fff":"#555"}}>{c}</button>)}
+        <span style={{marginLeft:"auto",fontSize:12,color:"#aaa"}}>{filtered.length} of 99 shown</span>
       </div>
-      <div style={{maxWidth:"1100px",margin:"0 auto",padding:"clamp(1rem,3vw,2rem)"}}>
-        <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
-          {filtered.map(e=>{const [bg,tc]=countryColor(e.country);return(
-            <div key={e.rank} style={{background:"#fff",border:e.winner?"2px solid #E8723A":e.bestStay?"2px solid #0A2342":"1px solid #E8E8E8",borderRadius:"14px",padding:"1.25rem 1.5rem",display:"flex",alignItems:"flex-start",gap:"1.25rem",boxShadow:(e.winner||e.bestStay)?"0 4px 16px rgba(0,0,0,0.08)":"0 1px 4px rgba(0,0,0,0.04)"}}>
-              <div style={{minWidth:"48px",height:"48px",borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:e.rank===1?"#E8723A":e.rank<=3?"#0A2342":"#F5F5F5",color:e.rank<=3?"#fff":"#0A2342",fontSize:"17px",fontWeight:700}}>#{e.rank}</div>
-              <div style={{flex:1,minWidth:0}}>
-                <div style={{display:"flex",alignItems:"center",gap:"8px",flexWrap:"wrap",marginBottom:"5px"}}>
-                  {e.url ? <a href={e.url} target="_blank" rel="noopener noreferrer" style={{fontWeight:700,fontSize:"15px",color:"#0A2342",textDecoration:"none",borderBottom:"1px solid transparent"}}>{e.name}</a> : <span style={{fontWeight:700,fontSize:"15px",color:"#0A2342"}}>{e.name}</span>}
-                  {e.winner&&<span style={{background:"#E8723A",color:"#fff",fontSize:"10px",fontWeight:700,padding:"2px 8px",borderRadius:"4px",letterSpacing:"0.5px"}}>BEST RESORT</span>}
-                  {e.bestStay&&<span style={{background:"#0A2342",color:"#fff",fontSize:"10px",fontWeight:700,padding:"2px 8px",borderRadius:"4px",letterSpacing:"0.5px"}}>BEST STAY</span>}
-                  <span style={{fontSize:"10px",fontWeight:700,letterSpacing:"0.5px",textTransform:"uppercase",padding:"2px 8px",borderRadius:"4px",background:bg,color:tc}}>{e.country}</span>
+
+      <div style={{maxWidth:1100,margin:"0 auto",padding:"clamp(1rem,3vw,2rem)"}}>
+        <div style={{display:"flex",flexDirection:"column",gap:10}}>
+          {filtered.map(e => {
+            const isFirst = e.rank === 1
+            const bg = isFirst ? "#0097A7" : e.rank <= 3 ? "#0A2342" : "#F5F5F5"
+            const fg = e.rank <= 3 ? "#fff" : "#0A2342"
+            const [cbg,cfg] = CC[e.country] || ["E8E8E8","555"]
+            return (
+              <div key={e.rank} style={{background:"#fff",border:isFirst?"2px solid #0097A7":"1px solid #E8E8E8",borderRadius:14,padding:"clamp(1rem,2vw,1.25rem) clamp(1rem,2vw,1.5rem)",display:"flex",alignItems:"flex-start",gap:"clamp(0.75rem,2vw,1.25rem)",boxShadow:isFirst?"0 4px 16px rgba(0,151,167,0.1)":"0 1px 4px rgba(0,0,0,0.04)"}}>
+                <div style={{minWidth:48,height:48,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:bg,color:fg,fontSize:17,fontWeight:700}}>#{e.rank}</div>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap",marginBottom:5}}>
+                    {e.url ? <a href={e.url} target="_blank" rel="noopener noreferrer" style={{fontWeight:700,fontSize:15,color:"#0A2342",textDecoration:"none"}}>{e.name}</a> : <span style={{fontWeight:700,fontSize:15,color:"#0A2342"}}>{e.name}</span>}
+                    {isFirst && <span style={{background:"#0097A7",color:"#fff",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:4,letterSpacing:0.5}}>BEST STAY</span>}
+                    {e.lb && <span style={{background:"#EEE8F8",color:"#5A2EA0",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:4,letterSpacing:0.5}}>LIVEABOARD</span>}
+                    <span style={{fontSize:10,fontWeight:700,letterSpacing:0.5,textTransform:"uppercase",padding:"2px 8px",borderRadius:4,background:`#${cbg}`,color:`#${cfg}`}}>{e.country}</span>
+                  </div>
+                  <div style={{fontSize:12,color:"#0097A7",fontWeight:600,marginBottom:6}}>📍 {e.loc}</div>
+                  <p style={{fontSize:13,color:"#555",lineHeight:1.6,margin:0}}>{e.desc}</p>
                 </div>
-                <div style={{fontSize:"12px",color:"#0097A7",fontWeight:600,marginBottom:"6px"}}>📍 {e.area}</div>
-                <p style={{fontSize:"13px",color:"#555",lineHeight:1.6,margin:0}}>{e.desc}</p>
               </div>
-            </div>
-          )})}
+            )
+          })}
         </div>
-        <div style={{background:"#EFF4FB",border:"1px solid #D6E4F0",borderRadius:"10px",padding:"1.25rem 1.5rem",marginTop:"2rem",textAlign:"center"}}>
-          <p style={{fontSize:"12px",color:"#1B6CA8",margin:0,lineHeight:1.6}}>Rankings based on TripAdvisor, Booking.com, PADI Travel, ZuBlu, Bluewater Dive Travel, Undercurrent, resort websites and dive-travel operator reputation.</p>
+        <div style={{background:"#E1F5F8",border:"1px solid #B2EBF2",borderRadius:10,padding:"1.25rem 1.5rem",marginTop:"2rem",textAlign:"center"}}>
+          <p style={{fontSize:12,color:"#006D78",margin:0,lineHeight:1.6}}>Editorial ranking based on stay quality, food reputation, dive connection and overall guest experience visibility across Asia.</p>
         </div>
       </div>
       <Footer />
