@@ -7,7 +7,7 @@ export default function Footer() {
         <div style={{color:'rgba(255,255,255,0.4)',fontSize:'12px',fontStyle:'italic',marginTop:'4px'}}>Dive. Eat. Sleep. Repeat.</div>
       </div>
       <div style={{display:'flex',gap:'1.5rem',flexWrap:'wrap'}}>
-        {[{h:'/top100',l:'Top 100 Asia'},{h:'/top100-world',l:'Top 100 World'},{h:'/stays',l:'Stays'},{h:'/food',l:'Food'},{h:'/sites',l:'Sites'},{h:'/liveaboards',l:'Liveaboards'},{h:'/sustainable',l:'Sustainable'},{h:'/vote',l:'Vote'}].map(i=>(
+        {[{h:'/top100',l:'Top 99 Asia'},{h:'/top100-world',l:'Top 99 World'},{h:'/stays',l:'Stays'},{h:'/food',l:'Food'},{h:'/sites',l:'Sites'},{h:'/liveaboards',l:'Liveaboards'},{h:'/sustainable',l:'Sustainable'},{h:'/vote',l:'Vote'}].map(i=>(
           <Link key={i.h} href={i.h} style={{color:'rgba(255,255,255,0.45)',fontSize:'12px',textDecoration:'none'}}>{i.l}</Link>
         ))}
         <a href="mailto:nic.vdb80@gmail.com" style={{color:'rgba(255,255,255,0.45)',fontSize:'12px',textDecoration:'none'}}>Contact</a>
