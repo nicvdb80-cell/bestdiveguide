@@ -111,9 +111,7 @@ const ALL: LB[] = [
   { rank:48, name:"Akomo Isseki", area:"Raja Ampat", country:"Indonesia", url:"https://www.akomoisseki.com/",
     desc:"Good value, intimate, suited to divers wanting smaller boats." },
   { rank:49, name:"Princess Sara", area:"Central Atolls", country:"Maldives", url:"https://www.princesssaramaldives.com/",
-    desc:"Strong review count and value-driven Maldives option." },
-  { rank:50, name:"Arora Virgo", area:"Central Atolls", country:"Maldives", url:"https://www.aroramaldives.com/",
-    desc:"Very high score but smaller review sample. Promising luxury and value option." },
+    desc:"Strong review count and value-driven Maldives option." }
 ]
 
 function countryColor(c: string): [string, string] {
@@ -152,8 +150,8 @@ export default function Liveaboards() {
             {label:"Indonesia",n:indoCount,color:"#0097A7"},
             {label:"Maldives",n:maldivesCount,color:"#7E57C2"},
             {label:"Philippines",n:philCount,color:"#E8723A"},
-            {label:"Thailand",n:thaiCount,color:"#F9A825"},
-          ].map(s=>(
+            {label:"Thailand",n:thaiCount,color:"#F9A825"}
+].map(s=>(
             <div key={s.label} style={{background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:"8px",padding:"10px 20px",textAlign:"center"}}>
               <div style={{color:s.color,fontWeight:700,fontSize:"22px"}}>{s.n}</div>
               <div style={{color:"rgba(255,255,255,0.5)",fontSize:"11px",marginTop:"2px"}}>{s.label}</div>
