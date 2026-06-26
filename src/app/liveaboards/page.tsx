@@ -134,7 +134,7 @@ export default function Liveaboards() {
 
   return (
     <div style={{fontFamily:"Inter,system-ui,sans-serif",minHeight:"100vh",background:"#F8F9FA"}}>
-      <Nav active="/liveaboards" />
+      <Nav />
 
       {/* Hero */}
       <div style={{background:"linear-gradient(135deg,#0A2342 0%,#0D3060 100%)",padding:"4rem 2rem 3rem",textAlign:"center"}}>
