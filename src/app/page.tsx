@@ -18,10 +18,10 @@ export default function Home() {
         </p>
         <div style={{display:'flex',gap:'12px',justifyContent:'center',flexWrap:'wrap'}}>
           <Link href="/top100" style={{background:'#E8723A',color:'#fff',padding:'14px 28px',borderRadius:'9px',textDecoration:'none',fontWeight:700,fontSize:'15px'}}>
-            Explore Top 100 Asia
+            Explore Top 99 Asia
           </Link>
           <Link href="/top100-world" style={{background:'transparent',color:'#fff',border:'1.5px solid rgba(255,255,255,0.4)',padding:'13px 24px',borderRadius:'9px',textDecoration:'none',fontWeight:500,fontSize:'15px'}}>
-            Top 100 World
+            Top 99 World
           </Link>
         </div>
       </div>
@@ -43,7 +43,7 @@ export default function Home() {
       </div>
 
       <div style={{padding:'4rem 2rem',maxWidth:'1100px',margin:'0 auto'}}>
-        <div style={{fontSize:'11px',fontWeight:700,letterSpacing:'2px',textTransform:'uppercase',color:'#0097A7',marginBottom:'12px'}}>Top 100 Ranking</div>
+        <div style={{fontSize:'11px',fontWeight:700,letterSpacing:'2px',textTransform:'uppercase',color:'#0097A7',marginBottom:'12px'}}>Top 99 Ranking</div>
         <h2 style={{fontSize:'30px',fontWeight:700,color:'#0A2342',marginBottom:'8px'}}>The world&apos;s best dive experiences</h2>
         <p style={{fontSize:'15px',color:'#666',marginBottom:'2.5rem',maxWidth:'520px'}}>Every place ranked only on what it actually offers. Quality — not size or budget — determines position.</p>
         <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'16px'}}>
@@ -72,7 +72,7 @@ export default function Home() {
           ))}
         </div>
         <div style={{textAlign:'center',marginTop:'2rem'}}>
-          <Link href="/top100" style={{background:'#0A2342',color:'#fff',padding:'13px 28px',borderRadius:'9px',textDecoration:'none',fontWeight:700,fontSize:'14px'}}>View Full Top 100 →</Link>
+          <Link href="/top100" style={{background:'#0A2342',color:'#fff',padding:'13px 28px',borderRadius:'9px',textDecoration:'none',fontWeight:700,fontSize:'14px'}}>View Full Top 99 →</Link>
         </div>
       </div>
 
