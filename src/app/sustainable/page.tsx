@@ -25,7 +25,7 @@ function PillarTag({p}:{p:string}) {
 export default function Sustainable() {
   return (
     <div style={{fontFamily:'Inter,system-ui,sans-serif',minHeight:'100vh',background:'#F8F9FA'}}>
-      <Nav active="/sustainable" />
+      <Nav />
 
       <div style={{background:'linear-gradient(135deg,#0A2E0A 0%,#1B5E20 100%)',padding:'4rem 2rem 3rem',textAlign:'center'}}>
         <div style={{fontSize:'11px',fontWeight:700,letterSpacing:'2px',textTransform:'uppercase',color:'#81C784',marginBottom:'12px'}}>Sustainable Operators 2025</div>
