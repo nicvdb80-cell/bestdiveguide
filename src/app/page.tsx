@@ -21,7 +21,7 @@ function FlipCard({c}:{c:typeof CATS[0]}) {
     <div onClick={()=>sF(!f)} style={{perspective:800,cursor:"pointer"}}>
       <div style={{position:"relative",width:"100%",height:240,transformStyle:"preserve-3d",transition:"transform .5s",transform:f?"rotateY(180deg)":"none"}}>
         <div style={{position:"absolute",inset:0,backfaceVisibility:"hidden",background:"linear-gradient(145deg,#0A2342 0%,#132F4C 100%)",borderRadius:14,border:"1px solid rgba(201,168,76,0.25)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"2rem 1.5rem",textAlign:"center",boxShadow:"0 4px 20px rgba(0,0,0,0.2)"}}>
-          <div style={{width:64,height:64,marginBottom:16}} dangerouslySetInnerHTML={{__html:c.icon}} />
+          <div style={{width:110,height:110,marginBottom:14,display:"flex",alignItems:"center",justifyContent:"center"}} dangerouslySetInnerHTML={{__html:c.icon}} />
           <h3 style={{fontSize:15,fontWeight:700,color:"#C9A84C",marginBottom:6,letterSpacing:1,textTransform:"uppercase"}}>{c.t}</h3>
           <span style={{fontSize:10,color:"rgba(255,255,255,0.35)",fontWeight:500}}>Tap to learn more</span>
         </div>
