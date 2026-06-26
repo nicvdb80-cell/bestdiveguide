@@ -1,5 +1,8 @@
 'use client'
 
+import Nav from '@/components/Nav'
+import Footer from '@/components/Footer'
+
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -86,11 +89,7 @@ export default function VotePage() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#F5F0E8' }}>
-      <nav style={{ background: '#0A2342', height: '56px', display: 'flex', alignItems: 'center', padding: '0 2rem' }}>
-        <a href="/" style={{ color: 'white', fontWeight: '700', textDecoration: 'none', fontSize: '17px' }}>
-          Best<span style={{ color: '#E8723A' }}>Dive</span>Guide
-        </a>
-      </nav>
+      <Nav />
 
       <div style={{ maxWidth: '680px', margin: '0 auto', padding: '3rem 1.5rem' }}>
         {/* Progress */}
