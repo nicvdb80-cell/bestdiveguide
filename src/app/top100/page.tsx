@@ -83,7 +83,7 @@ export default function Top100() {
 
       <div style={{background:"#0A2342",padding:"2.5rem 2rem 2rem"}}>
         <div style={{fontSize:"10px",fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",color:"#0097A7",marginBottom:"8px"}}>Rankings</div>
-        <h1 style={{color:"#fff",fontSize:"28px",fontWeight:700,marginBottom:"6px"}}>Top 100 Dive Experiences</h1>
+        <h1 style={{color:"#fff",fontSize:"28px",fontWeight:700,marginBottom:"6px"}}>Top 99 Dive Experiences</h1>
         <p style={{color:"rgba(255,255,255,0.55)",fontSize:"14px"}}>Ranked by a professional panel, verified guest votes, and an annual expert committee.</p>
       </div>
 
@@ -101,7 +101,7 @@ export default function Top100() {
         <span>{filtered.length} of {LISTINGS.length} listed</span>
         {filter === "liveaboard" && (
           <Link href="/liveaboards" style={{fontSize:"12px",fontWeight:700,color:"#E8723A",textDecoration:"none"}}>
-            View full 50 Best Liveaboards list →
+            View full 49 Best Liveaboards list →
           </Link>
         )}
       </div>
@@ -151,7 +151,7 @@ export default function Top100() {
         <div style={{background:"#EEE8F8",padding:"1.5rem 2rem",textAlign:"center",margin:"0 2rem 2rem",borderRadius:"12px"}}>
           <p style={{fontSize:"14px",color:"#5A2EA0",margin:"0 0 12px",fontWeight:600}}>Looking for the complete liveaboard ranking?</p>
           <Link href="/liveaboards" style={{background:"#5A2EA0",color:"#fff",padding:"10px 24px",borderRadius:"8px",textDecoration:"none",fontWeight:700,fontSize:"13px"}}>
-            View 50 Best Liveaboards in Asia →
+            View 49 Best Liveaboards in Asia →
           </Link>
         </div>
       )}
