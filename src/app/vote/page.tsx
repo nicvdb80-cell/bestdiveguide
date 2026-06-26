@@ -52,7 +52,7 @@ export default function VotePage() {
   const onSubmit = async (data: any) => {
     setError(null)
     try {
-      const res = await fetch('/api/votes', {
+      const res = await fetch('https://flhsqerpikhihtirfutu.supabase.co/functions/v1/submit-vote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...data, logged_dives: parseInt(data.logged_dives ?? '0') })
