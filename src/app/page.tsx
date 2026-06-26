@@ -33,9 +33,9 @@ export default function Home() {
       {/* Category cards */}
       <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'1px',background:'#e8e8e8',borderTop:'1px solid #e8e8e8'}}>
         {[
-          {icon:'🤿',title:'Best Dive Stays',desc:'Where divers sleep the best. Resorts, liveaboards, boutique stays, island lodges.',color:'#E1F5F8',tc:'#0097A7'},
-          {icon:'🍽️',title:'Best Dive Food',desc:'Where divers eat the best. Resort restaurants, liveaboard galleys, chef-led experiences.',color:'#FEF0E8',tc:'#E8723A'},
-          {icon:'🪸',title:'Best Dive Sites',desc:'Where divers dive the best. Reefs, walls, shark dives, manta encounters, wrecks.',color:'#E8EFF8',tc:'#1B6CA8'},
+          {icon:'⬡',title:'Best Dive Stays',desc:'Where divers sleep the best. Resorts, liveaboards, boutique stays, island lodges.',color:'#E1F5F8',tc:'#0097A7'},
+          {icon:'◈',title:'Best Dive Food',desc:'Where divers eat the best. Resort restaurants, liveaboard galleys, chef-led experiences.',color:'#FEF0E8',tc:'#E8723A'},
+          {icon:'✦',title:'Best Dive Sites',desc:'Where divers dive the best. Reefs, walls, shark dives, manta encounters, wrecks.',color:'#E8EFF8',tc:'#1B6CA8'},
         ].map(c => (
           <div key={c.title} style={{background:'#fff',padding:'2rem',textAlign:'center'}}>
             <div style={{width:'48px',height:'48px',borderRadius:'50%',background:c.color,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 1rem',fontSize:'20px'}}>{c.icon}</div>
