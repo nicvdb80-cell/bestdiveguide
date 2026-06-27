@@ -1,1 +1,1 @@
-tagline below subtitle
+teal tagline box
