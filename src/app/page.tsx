@@ -42,16 +42,14 @@ export default function Home() {
     <div style={{fontFamily:"Inter,system-ui,sans-serif",minHeight:"100vh",background:"#fff"}}>
       <Nav />
       <div style={{background:"#0A2342",padding:"clamp(3rem,8vw,5rem) clamp(1rem,3vw,2rem) clamp(2rem,6vw,4rem)",textAlign:"center"}}>
-        <div style={{display:"inline-block",background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.2)",borderRadius:8,padding:"10px 20px",marginBottom:"1.5rem"}}>
-          <p style={{fontSize:13,fontWeight:500,color:"rgba(255,255,255,0.85)",margin:0,lineHeight:1.6}}>
-            Best Dive Guide is a diver-voted ranking platform to discover the best dive destinations, resorts, liveaboards and dive experiences in Asia.
-          </p>
-        </div>
         <h1 style={{color:"#fff",fontSize:"clamp(28px,5.5vw,46px)",fontWeight:700,lineHeight:1.15,maxWidth:680,margin:"0 auto 1rem"}}>
           Discover where to go for the world’s best <span style={{color:"#0097A7"}}>dives</span>, dining & sleep.
         </h1>
         <p style={{color:"rgba(255,255,255,0.6)",fontSize:"clamp(14px,2.5vw,18px)",maxWidth:500,margin:"0 auto 2.5rem",lineHeight:1.6}}>
           Ranked by experienced divers, food lovers, and real guests who have actually been there.
+        </p>
+        <p style={{fontSize:14,color:"rgba(255,255,255,0.75)",maxWidth:560,margin:"0 auto 2rem",lineHeight:1.7,fontStyle:"italic"}}>
+          Best Dive Guide is a diver-voted ranking platform created to help scuba divers discover the best dive destinations, resorts, liveaboards and dive experiences in Asia.
         </p>
         <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
           <Link href="/top100" style={{background:"#E8723A",color:"#fff",padding:"14px 28px",borderRadius:9,textDecoration:"none",fontWeight:700,fontSize:15}}>Explore Top 99 Asia</Link>
