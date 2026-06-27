@@ -133,7 +133,7 @@ export default function FoodPage() {
       <Nav />
 
       <div style={{background:"linear-gradient(135deg,#1A0A05 0%,#3D1500 100%)",padding:"clamp(2rem,5vw,4rem) clamp(1rem,3vw,2rem) clamp(1.5rem,4vw,3rem)",textAlign:"center"}}>
-        <div style={{fontSize:11,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:"#E8723A",marginBottom:12}}>Best Dive Guide 2025</div>
+        <div style={{fontSize:11,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:"#E8723A",marginBottom:12}}>Best Dive Guide</div>
         <h1 style={{color:"#fff",fontSize:"clamp(26px,5.5vw,42px)",fontWeight:700,lineHeight:1.15,maxWidth:700,margin:"0 auto 1rem"}}>The 99 Best Dive <span style={{color:"#E8723A"}}>Food Experiences</span> in Asia Pacific</h1>
         <p style={{color:"rgba(255,255,255,0.6)",fontSize:"clamp(13px,2vw,16px)",maxWidth:560,margin:"0 auto",lineHeight:1.7}}>Ranked on freshness, flavour, dietary care and atmosphere. Resorts, island stays and liveaboards scored by food-first criteria.</p>
         <div style={{display:"flex",gap:10,justifyContent:"center",marginTop:"1.5rem",flexWrap:"wrap"}}>
