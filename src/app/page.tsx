@@ -42,6 +42,9 @@ export default function Home() {
     <div style={{fontFamily:"Inter,system-ui,sans-serif",minHeight:"100vh",background:"#fff"}}>
       <Nav />
       <div style={{background:"#0A2342",padding:"clamp(3rem,8vw,5rem) clamp(1rem,3vw,2rem) clamp(2rem,6vw,4rem)",textAlign:"center"}}>
+        <p style={{fontSize:12,fontWeight:600,letterSpacing:"1.5px",textTransform:"uppercase",color:"rgba(255,255,255,0.45)",marginBottom:"1.25rem",margin:"0 auto 1.25rem"}}>
+          A diver-voted ranking platform to discover the best dive destinations, resorts, liveaboards and experiences in Asia
+        </p>
         <h1 style={{color:"#fff",fontSize:"clamp(28px,5.5vw,46px)",fontWeight:700,lineHeight:1.15,maxWidth:680,margin:"0 auto 1rem"}}>
           Discover where to go for the world’s best <span style={{color:"#0097A7"}}>dives</span>, dining & sleep.
         </h1>
