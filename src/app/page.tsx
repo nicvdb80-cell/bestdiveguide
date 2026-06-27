@@ -48,9 +48,11 @@ export default function Home() {
         <p style={{color:"rgba(255,255,255,0.6)",fontSize:"clamp(14px,2.5vw,18px)",maxWidth:500,margin:"0 auto 2.5rem",lineHeight:1.6}}>
           Ranked by experienced divers, food lovers, and real guests who have actually been there.
         </p>
-        <p style={{fontSize:14,color:"rgba(255,255,255,0.75)",maxWidth:560,margin:"0 auto 2rem",lineHeight:1.7,fontStyle:"italic"}}>
-          Best Dive Guide is a diver-voted ranking platform created to help scuba divers discover the best dive destinations, resorts, liveaboards and dive experiences in Asia.
-        </p>
+        <div style={{maxWidth:640,margin:"0 auto 2rem",background:"rgba(0,151,167,0.15)",border:"1px solid #0097A7",borderRadius:10,padding:"14px 20px"}}>
+          <p style={{fontSize:14,color:"#fff",margin:0,lineHeight:1.7,fontWeight:500}}>
+            🤿 Best Dive Guide is a diver-voted ranking platform created to help scuba divers discover the best dive destinations, resorts, liveaboards and dive experiences in Asia.
+          </p>
+        </div>
         <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
           <Link href="/top100" style={{background:"#E8723A",color:"#fff",padding:"14px 28px",borderRadius:9,textDecoration:"none",fontWeight:700,fontSize:15}}>Explore Top 99 Asia</Link>
           <Link href="/top100-world" style={{background:"transparent",color:"#fff",border:"1.5px solid rgba(255,255,255,0.4)",padding:"13px 24px",borderRadius:9,textDecoration:"none",fontWeight:500,fontSize:15}}>Top 99 World</Link>
