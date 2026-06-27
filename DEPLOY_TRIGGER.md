@@ -1,1 +1,1 @@
-Deployed via Claude — discount references removed
+homepage about tagline added
