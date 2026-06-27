@@ -1,1 +1,1 @@
-visible tagline
+tagline below subtitle
