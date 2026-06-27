@@ -42,9 +42,11 @@ export default function Home() {
     <div style={{fontFamily:"Inter,system-ui,sans-serif",minHeight:"100vh",background:"#fff"}}>
       <Nav />
       <div style={{background:"#0A2342",padding:"clamp(3rem,8vw,5rem) clamp(1rem,3vw,2rem) clamp(2rem,6vw,4rem)",textAlign:"center"}}>
-        <p style={{fontSize:13,fontWeight:500,color:"rgba(255,255,255,0.5)",maxWidth:580,margin:"0 auto 1.5rem",lineHeight:1.6}}>
-          Best Dive Guide is a diver-voted ranking platform to discover the best dive destinations, resorts, liveaboards and dive experiences in Asia.
-        </p>
+        <div style={{display:"inline-block",background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.2)",borderRadius:8,padding:"10px 20px",marginBottom:"1.5rem"}}>
+          <p style={{fontSize:13,fontWeight:500,color:"rgba(255,255,255,0.85)",margin:0,lineHeight:1.6}}>
+            Best Dive Guide is a diver-voted ranking platform to discover the best dive destinations, resorts, liveaboards and dive experiences in Asia.
+          </p>
+        </div>
         <h1 style={{color:"#fff",fontSize:"clamp(28px,5.5vw,46px)",fontWeight:700,lineHeight:1.15,maxWidth:680,margin:"0 auto 1rem"}}>
           Discover where to go for the world’s best <span style={{color:"#0097A7"}}>dives</span>, dining & sleep.
         </h1>
