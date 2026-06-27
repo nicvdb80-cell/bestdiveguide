@@ -1,1 +1,1 @@
-Deploy trigger: 1782481200.408892
+Deployed via Claude — discount references removed
