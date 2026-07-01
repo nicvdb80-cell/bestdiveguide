@@ -194,7 +194,7 @@ export default function Top100() {
                 <div style={{fontSize:"11px",color:"#aaa",margin:"8px 0",lineHeight:1.4}}>Best for: <span style={{color:"#0A2342",fontWeight:600}}>{l.bestFor}</span></div>
                 <div style={{display:"flex",gap:"6px",flexWrap:"wrap"}}>
                   <Link href={"/listing/" + l.slug} onClick={e=>e.stopPropagation()} style={{fontSize:"11px",fontWeight:700,background:"#0A2342",color:"#fff",padding:"6px 12px",borderRadius:"6px",textDecoration:"none"}}>Read more</Link>
-                  {l.discount&&<a href={"/api/book/" + l.discount} onClick={e=>e.stopPropagation()} style={{fontSize:"11px",fontWeight:700,background:"#E8723A",color:"#fff",padding:"6px 12px",borderRadius:"6px",textDecoration:"none"}}>Book — 10% off ⚡</a>}
+                  
                 </div>
               </div>
             )}
