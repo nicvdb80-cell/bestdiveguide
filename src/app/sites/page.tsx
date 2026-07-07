@@ -1,6 +1,5 @@
-import Nav from '@/components/Nav'
-import Footer from '@/components/Footer'
-
+import Nav from '@/components/Nav';
+import Footer from '@/components/Footer';
 type SiteType = {
   rank: number
   name: string
@@ -108,8 +107,7 @@ export default function Sites() {
         </div>
         <div style={{background:"#E1F5F8",border:"1px solid #B2EBF2",borderRadius:"10px",padding:"1.25rem 1.5rem",marginTop:"2rem",textAlign:"center"}}>
           <p style={{fontSize:"13px",color:"#006D78",margin:0,lineHeight:1.6}}>
-            <strong>Sites 16-99 coming soon.</strong>{" "}
-            <a href="mailto:nic.vdb80@gmail.com" style={{color:"#0097A7",fontWeight:600}}>Nominate a dive site</a>
+            <strong>Sites 16-99 coming soon.</strong><a href="mailto:nic.vdb80@gmail.com" style={{color:"#0097A7",fontWeight:600}}>Nominate a dive site</a>
           </p>
         </div>
       </div>
