@@ -1,3 +1,4 @@
+// bestdiveguide v1.0
 import type { Metadata } from 'next'
 import './globals.css'
 
