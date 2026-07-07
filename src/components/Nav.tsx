@@ -1,9 +1,8 @@
 "use client"
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { useState, useEffect } from "react"
-
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 const navLinks = [
   { href: "/top100", label: "Top 99 Asia" },
   { href: "/top100-world", label: "Top 99 World" },
