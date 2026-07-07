@@ -408,13 +408,13 @@ const ALL: LB[] = [
   },
 ];
 function countryColor(c: string): [string, string] {
-  if (c === "Indonesia");
+  if (c === "Indonesia")
   return ["#E1F5F8", "#006D78"];
-  if (c === "Maldives");
+  if (c === "Maldives")
   return ["#EDE7F6", "#5E35B1"];
-  if (c === "Philippines");
+  if (c === "Philippines")
   return ["#FEF0E8", "#C85A20"];
-  if (c === "Thailand");
+  if (c === "Thailand")
   return ["#FFF8E1", "#F57F17"];
   return ["#F5F5F5", "#555"];
 }
