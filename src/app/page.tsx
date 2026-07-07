@@ -358,7 +358,9 @@ export default function Home() {
       </div>{" "}
       <div
         style={{
-          background: "#0A2342",
+          backgroundImage: "url(/trust-bg.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
           padding: "clamp(2rem,5vw,3.5rem) clamp(1rem,3vw,2rem)",
         }}
       >
