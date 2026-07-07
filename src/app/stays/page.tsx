@@ -1,9 +1,8 @@
 "use client"
 
-import { useState } from "react"
-import Nav from "@/components/Nav"
-import Footer from "@/components/Footer"
-
+import { useState } from "react";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 type E = {rank:number; name:string; loc:string; country:string; desc:string; url:string; lb:boolean}
 
 const DATA: E[] = [
