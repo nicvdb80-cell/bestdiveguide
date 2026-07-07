@@ -1,4 +1,5 @@
-import Link from "next/link"
+import Link from "next/link";
+
 export default function Footer() {
   const links = [
     {h:"/top100",l:"Top 99 Asia"},{h:"/top100-world",l:"Top 99 World"},
