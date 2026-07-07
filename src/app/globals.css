@@ -30,3 +30,4 @@ img { max-width: 100%; height: auto; }
   footer { flex-direction: column !important; text-align: center !important; }
   footer > div:last-child { justify-content: center !important; }
 }
+/* deploy 1783442751 */
