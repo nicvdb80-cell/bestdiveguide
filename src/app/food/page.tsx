@@ -1,11 +1,7 @@
 "use client"
 import { useState } from "react"
 import Nav from "@/components/Nav"
-import Footer from "@/components/Footer"
-
-type E = {rank:number;name:string;loc:string;country:string;desc:string;url:string;lb:boolean}
-
-const DATA:E[] = [
+import Footer from "@/components/Footer" type E = {rank:number;name:string;loc:string;country:string;desc:string;url:string;lb:boolean} const DATA:E[] = [
 {rank:1,name:"Coral Eye",loc:"Bangka Island",country:"Indonesia",desc:"Boutique dive stay where food defines the experience: Indonesian flavour, Italian soul, communal table, fresh island rhythm and consistently outstanding food praise.",url:"https://www.coral-eye.com/",lb:false},
 {rank:2,name:"Siladen Resort & Spa",loc:"Bunaken",country:"Indonesia",desc:"One of Asia's most reliable food-and-dive resorts: refined Italian influence, fresh seafood, Indonesian dishes, beach dinners and strong guest love for the restaurant.",url:"https://www.siladen.com/",lb:false},
 {rank:3,name:"Wakatobi Dive Resort",loc:"Wakatobi",country:"Indonesia",desc:"Remote luxury full-board dining with polished service, generous buffets, chef-prepared meals and a serious dive operation on one of Asia's best reefs.",url:"https://www.wakatobi.com/",lb:false},
@@ -105,87 +101,7 @@ const DATA:E[] = [
 {rank:97,name:"Jungle Beach by Uga Escapes",loc:"Trincomalee",country:"Sri Lanka",desc:"Beautiful Sri Lankan coastal lodge with strong food, seafood/curry culture and seasonal Trincomalee diving nearby.",url:"https://www.ugaescapes.com/junglebeach/",lb:false},
 {rank:98,name:"Barefoot at Havelock",loc:"Havelock Island",country:"India",desc:"Andaman classic with good island food, rainforest-beach setting and access to some of India best diving.",url:"https://www.barefoot-andaman.com/",lb:false},
 {rank:99,name:"Truk Stop Hotel & Dive Center",loc:"Chuuk Lagoon",country:"Micronesia",desc:"Not luxury, but a key wreck-diver base with a proper restaurant/bar reputation and direct access to Chuuk Lagoon wreck diving.",url:"https://trukstop.com/",lb:false}
-]
-
-const COUNTRIES = ["Indonesia","Maldives","Philippines","Thailand","Malaysia","Vietnam","Japan","Cambodia","Sri Lanka","India","Micronesia"]
-
-const CC:Record<string,[string,string]> = {
-  "Indonesia":["E1F5F8","006D78"],"Maldives":["EDE7F6","5E35B1"],"Philippines":["FEF0E8","C85A20"],
-  "Thailand":["FFF8E1","F57F17"],"Malaysia":["FFF8E1","F57F17"],"Japan":["FFEBEE","C62828"],
-  "Cambodia":["F3E5F5","7B1FA2"],"Sri Lanka":["E0F2F1","00695C"],"India":["FFF3E0","E65100"],
-  "Micronesia":["E3F2FD","1565C0"],"Vietnam":["E8F5E9","2E7D32"]
-}
-
-const COLOR_MAP:Record<string,string> = {
-  "Indonesia":"#0097A7","Maldives":"#7E57C2","Philippines":"#E8723A","Thailand":"#F9A825",
-  "Malaysia":"#F57F17","Japan":"#E53935","Cambodia":"#7B1FA2","Sri Lanka":"#00897B",
-  "India":"#FF8F00","Micronesia":"#1B6CA8","Vietnam":"#43A047"
-}
-
-export default function FoodPage() {
-  const [filter, setFilter] = useState("All")
-  const filtered = filter === "All" ? DATA : DATA.filter(e => e.country === filter)
-
-  const countryCounts = COUNTRIES.map(c => ({ country: c, n: DATA.filter(e => e.country === c).length })).filter(x => x.n > 0)
-
-  return (
-    <div style={{fontFamily:"Inter,system-ui,sans-serif",minHeight:"100vh",background:"#F8F9FA"}}>
-      <Nav />
-
-      <div style={{background:"linear-gradient(135deg,#1A0A05 0%,#3D1500 100%)",padding:"clamp(2rem,5vw,4rem) clamp(1rem,3vw,2rem) clamp(1.5rem,4vw,3rem)",textAlign:"center"}}>
-        <div style={{fontSize:11,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:"#E8723A",marginBottom:12}}>Best Dive Guide</div>
-        <h1 style={{color:"#fff",fontSize:"clamp(26px,5.5vw,42px)",fontWeight:700,lineHeight:1.15,maxWidth:700,margin:"0 auto 1rem"}}>The 99 Best Dive <span style={{color:"#E8723A"}}>Food Experiences</span> in Asia Pacific</h1>
-        <p style={{color:"rgba(255,255,255,0.6)",fontSize:"clamp(13px,2vw,16px)",maxWidth:560,margin:"0 auto",lineHeight:1.7}}>Ranked on freshness, flavour, dietary care and atmosphere. Resorts, island stays and liveaboards scored by food-first criteria.</p>
-        <div style={{display:"flex",gap:10,justifyContent:"center",marginTop:"1.5rem",flexWrap:"wrap"}}>
-          {countryCounts.map(({country,n})=>(
-            <div key={country} style={{background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:8,padding:"10px 16px",textAlign:"center"}}>
-              <div style={{color:COLOR_MAP[country]||"#fff",fontWeight:700,fontSize:20}}>{n}</div>
-              <div style={{color:"rgba(255,255,255,0.5)",fontSize:10,marginTop:2}}>{country}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div style={{background:"#E8723A",padding:"12px clamp(1rem,3vw,2rem)",textAlign:"center"}}>
-        <span style={{color:"#fff",fontSize:14,fontWeight:700}}>🍽️ Best Food Dive Experience — Coral Eye, Bangka Island, North Sulawesi</span>
-      </div>
-
-      <div style={{background:"#fff",borderBottom:"1px solid #E8E8E8",padding:"12px clamp(1rem,3vw,2rem)",display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
-        <span style={{fontSize:10,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:"#aaa",marginRight:4}}>Filter by country</span>
-        <button onClick={()=>setFilter("All")} style={{fontSize:12,fontWeight:600,padding:"5px 14px",borderRadius:20,cursor:"pointer",border:filter==="All"?"none":"1.5px solid #ddd",background:filter==="All"?"#0A2342":"#fff",color:filter==="All"?"#fff":"#555"}}>All</button>
-        {COUNTRIES.map(c=><button key={c} onClick={()=>setFilter(c)} style={{fontSize:12,fontWeight:600,padding:"5px 14px",borderRadius:20,cursor:"pointer",border:filter===c?"none":"1.5px solid #ddd",background:filter===c?"#0A2342":"#fff",color:filter===c?"#fff":"#555"}}>{c}</button>)}
-        <span style={{marginLeft:"auto",fontSize:12,color:"#aaa"}}>{filtered.length} of 99 shown</span>
-      </div>
-
-      <div style={{maxWidth:1100,margin:"0 auto",padding:"clamp(1rem,3vw,2rem)"}}>
-        <div style={{display:"flex",flexDirection:"column",gap:10}}>
-          {filtered.map(e => {
-            const isFirst = e.rank === 1
-            const bg = isFirst ? "#E8723A" : e.rank <= 3 ? "#0A2342" : "#F5F5F5"
-            const fg = e.rank <= 3 ? "#fff" : "#0A2342"
-            const [cbg,cfg] = CC[e.country] || ["E8E8E8","555"]
-            return (
-              <div key={e.rank} style={{background:"#fff",border:isFirst?"2px solid #E8723A":"1px solid #E8E8E8",borderRadius:14,padding:"clamp(1rem,2vw,1.25rem) clamp(1rem,2vw,1.5rem)",display:"flex",alignItems:"flex-start",gap:"clamp(0.75rem,2vw,1.25rem)",boxShadow:isFirst?"0 4px 16px rgba(232,114,58,0.1)":"0 1px 4px rgba(0,0,0,0.04)"}}>
-                <div style={{minWidth:48,height:48,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:bg,color:fg,fontSize:17,fontWeight:700}}>#{e.rank}</div>
-                <div style={{flex:1,minWidth:0}}>
-                  <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap",marginBottom:5}}>
-                    {e.url ? <a href={e.url} target="_blank" rel="noopener noreferrer" style={{fontWeight:700,fontSize:15,color:"#0A2342",textDecoration:"none"}}>{e.name}</a> : <span style={{fontWeight:700,fontSize:15,color:"#0A2342"}}>{e.name}</span>}
-                    {isFirst && <span style={{background:"#E8723A",color:"#fff",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:4,letterSpacing:0.5}}>BEST FOOD</span>}
-                    {e.lb && <span style={{background:"#EEE8F8",color:"#5A2EA0",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:4,letterSpacing:0.5}}>LIVEABOARD</span>}
-                    <span style={{fontSize:10,fontWeight:700,letterSpacing:0.5,textTransform:"uppercase",padding:"2px 8px",borderRadius:4,background:`#${cbg}`,color:`#${cfg}`}}>{e.country}</span>
-                  </div>
-                  <div style={{fontSize:12,color:"#0097A7",fontWeight:600,marginBottom:6}}>📍 {e.loc}</div>
-                  <p style={{fontSize:13,color:"#555",lineHeight:1.6,margin:0}}>{e.desc}</p>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-        <div style={{background:"#FEF0E8",border:"1px solid #FBCBA9",borderRadius:10,padding:"1.25rem 1.5rem",marginTop:"2rem",textAlign:"center"}}>
-          <p style={{fontSize:12,color:"#C85A20",margin:0,lineHeight:1.6}}>Food-first editorial ranking based on public reputation, dive-travel visibility, food mentions, resort positioning and dining fit for divers.</p>
-        </div>
-      </div>
-      <Footer />
-    </div>
-  )
+] const COUNTRIES = ["Indonesia","Maldives","Philippines","Thailand","Malaysia","Vietnam","Japan","Cambodia","Sri Lanka","India","Micronesia"] const CC:Record<string,[string,string]> = { "Indonesia":["E1F5F8","006D78"],"Maldives":["EDE7F6","5E35B1"],"Philippines":["FEF0E8","C85A20"], "Thailand":["FFF8E1","F57F17"],"Malaysia":["FFF8E1","F57F17"],"Japan":["FFEBEE","C62828"], "Cambodia":["F3E5F5","7B1FA2"],"Sri Lanka":["E0F2F1","00695C"],"India":["FFF3E0","E65100"], "Micronesia":["E3F2FD","1565C0"],"Vietnam":["E8F5E9","2E7D32"]
+} const COLOR_MAP:Record<string,string> = { "Indonesia":"#0097A7","Maldives":"#7E57C2","Philippines":"#E8723A","Thailand":"#F9A825", "Malaysia":"#F57F17","Japan":"#E53935","Cambodia":"#7B1FA2","Sri Lanka":"#00897B", "India":"#FF8F00","Micronesia":"#1B6CA8","Vietnam":"#43A047"
+} export default function FoodPage() { const [filter, setFilter] = useState("All") const filtered = filter === "All" ? DATA : DATA.filter(e => e.country === filter) const countryCounts = COUNTRIES.map(c => ({ country: c, n: DATA.filter(e => e.country === c).length })).filter(x => x.n > 0) return ( <div style={{fontFamily:"Inter,system-ui,sans-serif",minHeight:"100vh",background:"#F8F9FA"}}> <Nav /> <div style={{background:"linear-gradient(135deg,#1A0A05 0%,#3D1500 100%)",padding:"clamp(2rem,5vw,4rem) clamp(1rem,3vw,2rem) clamp(1.5rem,4vw,3rem)",textAlign:"center"}}> <div style={{fontSize:11,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:"#E8723A",marginBottom:12}}>Best Dive Guide</div> <h1 style={{color:"#fff",fontSize:"clamp(26px,5.5vw,42px)",fontWeight:700,lineHeight:1.15,maxWidth:700,margin:"0 auto 1rem"}}>The 99 Best Dive <span style={{color:"#E8723A"}}>Food Experiences</span> in Asia Pacific</h1> <p style={{color:"rgba(255,255,255,0.6)",fontSize:"clamp(13px,2vw,16px)",maxWidth:560,margin:"0 auto",lineHeight:1.7}}>Ranked on freshness, flavour, dietary care and atmosphere. Resorts, island stays and liveaboards scored by food-first criteria.</p> <div style={{display:"flex",gap:10,justifyContent:"center",marginTop:"1.5rem",flexWrap:"wrap"}}> {countryCounts.map(({country,n})=>( <div key={country} style={{background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:8,padding:"10px 16px",textAlign:"center"}}> <div style={{color:COLOR_MAP[country]||"#fff",fontWeight:700,fontSize:20}}>{n}</div> <div style={{color:"rgba(255,255,255,0.5)",fontSize:10,marginTop:2}}>{country}</div> </div> ))} </div> </div> <div style={{background:"#E8723A",padding:"12px clamp(1rem,3vw,2rem)",textAlign:"center"}}> <span style={{color:"#fff",fontSize:14,fontWeight:700}}> Best Food Dive Experience — Coral Eye, Bangka Island, North Sulawesi</span> </div> <div style={{background:"#fff",borderBottom:"1px solid #E8E8E8",padding:"12px clamp(1rem,3vw,2rem)",display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}> <span style={{fontSize:10,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:"#aaa",marginRight:4}}>Filter by country</span> <button onClick={()=>setFilter("All")} style={{fontSize:12,fontWeight:600,padding:"5px 14px",borderRadius:20,cursor:"pointer",border:filter==="All"?"none":"1.5px solid #ddd",background:filter==="All"?"#0A2342":"#fff",color:filter==="All"?"#fff":"#555"}}>All</button> {COUNTRIES.map(c=><button key={c} onClick={()=>setFilter(c)} style={{fontSize:12,fontWeight:600,padding:"5px 14px",borderRadius:20,cursor:"pointer",border:filter===c?"none":"1.5px solid #ddd",background:filter===c?"#0A2342":"#fff",color:filter===c?"#fff":"#555"}}>{c}</button>)} <span style={{marginLeft:"auto",fontSize:12,color:"#aaa"}}>{filtered.length} of 99 shown</span> </div> <div style={{maxWidth:1100,margin:"0 auto",padding:"clamp(1rem,3vw,2rem)"}}> <div style={{display:"flex",flexDirection:"column",gap:10}}> {filtered.map(e => { const isFirst = e.rank === 1 const bg = isFirst ? "#E8723A" : e.rank <= 3 ? "#0A2342" : "#F5F5F5" const fg = e.rank <= 3 ? "#fff" : "#0A2342" const [cbg,cfg] = CC[e.country] || ["E8E8E8","555"] return ( <div key={e.rank} style={{background:"#fff",border:isFirst?"2px solid #E8723A":"1px solid #E8E8E8",borderRadius:14,padding:"clamp(1rem,2vw,1.25rem) clamp(1rem,2vw,1.5rem)",display:"flex",alignItems:"flex-start",gap:"clamp(0.75rem,2vw,1.25rem)",boxShadow:isFirst?"0 4px 16px rgba(232,114,58,0.1)":"0 1px 4px rgba(0,0,0,0.04)"}}> <div style={{minWidth:48,height:48,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:bg,color:fg,fontSize:17,fontWeight:700}}>#{e.rank}</div> <div style={{flex:1,minWidth:0}}> <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap",marginBottom:5}}> {e.url ? <a href={e.url} target="_blank" rel="noopener noreferrer" style={{fontWeight:700,fontSize:15,color:"#0A2342",textDecoration:"none"}}>{e.name}</a> : <span style={{fontWeight:700,fontSize:15,color:"#0A2342"}}>{e.name}</span>} {isFirst && <span style={{background:"#E8723A",color:"#fff",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:4,letterSpacing:0.5}}>BEST FOOD</span>} {e.lb && <span style={{background:"#EEE8F8",color:"#5A2EA0",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:4,letterSpacing:0.5}}>LIVEABOARD</span>} <span style={{fontSize:10,fontWeight:700,letterSpacing:0.5,textTransform:"uppercase",padding:"2px 8px",borderRadius:4,background:`#${cbg}`,color:`#${cfg}`}}>{e.country}</span> </div> <div style={{fontSize:12,color:"#0097A7",fontWeight:600,marginBottom:6}}> {e.loc}</div> <p style={{fontSize:13,color:"#555",lineHeight:1.6,margin:0}}>{e.desc}</p> </div> </div> ) })} </div> <div style={{background:"#FEF0E8",border:"1px solid #FBCBA9",borderRadius:10,padding:"1.25rem 1.5rem",marginTop:"2rem",textAlign:"center"}}> <p style={{fontSize:12,color:"#C85A20",margin:0,lineHeight:1.6}}>Food-first editorial ranking based on public reputation, dive-travel visibility, food mentions, resort positioning and dining fit for divers.</p> </div> </div> <Footer /> </div> )
 }
