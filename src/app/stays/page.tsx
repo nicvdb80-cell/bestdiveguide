@@ -1,11 +1,7 @@
 "use client"
 import { useState } from "react"
 import Nav from "@/components/Nav"
-import Footer from "@/components/Footer"
-
-type E = {rank:number;name:string;loc:string;country:string;desc:string;url:string;lb:boolean}
-
-const DATA:E[] = [
+import Footer from "@/components/Footer" type E = {rank:number;name:string;loc:string;country:string;desc:string;url:string;lb:boolean} const DATA:E[] = [
 {rank:1,name:"Misool Resort",loc:"Raja Ampat",country:"Indonesia",desc:"Private-island eco-resort surrounded by UNESCO-protected reef. Overwater villas, house reef teeming with fish, and a no-take marine sanctuary. One of the world's great dive stays.",url:"https://www.misool.info/",lb:false},
 {rank:2,name:"Wakatobi Dive Resort",loc:"Wakatobi",country:"Indonesia",desc:"Remote full-board island resort with its own private reef and the best house-reef dive site in Asia. Polished service, excellent food, comfortable bungalows and 50+ dive sites within 10 minutes.",url:"https://www.wakatobi.com/",lb:false},
 {rank:3,name:"Soneva Fushi",loc:"Baa Atoll",country:"Maldives",desc:"Barefoot ultra-luxury on a forested island in the UNESCO Baa Atoll Biosphere Reserve. World-class food, overwater villas, multiple restaurants, spa, and manta ray diving from the resort jetty.",url:"https://soneva.com/resorts/soneva-fushi/",lb:false},
@@ -105,87 +101,7 @@ const DATA:E[] = [
 {rank:97,name:"Puri Mas Boutique Resort & Spa",loc:"Senggigi, Lombok",country:"Indonesia",desc:"Boutique Lombok resort with good rooms, spa, restaurant and easy access to the Gili Islands and Lombok dive sites.",url:"https://www.puri-mas.com/",lb:false},
 {rank:98,name:"Pantai Lima Estate",loc:"Canggu, Bali",country:"Indonesia",desc:"Boutique Bali estate with high-quality accommodation, strong service and day-trip access to Nusa Penida manta sites and Tulamben.",url:"https://pantailima.com/",lb:false},
 {rank:99,name:"Bastianos Bunaken",loc:"Bunaken",country:"Indonesia",desc:"Comfortable Bunaken wall-dive base with reliable rooms, good meals and immediate access to Bunaken National Marine Park dive sites.",url:"https://bastianos.com/bunaken/",lb:false}
-]
-
-const COUNTRIES = ["Indonesia","Maldives","Philippines","Malaysia","Micronesia","Vietnam","Japan","Cambodia","Sri Lanka","India"]
-
-const CC:Record<string,[string,string]> = {
-  "Indonesia":["E1F5F8","006D78"],"Maldives":["EDE7F6","5E35B1"],"Philippines":["FEF0E8","C85A20"],
-  "Thailand":["FFF8E1","F57F17"],"Malaysia":["FFF8E1","F57F17"],"Japan":["FFEBEE","C62828"],
-  "Cambodia":["F3E5F5","7B1FA2"],"Sri Lanka":["E0F2F1","00695C"],"India":["FFF3E0","E65100"],
-  "Micronesia":["E3F2FD","1565C0"],"Vietnam":["E8F5E9","2E7D32"]
-}
-
-const COLOR_MAP:Record<string,string> = {
-  "Indonesia":"#0097A7","Maldives":"#7E57C2","Philippines":"#E8723A","Thailand":"#F9A825",
-  "Malaysia":"#F57F17","Japan":"#E53935","Cambodia":"#7B1FA2","Sri Lanka":"#00897B",
-  "India":"#FF8F00","Micronesia":"#1B6CA8","Vietnam":"#43A047"
-}
-
-export default function StaysPage() {
-  const [filter, setFilter] = useState("All")
-  const filtered = filter === "All" ? DATA : DATA.filter(e => e.country === filter)
-
-  const countryCounts = COUNTRIES.map(c => ({ country: c, n: DATA.filter(e => e.country === c).length })).filter(x => x.n > 0)
-
-  return (
-    <div style={{fontFamily:"Inter,system-ui,sans-serif",minHeight:"100vh",background:"#F8F9FA"}}>
-      <Nav />
-
-      <div style={{background:"linear-gradient(135deg,#0A2342 0%,#1B3A5C 100%)",padding:"clamp(2rem,5vw,4rem) clamp(1rem,3vw,2rem) clamp(1.5rem,4vw,3rem)",textAlign:"center"}}>
-        <div style={{fontSize:11,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:"#0097A7",marginBottom:12}}>Best Dive Guide</div>
-        <h1 style={{color:"#fff",fontSize:"clamp(26px,5.5vw,42px)",fontWeight:700,lineHeight:1.15,maxWidth:700,margin:"0 auto 1rem"}}>The 99 Best <span style={{color:"#0097A7"}}>Dive Stay</span> Experiences in Asia Pacific</h1>
-        <p style={{color:"rgba(255,255,255,0.6)",fontSize:"clamp(13px,2vw,16px)",maxWidth:560,margin:"0 auto",lineHeight:1.7}}>Ranked on room quality, service, location and how well the stay supports serious diving. Resorts, island lodges and liveaboards all included.</p>
-        <div style={{display:"flex",gap:10,justifyContent:"center",marginTop:"1.5rem",flexWrap:"wrap"}}>
-          {countryCounts.map(({country,n})=>(
-            <div key={country} style={{background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:8,padding:"10px 16px",textAlign:"center"}}>
-              <div style={{color:COLOR_MAP[country]||"#fff",fontWeight:700,fontSize:20}}>{n}</div>
-              <div style={{color:"rgba(255,255,255,0.5)",fontSize:10,marginTop:2}}>{country}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div style={{background:"#0097A7",padding:"12px clamp(1rem,3vw,2rem)",textAlign:"center"}}>
-        <span style={{color:"#fff",fontSize:14,fontWeight:700}}>🏨 Best Dive Stay — Misool Resort, Raja Ampat, Indonesia</span>
-      </div>
-
-      <div style={{background:"#fff",borderBottom:"1px solid #E8E8E8",padding:"12px clamp(1rem,3vw,2rem)",display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
-        <span style={{fontSize:10,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:"#aaa",marginRight:4}}>Filter by country</span>
-        <button onClick={()=>setFilter("All")} style={{fontSize:12,fontWeight:600,padding:"5px 14px",borderRadius:20,cursor:"pointer",border:filter==="All"?"none":"1.5px solid #ddd",background:filter==="All"?"#0A2342":"#fff",color:filter==="All"?"#fff":"#555"}}>All</button>
-        {COUNTRIES.map(c=><button key={c} onClick={()=>setFilter(c)} style={{fontSize:12,fontWeight:600,padding:"5px 14px",borderRadius:20,cursor:"pointer",border:filter===c?"none":"1.5px solid #ddd",background:filter===c?"#0A2342":"#fff",color:filter===c?"#fff":"#555"}}>{c}</button>)}
-        <span style={{marginLeft:"auto",fontSize:12,color:"#aaa"}}>{filtered.length} of 99 shown</span>
-      </div>
-
-      <div style={{maxWidth:1100,margin:"0 auto",padding:"clamp(1rem,3vw,2rem)"}}>
-        <div style={{display:"flex",flexDirection:"column",gap:10}}>
-          {filtered.map(e => {
-            const isFirst = e.rank === 1
-            const bg = isFirst ? "#0097A7" : e.rank <= 3 ? "#0A2342" : "#F5F5F5"
-            const fg = e.rank <= 3 ? "#fff" : "#0A2342"
-            const [cbg,cfg] = CC[e.country] || ["E8E8E8","555"]
-            return (
-              <div key={e.rank} style={{background:"#fff",border:isFirst?"2px solid #0097A7":"1px solid #E8E8E8",borderRadius:14,padding:"clamp(1rem,2vw,1.25rem) clamp(1rem,2vw,1.5rem)",display:"flex",alignItems:"flex-start",gap:"clamp(0.75rem,2vw,1.25rem)",boxShadow:isFirst?"0 4px 16px rgba(0,151,167,0.1)":"0 1px 4px rgba(0,0,0,0.04)"}}>
-                <div style={{minWidth:48,height:48,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:bg,color:fg,fontSize:17,fontWeight:700}}>#{e.rank}</div>
-                <div style={{flex:1,minWidth:0}}>
-                  <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap",marginBottom:5}}>
-                    {e.url ? <a href={e.url} target="_blank" rel="noopener noreferrer" style={{fontWeight:700,fontSize:15,color:"#0A2342",textDecoration:"none"}}>{e.name}</a> : <span style={{fontWeight:700,fontSize:15,color:"#0A2342"}}>{e.name}</span>}
-                    {isFirst && <span style={{background:"#0097A7",color:"#fff",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:4,letterSpacing:0.5}}>BEST STAY</span>}
-                    {e.lb && <span style={{background:"#EEE8F8",color:"#5A2EA0",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:4,letterSpacing:0.5}}>LIVEABOARD</span>}
-                    <span style={{fontSize:10,fontWeight:700,letterSpacing:0.5,textTransform:"uppercase",padding:"2px 8px",borderRadius:4,background:`#${cbg}`,color:`#${cfg}`}}>{e.country}</span>
-                  </div>
-                  <div style={{fontSize:12,color:"#0097A7",fontWeight:600,marginBottom:6}}>📍 {e.loc}</div>
-                  <p style={{fontSize:13,color:"#555",lineHeight:1.6,margin:0}}>{e.desc}</p>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-        <div style={{background:"#E1F5F8",border:"1px solid #B2EBF2",borderRadius:10,padding:"1.25rem 1.5rem",marginTop:"2rem",textAlign:"center"}}>
-          <p style={{fontSize:12,color:"#006D78",margin:0,lineHeight:1.6}}>Editorial ranking based on accommodation quality, dive integration, food reputation and overall guest experience across Asia Pacific.</p>
-        </div>
-      </div>
-      <Footer />
-    </div>
-  )
+] const COUNTRIES = ["Indonesia","Maldives","Philippines","Malaysia","Micronesia","Vietnam","Japan","Cambodia","Sri Lanka","India"] const CC:Record<string,[string,string]> = { "Indonesia":["E1F5F8","006D78"],"Maldives":["EDE7F6","5E35B1"],"Philippines":["FEF0E8","C85A20"], "Thailand":["FFF8E1","F57F17"],"Malaysia":["FFF8E1","F57F17"],"Japan":["FFEBEE","C62828"], "Cambodia":["F3E5F5","7B1FA2"],"Sri Lanka":["E0F2F1","00695C"],"India":["FFF3E0","E65100"], "Micronesia":["E3F2FD","1565C0"],"Vietnam":["E8F5E9","2E7D32"]
+} const COLOR_MAP:Record<string,string> = { "Indonesia":"#0097A7","Maldives":"#7E57C2","Philippines":"#E8723A","Thailand":"#F9A825", "Malaysia":"#F57F17","Japan":"#E53935","Cambodia":"#7B1FA2","Sri Lanka":"#00897B", "India":"#FF8F00","Micronesia":"#1B6CA8","Vietnam":"#43A047"
+} export default function StaysPage() { const [filter, setFilter] = useState("All") const filtered = filter === "All" ? DATA : DATA.filter(e => e.country === filter) const countryCounts = COUNTRIES.map(c => ({ country: c, n: DATA.filter(e => e.country === c).length })).filter(x => x.n > 0) return ( <div style={{fontFamily:"Inter,system-ui,sans-serif",minHeight:"100vh",background:"#F8F9FA"}}> <Nav /> <div style={{background:"linear-gradient(135deg,#0A2342 0%,#1B3A5C 100%)",padding:"clamp(2rem,5vw,4rem) clamp(1rem,3vw,2rem) clamp(1.5rem,4vw,3rem)",textAlign:"center"}}> <div style={{fontSize:11,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:"#0097A7",marginBottom:12}}>Best Dive Guide</div> <h1 style={{color:"#fff",fontSize:"clamp(26px,5.5vw,42px)",fontWeight:700,lineHeight:1.15,maxWidth:700,margin:"0 auto 1rem"}}>The 99 Best <span style={{color:"#0097A7"}}>Dive Stay</span> Experiences in Asia Pacific</h1> <p style={{color:"rgba(255,255,255,0.6)",fontSize:"clamp(13px,2vw,16px)",maxWidth:560,margin:"0 auto",lineHeight:1.7}}>Ranked on room quality, service, location and how well the stay supports serious diving. Resorts, island lodges and liveaboards all included.</p> <div style={{display:"flex",gap:10,justifyContent:"center",marginTop:"1.5rem",flexWrap:"wrap"}}> {countryCounts.map(({country,n})=>( <div key={country} style={{background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:8,padding:"10px 16px",textAlign:"center"}}> <div style={{color:COLOR_MAP[country]||"#fff",fontWeight:700,fontSize:20}}>{n}</div> <div style={{color:"rgba(255,255,255,0.5)",fontSize:10,marginTop:2}}>{country}</div> </div> ))} </div> </div> <div style={{background:"#0097A7",padding:"12px clamp(1rem,3vw,2rem)",textAlign:"center"}}> <span style={{color:"#fff",fontSize:14,fontWeight:700}}> Best Dive Stay — Misool Resort, Raja Ampat, Indonesia</span> </div> <div style={{background:"#fff",borderBottom:"1px solid #E8E8E8",padding:"12px clamp(1rem,3vw,2rem)",display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}> <span style={{fontSize:10,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:"#aaa",marginRight:4}}>Filter by country</span> <button onClick={()=>setFilter("All")} style={{fontSize:12,fontWeight:600,padding:"5px 14px",borderRadius:20,cursor:"pointer",border:filter==="All"?"none":"1.5px solid #ddd",background:filter==="All"?"#0A2342":"#fff",color:filter==="All"?"#fff":"#555"}}>All</button> {COUNTRIES.map(c=><button key={c} onClick={()=>setFilter(c)} style={{fontSize:12,fontWeight:600,padding:"5px 14px",borderRadius:20,cursor:"pointer",border:filter===c?"none":"1.5px solid #ddd",background:filter===c?"#0A2342":"#fff",color:filter===c?"#fff":"#555"}}>{c}</button>)} <span style={{marginLeft:"auto",fontSize:12,color:"#aaa"}}>{filtered.length} of 99 shown</span> </div> <div style={{maxWidth:1100,margin:"0 auto",padding:"clamp(1rem,3vw,2rem)"}}> <div style={{display:"flex",flexDirection:"column",gap:10}}> {filtered.map(e => { const isFirst = e.rank === 1 const bg = isFirst ? "#0097A7" : e.rank <= 3 ? "#0A2342" : "#F5F5F5" const fg = e.rank <= 3 ? "#fff" : "#0A2342" const [cbg,cfg] = CC[e.country] || ["E8E8E8","555"] return ( <div key={e.rank} style={{background:"#fff",border:isFirst?"2px solid #0097A7":"1px solid #E8E8E8",borderRadius:14,padding:"clamp(1rem,2vw,1.25rem) clamp(1rem,2vw,1.5rem)",display:"flex",alignItems:"flex-start",gap:"clamp(0.75rem,2vw,1.25rem)",boxShadow:isFirst?"0 4px 16px rgba(0,151,167,0.1)":"0 1px 4px rgba(0,0,0,0.04)"}}> <div style={{minWidth:48,height:48,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:bg,color:fg,fontSize:17,fontWeight:700}}>#{e.rank}</div> <div style={{flex:1,minWidth:0}}> <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap",marginBottom:5}}> {e.url ? <a href={e.url} target="_blank" rel="noopener noreferrer" style={{fontWeight:700,fontSize:15,color:"#0A2342",textDecoration:"none"}}>{e.name}</a> : <span style={{fontWeight:700,fontSize:15,color:"#0A2342"}}>{e.name}</span>} {isFirst && <span style={{background:"#0097A7",color:"#fff",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:4,letterSpacing:0.5}}>BEST STAY</span>} {e.lb && <span style={{background:"#EEE8F8",color:"#5A2EA0",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:4,letterSpacing:0.5}}>LIVEABOARD</span>} <span style={{fontSize:10,fontWeight:700,letterSpacing:0.5,textTransform:"uppercase",padding:"2px 8px",borderRadius:4,background:`#${cbg}`,color:`#${cfg}`}}>{e.country}</span> </div> <div style={{fontSize:12,color:"#0097A7",fontWeight:600,marginBottom:6}}> {e.loc}</div> <p style={{fontSize:13,color:"#555",lineHeight:1.6,margin:0}}>{e.desc}</p> </div> </div> ) })} </div> <div style={{background:"#E1F5F8",border:"1px solid #B2EBF2",borderRadius:10,padding:"1.25rem 1.5rem",marginTop:"2rem",textAlign:"center"}}> <p style={{fontSize:12,color:"#006D78",margin:0,lineHeight:1.6}}>Editorial ranking based on accommodation quality, dive integration, food reputation and overall guest experience across Asia Pacific.</p> </div> </div> <Footer /> </div> )
 }
