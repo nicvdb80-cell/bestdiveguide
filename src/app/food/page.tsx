@@ -1,7 +1,9 @@
 "use client"
-import { useState } from "react"
-import Nav from "@/components/Nav"
-import Footer from "@/components/Footer" type E = {rank:number;name:string;loc:string;country:string;desc:string;url:string;lb:boolean} const DATA:E[] = [
+
+import { useState } from "react";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
+type E = {rank:number;name:string;loc:string;country:string;desc:string;url:string;lb:boolean} const DATA:E[] = [
 {rank:1,name:"Coral Eye",loc:"Bangka Island",country:"Indonesia",desc:"Boutique dive stay where food defines the experience: Indonesian flavour, Italian soul, communal table, fresh island rhythm and consistently outstanding food praise.",url:"https://www.coral-eye.com/",lb:false},
 {rank:2,name:"Siladen Resort & Spa",loc:"Bunaken",country:"Indonesia",desc:"One of Asia's most reliable food-and-dive resorts: refined Italian influence, fresh seafood, Indonesian dishes, beach dinners and strong guest love for the restaurant.",url:"https://www.siladen.com/",lb:false},
 {rank:3,name:"Wakatobi Dive Resort",loc:"Wakatobi",country:"Indonesia",desc:"Remote luxury full-board dining with polished service, generous buffets, chef-prepared meals and a serious dive operation on one of Asia's best reefs.",url:"https://www.wakatobi.com/",lb:false},
