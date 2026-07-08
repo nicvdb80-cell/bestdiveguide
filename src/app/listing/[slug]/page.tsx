@@ -6,6 +6,66 @@ export async function generateStaticParams() {
   return (data ?? []).map(l => ({ slug: l.slug }))
 }
 
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string }
+}): Promise<import("next").Metadata> {
+  const BASE = "https://bestdiveguide.com"
+  const result = await getListing(params.slug)
+  if (!result) {
+    return {
+      title: "Listing Not Found | Best Dive Guide",
+      description: "This listing could not be found on Best Dive Guide.",
+    }
+  }
+  const { listing } = result
+  const categories = [
+    listing.has_dive && "dive",
+    listing.has_food && "food & dining",
+    listing.has_stay && "stay",
+    listing.has_liveaboard && "liveaboard",
+  ]
+    .filter(Boolean)
+    .join(", ")
+
+  const title = `${listing.name} — ${listing.location} | Best Dive Guide`
+  const description =
+    listing.tagline ||
+    `${listing.name} is ranked on Best Dive Guide for ${categories}. Located in ${listing.location}. Voted by real divers.`
+
+  return {
+    title,
+    description,
+    keywords: [
+      listing.name,
+      listing.location,
+      "dive resort",
+      "dive ranking",
+      "Best Dive Guide",
+      categories,
+    ]
+      .filter(Boolean)
+      .join(", "),
+    alternates: {
+      canonical: `${BASE}/listing/${listing.slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `${BASE}/listing/${listing.slug}`,
+      siteName: "Best Dive Guide",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  }
+}
+
 async function getListing(slug: string) {
   const { data: listing } = await supabase
     .from('listings')
@@ -56,6 +116,29 @@ export default async function ListingPage({ params }: { params: { slug: string }
   if (!result) notFound()
 
   const { listing, score } = result
+
+  // JSON-LD structured data for this listing (AEO: helps AI/search engines)
+  const listingSchema = {
+    "@context": "https://schema.org",
+    "@type": listing.has_liveaboard ? "TouristAttraction" : "LodgingBusiness",
+    name: listing.name,
+    description: listing.tagline ?? `${listing.name} is a top-ranked dive experience in ${listing.location}.`,
+    url: `https://bestdiveguide.com/listing/${listing.slug}`,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: listing.location,
+    },
+    aggregateRating: score?.overall_score
+      ? {
+          "@type": "AggregateRating",
+          ratingValue: score.overall_score.toFixed(1),
+          bestRating: "10",
+          worstRating: "0",
+          ratingCount: listing.vote_count ?? 1,
+        }
+      : undefined,
+  }
+
 
   const cats = [
     listing.has_dive && 'dive',
