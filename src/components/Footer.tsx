@@ -10,6 +10,7 @@ export default function Footer() {
     { h: "/liveaboards", l: "Liveaboards" },
     { h: "/sustainable", l: "Sustainable" },
     { h: "/vote", l: "Vote" },
+    { h: "/about", l: "How We Rank" },
   ];
   return (
     <footer
