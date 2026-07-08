@@ -1,3 +1,26 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Best Dive Sites Asia 2025 — Top Ranked Walls, Wrecks & Marine Life",
+  description: "Asia's best dive sites ranked by experienced divers. Walls, wrecks, muck dives, seamounts and big animal encounters. Scored on visibility, marine life, access and wow factor.",
+  keywords: "best dive sites Asia, top dive sites Indonesia, best scuba diving Asia, dive sites Philippines, best dive sites Maldives, best wreck dive Asia, manta ray dive site",
+  alternates: {
+    canonical: "https://bestdiveguide.com/sites",
+  },
+  openGraph: {
+    title: "Best Dive Sites Asia 2025 — Top Ranked Walls, Wrecks & Marine Life",
+    description: "Asia's best dive sites ranked by experienced divers. Walls, wrecks, muck dives, seamounts and big animal encounters. Scored on visibility, marine life, access and wow factor.",
+    url: "https://bestdiveguide.com/sites",
+    siteName: "Best Dive Guide",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Best Dive Sites Asia 2025 — Top Ranked Walls, Wrecks & Marine Life",
+    description: "Asia's best dive sites ranked by experienced divers. Walls, wrecks, muck dives, seamounts and big animal encounters. Scored on visibility, marine life, access and wow factor.",
+  },
+}
+
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 type SiteType = {
