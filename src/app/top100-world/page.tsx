@@ -1,3 +1,26 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Top 99 Dive Experiences World 2026 — Global Dive Rankings Coming Soon",
+  description: "The global edition of Best Dive Guide. Every continent, every ocean. From the Red Sea to the Caribbean, the Pacific to the Mediterranean. Global rankings launching 2026.",
+  keywords: "best dive resorts world, top liveaboard world, global dive ranking, best scuba diving world, best dive destination world",
+  alternates: {
+    canonical: "https://bestdiveguide.com/top100-world",
+  },
+  openGraph: {
+    title: "Top 99 Dive Experiences World 2026 — Global Dive Rankings Coming Soon",
+    description: "The global edition of Best Dive Guide. Every continent, every ocean. From the Red Sea to the Caribbean, the Pacific to the Mediterranean. Global rankings launching 2026.",
+    url: "https://bestdiveguide.com/top100-world",
+    siteName: "Best Dive Guide",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Top 99 Dive Experiences World 2026 — Global Dive Rankings Coming Soon",
+    description: "The global edition of Best Dive Guide. Every continent, every ocean. From the Red Sea to the Caribbean, the Pacific to the Mediterranean. Global rankings launching 2026.",
+  },
+}
+
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import Link from "next/link";
