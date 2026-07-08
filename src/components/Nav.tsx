@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/sites", label: "Dive Sites" },
   { href: "/liveaboards", label: "Liveaboards" },
   { href: "/sustainable", label: "Sustainable" },
+  { href: "/about", label: "How We Rank" },
 ];
 
 export default function Nav() {
