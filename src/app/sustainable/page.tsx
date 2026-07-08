@@ -1,3 +1,26 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Most Sustainable Dive Operators Asia — Eco Dive Resorts & Operators",
+  description: "The dive operators leading on reef conservation, waste reduction, community impact and certified sustainability. Recognised by Best Dive Guide for outstanding environmental commitment.",
+  keywords: "sustainable dive resort, eco dive operator Asia, green fins certified, reef conservation diving, sustainable liveaboard, eco dive resort Indonesia",
+  alternates: {
+    canonical: "https://bestdiveguide.com/sustainable",
+  },
+  openGraph: {
+    title: "Most Sustainable Dive Operators Asia — Eco Dive Resorts & Operators",
+    description: "The dive operators leading on reef conservation, waste reduction, community impact and certified sustainability. Recognised by Best Dive Guide for outstanding environmental commitment.",
+    url: "https://bestdiveguide.com/sustainable",
+    siteName: "Best Dive Guide",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Most Sustainable Dive Operators Asia — Eco Dive Resorts & Operators",
+    description: "The dive operators leading on reef conservation, waste reduction, community impact and certified sustainability. Recognised by Best Dive Guide for outstanding environmental commitment.",
+  },
+}
+
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 const TAG = (color: string, tc: string) => ({
