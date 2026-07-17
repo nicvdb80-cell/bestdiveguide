@@ -1,4 +1,4 @@
-// deploy trigger
+// deploy trigger: 1784259539
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -23,7 +23,6 @@ export default function Home() {
       textAlign: "center",
       padding: "2rem",
     }}>
-      {/* Dark overlay */}
       <div style={{
         position: "fixed",
         inset: 0,
@@ -32,7 +31,6 @@ export default function Home() {
       }} />
 
       <div style={{ position: "relative", zIndex: 1 }}>
-        {/* Animated bubbles */}
         <style>{`
           @keyframes rise {
             0%   { transform: translateY(0) scale(1);   opacity: 0.7; }
@@ -48,7 +46,6 @@ export default function Home() {
           }
         `}</style>
 
-        {/* Bubble cluster */}
         <div style={{ position: "relative", width: 120, height: 100, margin: "0 auto 2.5rem" }}>
           {[
             { size: 14, left: 20, delay: "0s",   dur: "2.8s" },
@@ -68,12 +65,10 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Logo */}
         <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: "#E8723A", marginBottom: 20 }}>
           Best Dive Guide
         </div>
 
-        {/* Headline */}
         <h1 style={{
           color: "#ffffff",
           fontSize: "clamp(28px, 6vw, 52px)",
