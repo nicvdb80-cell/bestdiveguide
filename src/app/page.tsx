@@ -88,7 +88,6 @@ export default function Home() {
           margin: "0 auto",
           lineHeight: 1.7,
         }}>
-          Asia&apos;s dive rankings are almost ready.<br />
           Come back soon.
         </p>
       </div>
