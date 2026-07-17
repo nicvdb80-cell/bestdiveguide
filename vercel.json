@@ -1,12 +1,5 @@
 {
   "framework": "nextjs",
   "buildCommand": "npm run build",
-  "installCommand": "npm install --legacy-peer-deps",
-  "env": {
-    "NEXT_PUBLIC_SUPABASE_URL": "@bdg_supabase_url",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@bdg_supabase_anon_key",
-    "SUPABASE_SERVICE_ROLE_KEY": "@bdg_supabase_service_key",
-    "RESEND_API_KEY": "@bdg_resend_key",
-    "EMAIL_FROM": "noreply@bestdiveguide.com"
-  }
+  "installCommand": "npm install --legacy-peer-deps"
 }
